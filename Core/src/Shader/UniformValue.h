@@ -1,20 +1,23 @@
 #ifndef UNIFORMVALUE_H
 #define UNIFORMVALUE_H
 
-template <class T>
 class UniformValue
 {
 	public:
-		T GetValue();
+		/*template<class Y> UniformValue(Y* p) {
+			
+		}*/
+
+	/*	T GetValue();
 	private:
-		T _value;
+		T _value;*/
 };
 
-template<class T>
-inline T UniformValue<T>::GetValue()
-{
-	return _value;
-}
+//template<class T>
+//inline T UniformValue<T>::GetValue()
+//{
+//	return _value;
+//}
 
 
 #endif 

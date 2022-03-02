@@ -1,3 +1,1 @@
-﻿  main.cpp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  Core.vcxproj -> C:\Users\Joao Parreira\source\repos\Phantom\x64\Debug\Core.exe
+﻿  Core.vcxproj -> D:\Dev\repos\phantom\x64\Debug\Core.exe

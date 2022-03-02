@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\Renderer.h" />
+    <ClInclude Include="src\Shader\IUniformValue.h" />
     <ClInclude Include="src\Shader\Material.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\Components\Component.h" />
@@ -103,8 +104,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Joao Parreira\source\repos\Phantom\Core\libs\glfw\include;C:\Users\Joao Parreira\source\repos\Phantom\Core\libs\glad\include;C:\Users\Joao Parreira\source\repos\Phantom\Core\libs\glm\include;C:\Users\Joao Parreira\source\repos\Phantom\Core\libs\imgui\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Joao Parreira\source\repos\Phantom\Core\libs\glfw\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glad\include;$(ProjectDir)\libs\glm\include;$(ProjectDir)\libs\imgui\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\libs\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

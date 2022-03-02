@@ -16,7 +16,6 @@ class Material
 		std::map<std::string, UniformValue> _uniforms;
 		Shader* _shader;
 		glm::vec4 _color;
-		std::map<std::string, int> _uniforms;
 };
 
 #endif

@@ -23,5 +23,6 @@
     <ClInclude Include="src\Shader\Material.h" />
     <ClInclude Include="src\Components\Renderer.h" />
     <ClInclude Include="src\Shader\UniformValue.h" />
+    <ClInclude Include="src\Shader\IUniformValue.h" />
   </ItemGroup>
 </Project>
