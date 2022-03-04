@@ -1,6 +1,7 @@
 #include <glm/gtx/transform.hpp>
 #include "Transform.h"
-Transform::Transform()
+
+Transform::Transform(Entity* entity) : Component(entity)
 {
 	// Identity
 	_scale = glm::vec3(1.0f);

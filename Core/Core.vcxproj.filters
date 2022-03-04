@@ -10,6 +10,7 @@
     <ClCompile Include="src\Shader\Material.cpp" />
     <ClCompile Include="src\Components\Renderer.cpp" />
     <ClCompile Include="src\Shader\UniformValue.cpp" />
+    <ClCompile Include="src\Components\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shader\default.vert" />
@@ -24,5 +25,6 @@
     <ClInclude Include="src\Components\Renderer.h" />
     <ClInclude Include="src\Shader\UniformValue.h" />
     <ClInclude Include="src\Shader\IUniformValue.h" />
+    <ClInclude Include="src\Components\Camera.h" />
   </ItemGroup>
 </Project>

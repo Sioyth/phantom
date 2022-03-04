@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Renderer.cpp" />
     <ClCompile Include="src\Shader\Material.cpp" />
     <ClCompile Include="src\Entity.cpp" />
@@ -34,6 +35,7 @@
     <None Include="src\Shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Renderer.h" />
     <ClInclude Include="src\Shader\IUniformValue.h" />
     <ClInclude Include="src\Shader\Material.h" />

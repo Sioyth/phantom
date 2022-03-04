@@ -5,6 +5,7 @@
 class Renderer : public Component
 {
 	public:
+		Renderer(Entity* entity) : Component(entity) {};
 		virtual void Update();
 	private:
 		Material _material;

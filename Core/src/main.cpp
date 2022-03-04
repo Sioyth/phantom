@@ -4,7 +4,12 @@
 #include "Shader/Shader.h"
 #include "Entity.h"
 #include "Components/Transform.h"
+#include "Components/Camera.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
+int width = 800;
+int height = 600;
 
 int main()
 {
@@ -16,7 +21,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -37,9 +42,14 @@ int main()
 
 
     // TODO: Fix this fucking paths
-    Shader shader = Shader("C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.vert", "C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.frag");
+    Shader shader = Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
     
     _entities.push_back(Entity());
+
+    Entity camera =  Entity();
+    camera.AddComponent<Camera>();
+
+    _entities.push_back(camera);
     
     unsigned int VAO, VBO;
     glGenBuffers(1, &VBO);
@@ -48,10 +58,11 @@ int main()
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    float pos[6] = 
+    float pos[9] = 
     {
-        0.0f, 0.0f, 0.0f,
-        0.5f, 0.0f, 0.0f
+        0.0f, 0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f
     };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
@@ -60,6 +71,16 @@ int main()
 
     glPointSize(5.0f);
 
+   
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    glm::mat4 view = glm::mat4(1.0f);
+    // note that we're translating the scene in the reverse direction of where we want to move
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+    glm::mat4 mvp = proj * view * model;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -75,8 +96,11 @@ int main()
                 _entities[i].Update();
         }
 
+        GLuint loc = glGetUniformLocation(shader.GetID(), "mvp");
+        glUniformMatrix4fv(loc, 1, GL_FALSE, &mvp[0][0]);
+
         glBindVertexArray(VAO);
-        glDrawArrays(GL_POINTS, 0, 2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

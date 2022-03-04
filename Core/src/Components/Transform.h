@@ -6,7 +6,8 @@
 class Transform : public Component
 {
 	public:
-		Transform();
+		Transform(Entity* entity);
+		//Transform();
 
 		void Scale(glm::vec3 scale);
 		void Rotate(glm::vec3 rotation);

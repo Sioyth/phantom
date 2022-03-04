@@ -5,6 +5,8 @@
 #include <vector>
 #include "Components/Component.h"
 
+class Component;
+
 class Entity
 {
 	public:
@@ -30,7 +32,7 @@ class Entity
 template<class T>
 inline void Entity::AddComponent()
 {
-	_components.push_back(new T());
+	_components.push_back(new T(this));
 }
 
 template<class T>
