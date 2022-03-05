@@ -11,6 +11,8 @@
     <ClCompile Include="src\Components\Renderer.cpp" />
     <ClCompile Include="src\Shader\UniformValue.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
+    <ClCompile Include="src\Components\DebugMovement.cpp" />
+    <ClCompile Include="src\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shader\default.vert" />
@@ -26,5 +28,7 @@
     <ClInclude Include="src\Shader\UniformValue.h" />
     <ClInclude Include="src\Shader\IUniformValue.h" />
     <ClInclude Include="src\Components\Camera.h" />
+    <ClInclude Include="src\Components\DebugMovement.h" />
+    <ClInclude Include="src\Input.h" />
   </ItemGroup>
 </Project>

@@ -3,14 +3,6 @@
 Component::Component(Entity* entity)
 {
     _entity = entity;
+    //Start
 }
 
-bool Component::IsEnabled()
-{
-    return _enabled;
-}
-
-void Component::Enabled(bool enabled)
-{
-    _enabled = enabled;
-}

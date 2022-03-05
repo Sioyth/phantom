@@ -1,24 +1,25 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <iostream>
 #include "../Entity.h"
 
-#include <iostream>
-
 class Entity;
+
 class Component
 {
 	public:
 		Component(Entity* entity);
-		bool IsEnabled();
-		void Enabled(bool enabled);
+		bool IsEnabled() { return _isEnabled; };
+		void Enabled(bool enabled) { _isEnabled = enabled; }; // rename enabled - Condition? State? flag?
 
+		Entity* GetEntity() { return _entity; };
 		//virtual void Start() = 0;
 		virtual void Update() = 0;
 
-	private:
+	protected:
 		Entity* _entity;
-		bool _enabled;
+		bool _isEnabled;
 };
 
 #endif 

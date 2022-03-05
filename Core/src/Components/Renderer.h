@@ -2,6 +2,7 @@
 #define RENDERER_H
 #include "Component.h"
 #include "../Shader/Material.h"
+
 class Renderer : public Component
 {
 	public:

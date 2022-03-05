@@ -2,15 +2,13 @@
 #define CAMERA_H
 #include "Component.h"
 
-//Camera* Camera::_mainCamera = nullptr;
-
 class Camera : public Component
 {
-	public:
-		Camera(Entity* entity);
-		virtual void Update() {};
+public:
+	Camera(Entity* entity);
+	virtual void Update() {};
 
-		static Camera* GetMainCamera();
+	inline static Camera* GetMainCamera() { return _mainCamera; };
 		void SetMainCamera();
 	private:
 		static Camera* _mainCamera;

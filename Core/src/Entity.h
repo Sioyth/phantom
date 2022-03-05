@@ -4,27 +4,26 @@
 #include <string>
 #include <vector>
 #include "Components/Component.h"
-
 class Component;
 
 class Entity
 {
-	public:
-		Entity();
+public:
+	Entity();
 
-		bool IsEnabled();
-		void Enabled(bool enabled);
+	bool IsEnabled();
+	void Enabled(bool enabled);
+	void Update();
 
-		void Update();
-
-		template<class T> void AddComponent();
-		template<class T> T* GetComponent();
-		void RemoveComponent();
+	template<class T> void AddComponent();
+	template<class T> T* GetComponent();
+	void RemoveComponent();
 
 	private:
 		bool _enabled;
 		unsigned int _id;
 		std::string _name;
+		//Transform* _transform;
 		std::vector<Component*> _components;
 };
 

@@ -12,20 +12,24 @@ Transform::Transform(Entity* entity) : Component(entity)
 
 void Transform::Scale(glm::vec3 scale)
 {
-	glm::scale(_transformMatrix, scale);
+	_scale = scale;
+	_transformMatrix = glm::scale(_transformMatrix, scale);
 }
 
 void Transform::Rotate(glm::vec3 rotation)
 {
+	_rotation = rotation;
 	//glm::rotate()
 }
 
 void Transform::Translate(glm::vec3 translation)
 {
-	glm::translate(_transformMatrix, translation);
+	_position = translation;
+	_transformMatrix = glm::translate(_transformMatrix, translation);
 }
 
 void Transform::Update()
 {
+	
 }
 

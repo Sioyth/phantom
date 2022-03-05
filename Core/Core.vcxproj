@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\Components\DebugMovement.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Renderer.cpp" />
     <ClCompile Include="src\Shader\Material.cpp" />
@@ -35,6 +37,8 @@
     <None Include="src\Shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Components\DebugMovement.h" />
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\Renderer.h" />
     <ClInclude Include="src\Shader\IUniformValue.h" />
@@ -148,6 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -1,11 +1,12 @@
 #include "Entity.h"
-#include "Components/Transform.h"
 #include <iostream>
+#include "Components/Transform.h"
 
 Entity::Entity()
 {
 	_components = std::vector<Component*>();
 	AddComponent<Transform>();
+	//_transform = GetComponent<Transform>();
 }
 
 bool Entity::IsEnabled()
@@ -26,4 +27,9 @@ void Entity::Update()
 			_components[i]->Update();
 	}
 }
+
+//Transform* Entity::GetTransform()
+//{
+//	return _transform;
+//}
 
