@@ -4,6 +4,7 @@
 
 Entity::Entity()
 {
+	_enabled = true;
 	_components = std::vector<Component*>();
 	AddComponent<Transform>();
 	//_transform = GetComponent<Transform>();

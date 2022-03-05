@@ -43,18 +43,18 @@ int main()
 
     glViewport(0, 0, 800, 600);
 
+    Input input = Input(window);
 
     // TODO: Fix this fucking paths
     Shader shader = Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
     
     _entities.push_back(Entity());
-
     Entity camera =  Entity();
     camera.AddComponent<Camera>();
+    camera.AddComponent<DebugMovement>();
     camera.GetComponent<Transform>()->Translate(glm::vec3(0.0f, 0.0f, -3.0f));
-    //camera.AddComponent<DebugMovement>();
-
     _entities.push_back(camera);
+
     
     unsigned int VAO, VBO;
     glGenBuffers(1, &VBO);
@@ -138,20 +138,6 @@ int main()
 
         shader.Use();
         shader.SendUniformData("color", 1.0f, 1.0f, 0.0f);
-
-        // Make Component;
-        if (glfwGetKey(window, GLFW_KEY_W))
-            view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.1f));
-
-        if (glfwGetKey(window, GLFW_KEY_S))
-            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.1f));
-
-        if (glfwGetKey(window, GLFW_KEY_A))
-            view = glm::translate(view, glm::vec3(0.1f, 0.0f, 0.0f));
-
-        if (glfwGetKey(window, GLFW_KEY_D))
-            view = glm::translate(view, glm::vec3(-0.1f, 0.0f, 0.0f));
-
 
         for (int i = 0; i < _entities.size(); i++)
         {

@@ -11,6 +11,7 @@ class Material
 
 		Material();
 		Shader* GetShader();
+		void Apply();
 
 	private:
 		std::map<std::string, UniformValue> _uniforms;

@@ -22,7 +22,7 @@ void Input::UpdateKeys()
 
 bool Input::GetKey(int key, KeyState state)
 {
-	if (glfwGetKey(_window, key) == (int)state)
+	if (glfwGetKey(_window, key) == 0)
 		return true;
 	else
 		return false;

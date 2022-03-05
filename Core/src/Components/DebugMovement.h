@@ -5,6 +5,7 @@
 class DebugMovement : public Component
 {
 	public:
+		DebugMovement(Entity* entity);
 		virtual void Update();
 	private:
 		float speed = 0.1f;

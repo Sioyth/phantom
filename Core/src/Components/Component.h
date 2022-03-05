@@ -18,8 +18,9 @@ class Component
 		virtual void Update() = 0;
 
 	protected:
-		Entity* _entity;
 		bool _isEnabled;
+		Entity* _entity;
+		std::string _name;
 };
 
 #endif 
