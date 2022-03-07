@@ -13,6 +13,9 @@
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\DebugMovement.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\Time.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shader\default.vert" />
@@ -30,5 +33,8 @@
     <ClInclude Include="src\Components\Camera.h" />
     <ClInclude Include="src\Components\DebugMovement.h" />
     <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Time.h" />
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Model.h" />
   </ItemGroup>
 </Project>

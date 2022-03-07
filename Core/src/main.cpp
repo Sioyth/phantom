@@ -10,6 +10,8 @@
 
 #include "Input.h"
 #include "Components/DebugMovement.h"
+#include "Components/Renderer.h"
+#include "Time.h"
 
 int width = 800;
 int height = 600;
@@ -42,13 +44,16 @@ int main()
     }
 
     glViewport(0, 0, 800, 600);
+    glEnable(GL_DEPTH_TEST);
 
     Input input = Input(window);
 
     // TODO: Fix this fucking paths
-    Shader shader = Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
+    Shader::LoadDefaultShaders();
     
-    _entities.push_back(Entity());
+    Entity cube = Entity(); \
+    cube.AddComponent<Renderer>();
+    _entities.push_back(cube);
     Entity camera =  Entity();
     camera.AddComponent<Camera>();
     camera.AddComponent<DebugMovement>();
@@ -119,7 +124,6 @@ int main()
 
     glPointSize(5.0f);
 
-   
     glm::mat4 model = glm::mat4(1.0f);
     //model = glm::rotate(model, glm::radians(-80.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -132,12 +136,13 @@ int main()
 
     while (!glfwWindowShouldClose(window))
     {
+        // Update Delta Time;
+        Time::UpdateDeltaTime((float)glfwGetTime());
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader.Use();
-        shader.SendUniformData("color", 1.0f, 1.0f, 0.0f);
+        Shader::UseDefault();
 
         for (int i = 0; i < _entities.size(); i++)
         {
@@ -151,7 +156,7 @@ int main()
             glm::mat4 view = Camera::GetMainCamera()->GetEntity()->GetComponent<Transform>()->GetMatrix();
             mvp = proj * view * model; 
             
-            GLuint loc = glGetUniformLocation(shader.GetID(), "mvp");
+            GLuint loc = glGetUniformLocation(Shader::GetDefaultID(), "mvp");
             glUniformMatrix4fv(loc, 1, GL_FALSE, &mvp[0][0]);
         }
 

@@ -1,10 +1,11 @@
 #include "Shader.h"
 #include <iostream>
 
+Shader* Shader::_defaultShader = nullptr;
+
 Shader::Shader(const char* vertexPath, const char* fragPath)
 {
 	//Get the source code from the file
-	
 	std::string vertexCodeString;
 	std::string fragmentCodeString;
 	std::ifstream vertexShaderFile;
@@ -109,6 +110,12 @@ unsigned int Shader::GetID()
 	return _id;
 }
 
+void Shader::SendUniformData(const char* name, float f)
+{
+	unsigned int loc = glGetUniformLocation(_id, name);
+	glUniform1f(loc, f);
+}
+
 void Shader::SendUniformData(const char* name, glm::vec4 v)
 {
 	unsigned int location = glGetUniformLocation(_id, name);
@@ -121,4 +128,9 @@ void Shader::SendUniformData(const char* name, float x, float y, float z, float 
 {
 	unsigned int location = glGetUniformLocation(_id, name);
 	glUniform4f(location, x, y, z, w);
+}
+
+void Shader::LoadDefaultShaders()
+{
+	_defaultShader = new Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
 }
