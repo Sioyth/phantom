@@ -53,76 +53,14 @@ int main()
     
     Entity cube = Entity(); \
     cube.AddComponent<Renderer>();
+    cube.GetComponent<Renderer>()->LoadModel("D:\\Dev\\repos\\phantom\\assets\\backpack.obj");
     _entities.push_back(cube);
+
     Entity camera =  Entity();
     camera.AddComponent<Camera>();
     camera.AddComponent<DebugMovement>();
     camera.GetComponent<Transform>()->Translate(glm::vec3(0.0f, 0.0f, -3.0f));
     _entities.push_back(camera);
-
-    
-    unsigned int VAO, VBO;
-    glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO);
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    float pos[] = 
-    {
-    -1.0f,-1.0f,-1.0f,  
-     1.0f,-1.0f,-1.0f,  
-    -1.0f,-1.0f, 1.0f,  
-     1.0f,-1.0f,-1.0f,  
-     1.0f,-1.0f, 1.0f,  
-    -1.0f,-1.0f, 1.0f,  
-
-    // top
-    -1.0f, 1.0f,-1.0f,  
-    -1.0f, 1.0f, 1.0f,  
-     1.0f, 1.0f,-1.0f,  
-     1.0f, 1.0f,-1.0f,  
-    -1.0f, 1.0f, 1.0f,  
-     1.0f, 1.0f, 1.0f,  
-
-     // front
-     -1.0f,-1.0f, 1.0f, 
-      1.0f,-1.0f, 1.0f, 
-     -1.0f, 1.0f, 1.0f, 
-      1.0f,-1.0f, 1.0f, 
-      1.0f, 1.0f, 1.0f, 
-     -1.0f, 1.0f, 1.0f, 
-
-     // back
-     -1.0f,-1.0f,-1.0f, 
-     -1.0f, 1.0f,-1.0f, 
-      1.0f,-1.0f,-1.0f, 
-      1.0f,-1.0f,-1.0f, 
-     -1.0f, 1.0f,-1.0f, 
-      1.0f, 1.0f,-1.0f, 
-
-      // left
-      -1.0f,-1.0f, 1.0f,
-      -1.0f, 1.0f,-1.0f,
-      -1.0f,-1.0f,-1.0f,
-      -1.0f,-1.0f, 1.0f,
-      -1.0f, 1.0f, 1.0f,
-      -1.0f, 1.0f,-1.0f,
-
-      // right
-       1.0f,-1.0f, 1.0f,
-       1.0f,-1.0f,-1.0f,
-       1.0f, 1.0f,-1.0f,
-       1.0f,-1.0f, 1.0f,
-       1.0f, 1.0f,-1.0f,
-       1.0f, 1.0f, 1.0f,
-    };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 *sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glPointSize(5.0f);
 
     glm::mat4 model = glm::mat4(1.0f);
     //model = glm::rotate(model, glm::radians(-80.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -159,9 +97,6 @@ int main()
             GLuint loc = glGetUniformLocation(Shader::GetDefaultID(), "mvp");
             glUniformMatrix4fv(loc, 1, GL_FALSE, &mvp[0][0]);
         }
-
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 100);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

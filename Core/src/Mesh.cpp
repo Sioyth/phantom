@@ -4,7 +4,8 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 {
 	_vertices = vertices;
 	_indices = indices;
-	_textures = textures;
+	_textures = textures; 
+	Setup();
 }
 
 void Mesh::Draw(Shader& shader)
@@ -27,10 +28,13 @@ void Mesh::Draw(Shader& shader)
 	}
 	glActiveTexture(GL_TEXTURE0);
 
-	// draw mesh
+	//draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	//always good practice to set everything back to defaults once configured.
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void Mesh::Setup()

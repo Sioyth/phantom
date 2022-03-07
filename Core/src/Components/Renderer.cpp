@@ -12,4 +12,5 @@ void Renderer::Update()
 		_model->Draw(*_material->GetShader());
 
 	_material->Apply();
+
 }
