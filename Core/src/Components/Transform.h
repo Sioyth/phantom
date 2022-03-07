@@ -14,15 +14,28 @@ public:
 	void Rotate(glm::vec3 rotation);
 	void Translate(glm::vec3 translation);
 
-	inline glm::vec3 GetPosition() { return _position; };
-	inline glm::mat4x4 GetMatrix() { return _transformMatrix; };
+	inline const glm::vec3& Position() { return _position; };
+	inline const glm::mat4x4& Matrix() { return _transformMatrix; };
+
+	const glm::vec3& Up();
+	const glm::vec3& Right();
+	const glm::vec3& Forward();
 	
 	virtual void Update();
 
 	private:
+
 		glm::vec3 _scale;
 		glm::vec3 _rotation;
 		glm::vec3 _position; // change too coordinates?
+
+		glm::vec3 _up;
+		glm::vec3 _right;
+		glm::vec3 _forward;
+
+		// find better name
+		void UpdateOrientation();
+
 		glm::mat4x4 _transformMatrix;
 };
 

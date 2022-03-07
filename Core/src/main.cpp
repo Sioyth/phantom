@@ -101,8 +101,8 @@ int main()
             _entities[i].Update();
 
             // temp
-            glm::mat4 model = _entities[i].GetComponent<Transform>()->GetMatrix();
-            glm::mat4 view = Camera::GetMainCamera()->GetEntity()->GetComponent<Transform>()->GetMatrix();
+            glm::mat4 model = _entities[i].GetComponent<Transform>()->Matrix();
+            glm::mat4 view = Camera::GetMainCamera()->GetEntity()->GetComponent<Camera>()->ViewMatrix();
             mvp = proj * view * model; 
             
             GLuint loc = glGetUniformLocation(Shader::GetDefaultID(), "mvp");
