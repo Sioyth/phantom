@@ -132,5 +132,6 @@ void Shader::SendUniformData(const char* name, float x, float y, float z, float 
 
 void Shader::LoadDefaultShaders()
 {
+	// TODO: Fix this fucking paths
 	_defaultShader = new Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
 }

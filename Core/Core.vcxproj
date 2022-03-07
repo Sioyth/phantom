@@ -19,6 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="libs\imgui\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -41,6 +48,14 @@
     <None Include="src\Shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imgui.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imgui_internal.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Input.h" />
@@ -117,14 +132,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glad\include;$(ProjectDir)\libs\glm\include;$(ProjectDir)\libs\imgui\include;$(ProjectDir)\libs\assimp\include;$(ProjectDir)\libs\stb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\libs\glfw\lib;$(ProjectDir)\libs\assimp\lib\debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glad\include;$(ProjectDir)\libs\glm\include;$(ProjectDir)\libs\imgui\include;$(ProjectDir)\libs\assimp\include;$(ProjectDir)\libs\stb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\libs\glfw\lib;$(ProjectDir)\libs\assimp\lib\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -162,6 +177,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -177,6 +194,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -3,6 +3,10 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <imgui/imconfig.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #include "Shader/Shader.h"
 #include "Entity.h"
 #include "Components/Transform.h"
@@ -16,9 +20,9 @@
 int width = 800;
 int height = 600;
 
+std::vector<Entity> _entities;
 int main()
 {
-    std::vector<Entity> _entities;
 
     // glfw
     glfwInit();
@@ -46,29 +50,31 @@ int main()
     glViewport(0, 0, 800, 600);
     glEnable(GL_DEPTH_TEST);
 
-    Input input = Input(window);
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    // Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 460");
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
 
-    // TODO: Fix this fucking paths
+    // Engine Core
+    Input input = Input(window);
     Shader::LoadDefaultShaders();
-    
-    Entity cube = Entity(); \
+
+    Entity cube = Entity();
     cube.AddComponent<Renderer>();
     cube.GetComponent<Renderer>()->LoadModel("D:\\Dev\\repos\\phantom\\assets\\backpack.obj");
     _entities.push_back(cube);
 
-    Entity camera =  Entity();
+    Entity camera = Entity();
     camera.AddComponent<Camera>();
     camera.AddComponent<DebugMovement>();
     camera.GetComponent<Transform>()->Translate(glm::vec3(0.0f, 0.0f, -3.0f));
     _entities.push_back(camera);
-
-    glm::mat4 model = glm::mat4(1.0f);
-    //model = glm::rotate(model, glm::radians(-80.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-    glm::mat4 view = glm::mat4(1.0f);
-    // note that we're translating the scene in the reverse direction of where we want to move
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
+    
     glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
     glm::mat4 mvp;
 
@@ -79,6 +85,11 @@ int main()
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // feed inputs to dear imgui, start new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
         Shader::UseDefault();
 
@@ -98,10 +109,18 @@ int main()
             glUniformMatrix4fv(loc, 1, GL_FALSE, &mvp[0][0]);
         }
 
+        // Render dear imgui into screen
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(window);
         glfwPollEvents();
 
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
 
