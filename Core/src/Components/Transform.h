@@ -15,7 +15,7 @@ public:
 	void Translate(glm::vec3 translation);
 
 	inline const glm::vec3& Position() { return _position; };
-	inline const glm::mat4x4& Matrix() { return _transformMatrix; };
+	inline glm::mat4& Matrix() { return _transformMatrix; };
 
 	const glm::vec3& Up();
 	const glm::vec3& Right();
@@ -36,7 +36,7 @@ public:
 		// find better name
 		void UpdateOrientation();
 
-		glm::mat4x4 _transformMatrix;
+		glm::mat4 _transformMatrix;
 };
 
 #endif

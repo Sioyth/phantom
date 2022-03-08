@@ -112,22 +112,22 @@ unsigned int Shader::GetID()
 
 void Shader::SendUniformData(const char* name, float f)
 {
-	unsigned int loc = glGetUniformLocation(_id, name);
-	glUniform1f(loc, f);
+	glUniform1f(glGetUniformLocation(_id, name), f);
 }
 
 void Shader::SendUniformData(const char* name, glm::vec4 v)
 {
-	unsigned int location = glGetUniformLocation(_id, name);
-	glUniform4f(location, v.x, v.y, v.z, v.w);
+	glUniform4f(glGetUniformLocation(_id, name), v.x, v.y, v.z, v.w);
+}
 
-	//SetVec4(name, v.x, v.y, v.z, v.w)
+void Shader::SendUniformData(const char* name, glm::mat4 m)
+{
+	glUniformMatrix4fv(glGetUniformLocation(_id, name), 1, GL_FALSE, &m[0][0]);
 }
 
 void Shader::SendUniformData(const char* name, float x, float y, float z, float w)
 {
-	unsigned int location = glGetUniformLocation(_id, name);
-	glUniform4f(location, x, y, z, w);
+	glUniform4f(glGetUniformLocation(_id, name), x, y, z, w);
 }
 
 void Shader::LoadDefaultShaders()

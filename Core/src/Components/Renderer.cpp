@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "Transform.h"
 
 Renderer::Renderer(Entity* entity) : Component(entity)
 {
@@ -8,9 +9,11 @@ Renderer::Renderer(Entity* entity) : Component(entity)
 
 void Renderer::Update()
 {
-	if(_model) 
-		_model->Draw(*_material->GetShader());
-
 	_material->Apply();
+	if (_model)
+	{
+		//_material->GetShader()->SendUniformData("mvp", _entity->GetComponent<Transform>()->Matrix());
+		_model->Draw(*_material->GetShader());
+	}
 
 }

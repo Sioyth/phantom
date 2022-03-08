@@ -15,6 +15,9 @@ public:
 	void Enabled(bool enabled);
 	void Update();
 
+	inline const void Name(std::string name) { _name = name; };
+	inline const std::string& Name() { return _name; };
+
 	template<class T> void AddComponent();
 	template<class T> T* GetComponent();
 	void RemoveComponent();

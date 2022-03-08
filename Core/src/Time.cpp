@@ -1,8 +1,8 @@
 #include "Time.h"
 
-float Time::_deltaTime = 0;
+double Time::_deltaTime = 0;
 
-void Time::UpdateDeltaTime(float currentTime)
+void Time::UpdateDeltaTime(double currentTime)
 {
     static float lastFrame = 0.0f;
     float currentFrame = currentTime;

@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 
-enum class KeyState {
-	REALEASE = 0, PRESS
+enum KeyState {
+	REALEASE = 0, PRESS = 1
 };
 
 struct Control

@@ -13,7 +13,8 @@ public:
 	const glm::mat4x4& ViewMatrix();
 	inline static Camera* GetMainCamera() { return _mainCamera; };
 	private:
-		glm::mat4x4 _viewMatrix;
+		glm::vec3 _lastPos;
+		glm::mat4 _viewMatrix;
 		static Camera* _mainCamera;
 	
 };

@@ -6,7 +6,7 @@ Transform::Transform(Entity* entity) : Component(entity)
 	// Identity
 	_scale = glm::vec3(1.0f);
 	_rotation = glm::vec3(0.0f);
-	_position = glm::vec3(1.0f);
+	_position = glm::vec3(0.0f);
 	_transformMatrix = glm::mat4(1.0f);
 
 	UpdateOrientation();
@@ -28,8 +28,9 @@ void Transform::Rotate(glm::vec3 rotation)
 
 void Transform::Translate(glm::vec3 translation)
 {
-	_position = translation;
+	_position += translation;
 	_transformMatrix = glm::translate(_transformMatrix, translation);
+	//std::cout << _entity->Name() << _transformMatrix[3][2] << std::endl;
 	UpdateOrientation();
 }
 
@@ -70,8 +71,8 @@ void Transform::Update()
 
 void Transform::UpdateOrientation()
 {
-	_up = glm::vec3(_transformMatrix[1][0], _transformMatrix[1][1], _transformMatrix[1][2]);
-	_right   = glm::vec3(_transformMatrix[0][0], _transformMatrix[0][1], _transformMatrix[0][2]);
-	_forward = glm::vec3(_transformMatrix[2][0], _transformMatrix[2][1], -_transformMatrix[2][2]); //
+	_up      = glm::normalize(glm::vec3(_transformMatrix[1][0], _transformMatrix[1][1], _transformMatrix[1][2]));
+	_right   = glm::normalize(glm::vec3(_transformMatrix[0][0], _transformMatrix[0][1], _transformMatrix[0][2]));
+	_forward = glm::normalize(glm::vec3(_transformMatrix[2][0], _transformMatrix[2][1], -_transformMatrix[2][2])); //
 }
 

@@ -32,7 +32,7 @@
     <ClCompile Include="src\Components\DebugMovement.cpp" />
     <ClCompile Include="src\Components\Camera.cpp" />
     <ClCompile Include="src\Components\Renderer.cpp" />
-    <ClCompile Include="src\Shader\dump.cpp" />
+    <ClCompile Include="src\dump.cpp" />
     <ClCompile Include="src\Shader\Material.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />

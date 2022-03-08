@@ -4,10 +4,10 @@
 class Time
 {
 	public:
-		static void UpdateDeltaTime(float time);
-		inline static float DeltaTime() { return _deltaTime; };
+		static void UpdateDeltaTime(double time);
+		inline static const double& DeltaTime() { return _deltaTime; };
 	private:
-		static float _deltaTime;
+		static double _deltaTime;
 };
 
 #endif
