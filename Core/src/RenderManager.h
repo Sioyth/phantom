@@ -1,26 +1,35 @@
 #ifndef RENDERMANAGER_H
 #define RENDERMANAGER_H
+#include <glad/glad.h>
+#include <glfw/glfw3.h>
+
 #include "Shader/Shader.h"
-#include "Components/camera.h"
+#include "Components.h"
 
-class RenderManager
+namespace Phantom
 {
-public:
-	RenderManager();
-	static RenderManager* Instance();
-	void SetModelMatrix(glm::mat4 model);
-	void Update(Shader& shader);
+	class RenderManager
+	{
+	public:
+		RenderManager();
+		bool Init(int width = 800, int heigth = 600);
 
+		void End();
+		void Begin(glm::vec4 color = glm::vec4(0.0f));
+		void DrawMesh(Transform& transform, MeshRenderer& meshRenderer);
 
-private:
-	int _width;
-	int _height;
-	glm::mat4 _mvp;
-	glm::mat4 _proj;
-	glm::mat4 _model;
-	bool _needsToUpdate;
-	static RenderManager* _instance;
-};
+		static RenderManager& Instance();
+
+	private:
+		float _width;
+		float _height;
+		glm::mat4 _mvp;
+		glm::mat4 _proj;
+		glm::mat4 _model;
+		GLFWwindow* _window;
+		static RenderManager* _instance;
+	};
+}
 
 #endif
 

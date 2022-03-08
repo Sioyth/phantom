@@ -3,53 +3,58 @@
 
 #include <string>
 #include <vector>
-#include "Components/Component.h"
-class Component;
+#include <entt/entt.hpp>
+#include "Scene.h"
 
-class Entity
-{
-public:
-	Entity();
+namespace Phantom {
 
-	bool IsEnabled();
-	void Enabled(bool enabled);
-	void Update();
-
-	inline const void Name(std::string name) { _name = name; };
-	inline const std::string& Name() { return _name; };
-
-	template<class T> void AddComponent();
-	template<class T> T* GetComponent();
-	void RemoveComponent();
-
-	private:
-		bool _enabled;
-		unsigned int _id;
-		std::string _name;
-		//Transform* _transform;
-		std::vector<Component*> _components;
-};
-
-
-template<class T>
-inline void Entity::AddComponent()
-{
-	_components.push_back(new T(this));
-}
-
-template<class T>
-inline T* Entity::GetComponent()
-{
-	for (int i = 0; i < _components.size(); i++)
+	class Entity
 	{
-		T* t = dynamic_cast<T*>(_components[i]);
-		if (t != nullptr)
-			return t;
+
+	public:
+		Entity() = default;
+		Entity(entt::entity id, Scene* scene);
+		Entity(Entity& other) = default;
+
+		template<typename Component> bool HasComponent();
+		template<typename Component, typename... Args> Component& AddComponent(Args&&... args);
+		template<typename Component> Component& GetComponent();
+		template<typename Component> void RemoveComponent();
+
+		operator bool() { return _id != entt::null; }
+	private:
+		entt::entity _id = entt::null;
+		Scene* _scene = nullptr;
+	};
+
+	template<typename Component>
+	inline bool Entity::HasComponent()
+	{
+		return _scene->_registry.all_of<Component>();;
 	}
 
-	return nullptr;
+	template<typename Component, typename... Args>
+	inline Component& Entity::AddComponent(Args&&... args)
+	{
+		//assert check if it already has component
+		// Assert(HasComponent<T>())
+		return _scene->_registry.emplace<Component>(_id, std::forward<Args>(args)...);
+	}
+
+	template<typename Component>
+	inline Component& Entity::GetComponent()
+	{
+		//assert check if it has a component of that type
+		// Assert(HasComponent<T>())
+		return _scene->_registry->get<Component>(_id);
+	}
+	template<typename Component>
+	inline void Entity::RemoveComponent()
+	{
+		//assert check if it has a component of that type
+		// Assert(HasComponent<T>())
+		_scene->_registry.remove<Component>(_id);
+	}
 }
 
 #endif;
-
-

@@ -1,19 +1,21 @@
 #include "Material.h"
 
-Material::Material()
+namespace Phantom
 {
-	_color = glm::vec4(1.0f);
-	_shader = Shader::GetDefault();
-}
+	Material::Material()
+	{
+		_color = glm::vec4(1.0f);
+		_shader = &Shader::GetDefault();
+	}
 
-Shader* Material::GetShader()
-{
-	return _shader;
-}
+	Shader& Material::GetShader()
+	{
+		return *_shader;
+	}
 
-
-void Material::Apply()
-{
-	_shader->Use();
-	_shader->SendUniformData("color", _color);
+	void Material::Apply()
+	{
+		_shader->Use();
+		_shader->SendUniformData("color", _color);
+	}
 }

@@ -3,21 +3,20 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 
-class Camera : public Component
+namespace Phantom
 {
-public:
-	Camera(Entity* entity);
-	virtual void Update();
+	class Camera
+	{
+		public:
+			Camera();
+			const glm::mat4x4& ViewMatrix();
+			void SetPerspective();
 
-	void SetMainCamera();
-	const glm::mat4x4& ViewMatrix();
-	inline static Camera* GetMainCamera() { return _mainCamera; };
-	private:
-		glm::vec3 _lastPos;
-		glm::mat4 _viewMatrix;
-		static Camera* _mainCamera;
-	
-};
+		private:
+			glm::mat4 _viewMatrix;
+			glm::mat4 _projectionMatrix;
+	};
+}
 
 #endif 
 

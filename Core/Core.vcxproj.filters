@@ -24,6 +24,9 @@
     <ClCompile Include="libs\imgui\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\RenderManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shader\default.vert" />
@@ -52,5 +55,9 @@
     <ClInclude Include="libs\imgui\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_textedit.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\RenderManager.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\SceneManager.h" />
   </ItemGroup>
 </Project>

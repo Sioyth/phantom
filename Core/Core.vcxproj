@@ -26,6 +26,9 @@
     <ClCompile Include="libs\imgui\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\RenderManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -56,6 +59,10 @@
     <ClInclude Include="libs\imgui\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_textedit.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\RenderManager.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Input.h" />
@@ -132,14 +139,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(ProjectDir)libs\entt\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\libs\glfw\lib;$(ProjectDir)\libs\assimp\lib\debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)libs\glfw\include;$(ProjectDir)libs\glad\include;$(ProjectDir)libs\glm\include;$(ProjectDir)libs\imgui\include;$(ProjectDir)libs\assimp\include;$(ProjectDir)libs\stb\include;$(ProjectDir)libs\entt\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\libs\glfw\lib;$(ProjectDir)\libs\assimp\lib\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

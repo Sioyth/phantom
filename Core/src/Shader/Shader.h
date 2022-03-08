@@ -8,8 +8,10 @@
 #include <cerrno>
 #include <glm/glm.hpp>
 
-class Shader
+namespace Phantom
 {
+	class Shader
+	{
 	public:
 		unsigned int GetID();
 		Shader(const char* vertexPath, const char* fragPath);
@@ -24,16 +26,14 @@ class Shader
 
 		static void LoadDefaultShaders();
 		inline static void UseDefault() { _defaultShader->Use(); };
-		inline static Shader* GetDefault() { return _defaultShader; };
-		inline static unsigned int GetDefaultID() { return _defaultShader->_id; }
+		inline static Shader& GetDefault() { return *_defaultShader; };
+		inline static const unsigned int& GetDefaultID() { return _defaultShader->_id; }
 
 	private:
 		unsigned int _id;
-		static Shader* _defaultShader;
+		static Shader* _defaultShader; // TEMP - change this to stack rather than a pointer
 
-};
+	};
 
-
-
-
+}
 #endif
