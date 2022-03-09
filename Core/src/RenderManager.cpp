@@ -49,13 +49,13 @@ namespace Phantom
 		return true;
 	}
 
-    void RenderManager::Begin(glm::vec4 color) 
+    void RenderManager::Clear(glm::vec4 color)
     {
         glClearColor(color.r, color.g, color.b, color.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void RenderManager::End()
+    void RenderManager::SwapBuffers()
     {
         glfwSwapBuffers(_window);
     }

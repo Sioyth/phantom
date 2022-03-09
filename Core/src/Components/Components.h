@@ -25,7 +25,10 @@ struct MeshRenderer
 
 struct Camera
 {
-	
+	bool mainCamera;
+	glm::mat4 _fov;
+	glm::mat4 _proj;
+	glm::mat4 _viewMatrix;
 };
 
 struct Tag

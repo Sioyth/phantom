@@ -32,7 +32,7 @@ int main()
     {
         // Update Delta Time;
         Time::UpdateDeltaTime(glfwGetTime());
-        RenderManager::Instance().Begin();
+        RenderManager::Instance().Clear();
 
         // feed inputs to dear imgui, start new frame
       /*  ImGui_ImplOpenGL3_NewFrame();
@@ -44,7 +44,7 @@ int main()
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());*/
 
         glfwPollEvents();
-        RenderManager::Instance().End();
+        RenderManager::Instance().SwapBuffers();
     }
 
     /*ImGui_ImplOpenGL3_Shutdown();

@@ -4,7 +4,7 @@
 #include <glfw/glfw3.h>
 
 #include "Shader/Shader.h"
-#include "Components.h"
+#include "Components/Components.h"
 
 namespace Phantom
 {
@@ -14,8 +14,8 @@ namespace Phantom
 		RenderManager();
 		bool Init(int width = 800, int heigth = 600);
 
-		void End();
-		void Begin(glm::vec4 color = glm::vec4(0.0f));
+		void SwapBuffers();
+		void Clear(glm::vec4 color = glm::vec4(0.0f));
 		void DrawMesh(Transform& transform, MeshRenderer& meshRenderer);
 
 		static RenderManager& Instance();

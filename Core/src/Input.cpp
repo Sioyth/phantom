@@ -1,31 +1,35 @@
 #include "Input.h"
 
-Input* Input::_instance = nullptr;
-GLFWwindow* Input::_window = nullptr;
-
-Input::Input(GLFWwindow* window)
+namespace Phantom
 {
-	if (_instance != nullptr) 
-		return;
 
-	_instance = this;
-	_window = window;
-}
+	Input* Input::_instance = nullptr;
+	GLFWwindow* Input::_window = nullptr;
 
-void Input::UpdateKeys()
-{
-	for (const auto& [k, v] : _controls)
+	Input::Input(GLFWwindow* window)
 	{
-		//v.event?.invoke();
-	}
-}
+		if (_instance != nullptr)
+			return;
 
-bool Input::GetKey(int key, KeyState state)
-{
-	if (glfwGetKey(_window, key) == state)
-		return true;
-	else
-		return false;
+		_instance = this;
+		_window = window;
+	}
+
+	void Input::UpdateKeys()
+	{
+		for (const auto& [k, v] : _controls)
+		{
+			//v.event?.invoke();
+		}
+	}
+
+	bool Input::GetKey(int key, KeyState state)
+	{
+		if (glfwGetKey(_window, key) == state)
+			return true;
+		else
+			return false;
+	}
 }
 
 

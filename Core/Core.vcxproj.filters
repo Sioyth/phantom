@@ -3,15 +3,10 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="libs\glad.c" />
-    <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\Components\Transform.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Shader\Material.cpp" />
-    <ClCompile Include="src\Components\Renderer.cpp" />
     <ClCompile Include="src\Shader\UniformValue.cpp" />
-    <ClCompile Include="src\Components\Camera.cpp" />
-    <ClCompile Include="src\Components\DebugMovement.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Time.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -34,15 +29,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader\Shader.h" />
-    <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Entity.h" />
-    <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Shader\Material.h" />
-    <ClInclude Include="src\Components\Renderer.h" />
     <ClInclude Include="src\Shader\UniformValue.h" />
     <ClInclude Include="src\Shader\IUniformValue.h" />
-    <ClInclude Include="src\Components\Camera.h" />
-    <ClInclude Include="src\Components\DebugMovement.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Time.h" />
     <ClInclude Include="src\Mesh.h" />
@@ -57,7 +47,7 @@
     <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
     <ClInclude Include="src\RenderManager.h" />
     <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\Components\Components.h" />
     <ClInclude Include="src\SceneManager.h" />
   </ItemGroup>
 </Project>

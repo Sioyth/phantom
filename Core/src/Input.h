@@ -4,34 +4,38 @@
 #include <map>
 #include <string>
 
-enum KeyState {
-	REALEASE = 0, PRESS = 1
-};
-
-struct Control
+namespace Phantom 
 {
-	int key;
-	//Event event;
-	KeyState type;
-};
+
+	enum KeyState {
+		REALEASE = 0, PRESS = 1
+	};
+
+	struct Control
+	{
+		int key;
+		//Event event;
+		KeyState type;
+	};
 
 
-class Input
-{
-	public:
+	class Input
+	{
+		public:
 
-		Input(GLFWwindow* window);
-		void UpdateKeys();
-		bool GetKey(int key, KeyState state);
-		bool GetMouseButton(); //GetMouseKey?
+			Input(GLFWwindow* window);
+			void UpdateKeys();
+			bool GetKey(int key, KeyState state);
+			bool GetMouseButton(); //GetMouseKey?
 
-		inline static Input* Instance() { return _instance; };
+			inline static Input* Instance() { return _instance; };
 
-	private:
-		static Input* _instance;
-		static GLFWwindow* _window;
-		std::map <std::string, Control> _controls;
-};
+		private:
+			static Input* _instance;
+			static GLFWwindow* _window;
+			std::map <std::string, Control> _controls;
+	};
+}
 
 #endif
 
