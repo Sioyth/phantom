@@ -46,7 +46,7 @@ namespace Phantom {
 	{
 		//assert check if it has a component of that type
 		// Assert(HasComponent<T>())
-		return _scene->_registry->get<Component>(_id);
+		return _scene->_registry.get<Component>(_id);
 	}
 	template<typename Component>
 	inline void Entity::RemoveComponent()

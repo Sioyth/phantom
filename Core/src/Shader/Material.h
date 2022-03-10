@@ -17,7 +17,11 @@ namespace Phantom
 
 		private:
 			Shader* _shader;
-			glm::vec4 _color;
+			glm::vec3 _color;
+			float _ambientReflectance;
+			float _diffuseReflectance;
+			float _specularExponent;
+			float _specularReflectance;
 			std::map<std::string, UniformValue> _uniforms;
 	};
 

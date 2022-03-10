@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-#include "Shader/Shader.h"
-#include "Components/Components.h"
+#include "shader/Shader.h"
+#include "components/Components.h"
 
 namespace Phantom
 {
@@ -16,6 +16,7 @@ namespace Phantom
 
 		void SwapBuffers();
 		void Clear(glm::vec4 color = glm::vec4(0.0f));
+		void DrawLight(Transform& transform, Light& light);
 		void DrawMesh(Transform& transform, MeshRenderer& meshRenderer);
 
 		static RenderManager& Instance();

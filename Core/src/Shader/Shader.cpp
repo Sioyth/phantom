@@ -117,6 +117,11 @@ namespace Phantom
 		glUniform1f(glGetUniformLocation(_id, name), f);
 	}
 
+	void Shader::SendUniformData(const char* name, glm::vec3 v)
+	{
+		glUniform3f(glGetUniformLocation(_id, name), v.x, v.y, v.z);
+	}
+
 	void Shader::SendUniformData(const char* name, glm::vec4 v)
 	{
 		glUniform4f(glGetUniformLocation(_id, name), v.x, v.y, v.z, v.w);

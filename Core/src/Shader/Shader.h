@@ -20,6 +20,7 @@ namespace Phantom
 		void Delete(); // Redundant?
 
 		void SendUniformData(const char* name, float f);
+		void SendUniformData(const char* name, glm::vec3 v);
 		void SendUniformData(const char* name, glm::vec4 v);
 		void SendUniformData(const char* name, glm::mat4 m);
 		void SendUniformData(const char* name, float x, float y, float z, float w = 1.0f);

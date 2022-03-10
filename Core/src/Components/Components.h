@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
-#include "Model.h"
+#include "mesh/Model.h"
 #include "Shader/Material.h"
 
 struct Transform 
@@ -29,6 +29,15 @@ struct Camera
 	glm::mat4 _fov;
 	glm::mat4 _proj;
 	glm::mat4 _viewMatrix;
+};
+
+struct Light
+{
+	glm::vec3 _color;
+
+	Light() = default;
+	Light(const Light&) = default;
+	Light(const glm::vec3& color) : _color(color) {};
 };
 
 struct Tag

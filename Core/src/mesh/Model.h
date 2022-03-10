@@ -11,8 +11,10 @@ namespace Phantom
 	class Model
 	{
 		public:
+			Model(Mesh& mesh);
 			Model(std::string path);
 			void Draw(Shader& shader);
+			void AddMesh(Mesh& mesh);
 		private:
 
 			std::string _dir;

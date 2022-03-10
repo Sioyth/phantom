@@ -62,15 +62,19 @@ namespace Phantom
 
 	void RenderManager::DrawMesh(Transform& transform, MeshRenderer& meshRenderer)
 	{
-		meshRenderer._material.Apply();
-		meshRenderer._model.Draw(meshRenderer._material.GetShader());
-
         //temp
-        glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+        glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
         glm::mat4 proj = glm::perspective(glm::radians(50.0f), _width / _height, 0.1f, 100.0f);
         glm::mat4 mvp = proj * view * transform._matrix;
-
         meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
+        meshRenderer._material.GetShader().SendUniformData("model", transform._matrix);
+        meshRenderer._material.GetShader().SendUniformData("cameraPos", glm::vec3(0.0f, 5.0f, 10.0f));
+        meshRenderer._material.GetShader().SendUniformData("_light._color", glm::vec3(1.0f, 0.0f, 0.0f));
+        meshRenderer._material.GetShader().SendUniformData("_light._position", glm::vec3(0.0f, 1.0f, 0.0f));
+        meshRenderer._material.GetShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f);
+
+        meshRenderer._material.Apply();
+        meshRenderer._model.Draw(meshRenderer._material.GetShader());
 
 	}
     RenderManager& RenderManager::Instance()

@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include <entt/entt.hpp>
-#include "Components/Components.h"
+#include "components/Components.h"
 
 namespace Phantom
 {

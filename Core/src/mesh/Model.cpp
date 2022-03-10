@@ -8,6 +8,11 @@
 
 namespace Phantom
 {
+	Model::Model(Mesh& mesh)
+	{
+		_meshes.push_back(mesh);
+	}
+
 	Model::Model(std::string path)
 	{
 		Load(path);
@@ -17,6 +22,11 @@ namespace Phantom
 	{
 		for (unsigned int i = 0; i < _meshes.size(); i++)
 			_meshes[i].Draw(shader);
+	}
+
+	void Model::AddMesh(Mesh& mesh)
+	{
+		_meshes.push_back(mesh);
 	}
 
 	void Model::Load(std::string path)
