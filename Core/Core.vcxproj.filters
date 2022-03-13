@@ -19,9 +19,11 @@
     <ClCompile Include="libs\imgui\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\RenderManager.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\components\Transform.cpp" />
+    <ClCompile Include="src\components\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -45,9 +47,11 @@
     <ClInclude Include="libs\imgui\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_textedit.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\RenderManager.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\components\Components.h" />
     <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\components\Transform.h" />
+    <ClInclude Include="src\components\Camera.h" />
   </ItemGroup>
 </Project>

@@ -4,14 +4,13 @@
 #include "mesh/Model.h"
 #include "Shader/Material.h"
 
-struct Transform 
+namespace Phantom
 {
-	glm::mat4 _matrix = glm::mat4(1.0f);
-
-	Transform() = default;
-	Transform(const Transform&) = default;
-	Transform(const glm::mat4& matrix) : _matrix(matrix) {};
-};
+	enum LightType
+	{
+		Directional, Point, Spot, Area
+	};
+}
 
 struct MeshRenderer
 {
@@ -23,17 +22,13 @@ struct MeshRenderer
 	//MeshRenderer(const glm::mat4 & matrix) : _matrix(matrix) {};
 };
 
-struct Camera
-{
-	bool mainCamera;
-	glm::mat4 _fov;
-	glm::mat4 _proj;
-	glm::mat4 _viewMatrix;
-};
+
 
 struct Light
 {
+	float _intensity;
 	glm::vec3 _color;
+	//Phantom::LightType _type = Phantom::LightType::Spot;
 
 	Light() = default;
 	Light(const Light&) = default;

@@ -1,61 +1,46 @@
 #include "Scene.h"
 #include "Entity.h"
 #include "Components/Components.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "Input.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Phantom
 {
 	Scene::Scene()
 	{
-		entt::entity entity = _registry.create();
+		_activeCamera = new Entity(_registry.create(), this);
+		_activeCamera->AddComponent<Camera>();
+		_activeCamera->transform()->Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 	}
 
 	Scene::~Scene()
 	{
-
+		delete _activeCamera;
 	}
-	void Scene::Update()
+
+	void Scene::Update(const float& dt)
 	{
-		//auto view = _registry.view<Transform>();
-		//for (auto entity : view)
-		//{
-		//	
-		//	if (Input::Instance()->GetKey(GLFW_KEY_W, KeyState::PRESS))
-		//	{
-		//		auto& t = view.get<Transform>(entity);
-		//		/*glm::transpose(glm::mat4(1.0f), glm::vec3(1.0f));
-		//		t._matrix = glm::transpose(t._matrix, glm::vec3(0.0f, 0.0f, 0.1f));*/
-		//	}
-		//}
+		if (Input::Instance()->GetKey(GLFW_KEY_W, KeyState::PRESS))
+			_activeCamera->transform()->Translate(_activeCamera->transform()->forward() * 1.0f * dt);
+		if (Input::Instance()->GetKey(GLFW_KEY_S, KeyState::PRESS))
+			_activeCamera->transform()->Translate(-_activeCamera->transform()->forward() * 1.0f * dt);
+		if (Input::Instance()->GetKey(GLFW_KEY_A, KeyState::PRESS))
+			_activeCamera->transform()->Translate(-_activeCamera->transform()->right() * 1.0f * dt);
+		if (Input::Instance()->GetKey(GLFW_KEY_D, KeyState::PRESS))
+			_activeCamera->transform()->Translate(_activeCamera->transform()->right() * 1.0f * dt);
 
-		// Move this to render?
-		const auto& group = _registry.group<Transform, MeshRenderer>();
-		for (auto entity : group)
-		{
-			// It's making a copy here fix this
-			const auto& [transform, mesh] = group.get<Transform, MeshRenderer>(entity);
-			RenderManager::Instance().DrawMesh(transform, mesh);
-		}
+		Renderer::Instance().Draw(*this);
+	}
 
-		//const auto& group = _registry.group<Transform, Light>();
-		//for (auto entity : group)
-		//{
-		//	// It's making a copy here fix this
-		//	const auto& [transform, light] = group.get<Transform, Light>(entity);
-		//	//RenderManager::Instance().DrawLight(transform, light);
-		//}
+	Entity* Scene::activeCamera()
+	{
+		return _activeCamera;
 	}
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
-		Entity entity = Entity( _registry.create(), this );
-		entity.AddComponent<Transform>();
-		/*auto& tag = entity.AddComponent<Tag>();
-		tag._name = name.empty() ? "Entity" : name;*/
-
+		Entity entity = Entity( _registry.create(), this);
 		return entity;
 	}
 }

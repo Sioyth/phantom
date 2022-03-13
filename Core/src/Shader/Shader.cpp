@@ -4,6 +4,7 @@
 namespace Phantom
 {
 	Shader* Shader::_defaultShader = nullptr;
+	Shader* Shader::_currentShader = nullptr;
 
 	Shader::Shader(const char* vertexPath, const char* fragPath)
 	{
@@ -100,11 +101,14 @@ namespace Phantom
 		// Delete shaders they are no longer needed as the program has the shader already and has linked them
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
+
+		_currentShader = this;
 	}
 
 	void Shader::Use()
 	{
 		glUseProgram(_id);
+		_currentShader = this;
 	}
 
 	unsigned int Shader::GetID()
@@ -139,7 +143,11 @@ namespace Phantom
 
 	void Shader::LoadDefaultShaders()
 	{
-		// TODO: Fix this fucking paths
+		//// TODO: Fix this fucking paths
 		_defaultShader = new Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
+	}
+	Shader& Shader::CurrentShader()
+	{
+		return *_currentShader;
 	}
 }

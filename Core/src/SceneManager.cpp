@@ -2,15 +2,18 @@
 
 namespace Phantom
 {
-	SceneManager* SceneManager::_instance = nullptr;
+	Scene* SceneManager::_activeScene = nullptr;
+	std::map<std::string, Scene*> SceneManager::_scenes = std::map<std::string, Scene*>();
 
-	Phantom::SceneManager::SceneManager()
+	void SceneManager::ChangeScene(const std::string& name)
 	{
-		if (_instance)
-			_instance = this;
-		else
-			return;
+		_activeScene = _scenes[name];
+	}
 
-		_activeScene = nullptr;
+	void SceneManager::AddScene(const std::string& name, Scene* scene)
+	{
+		_scenes.emplace(name, scene);
+		if(!_activeScene)
+			_activeScene = _scenes[name];
 	}
 }

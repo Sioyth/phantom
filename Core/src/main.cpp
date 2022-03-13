@@ -3,14 +3,15 @@
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
-//#include <imgui/imconfig.h>
-//#include <imgui/imgui_impl_glfw.h>
-//#include <imgui/imgui_impl_opengl3.h>
-#include "RenderManager.h"
+#include <imgui/imconfig.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+#include "Renderer.h"
 #include "Time.h"
-//#include "SceneManager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "Entity.h"
+#include "Input.h"
 
 int width = 800;
 int height = 600;
@@ -20,48 +21,61 @@ using namespace Phantom;
 int main()
 {
     // TEMP - DO THIS WHEN YOU CALL INSTANCE;
-    RenderManager manager;
-    if (!RenderManager::Instance().Init())
+    Renderer renderer;
+    if (!Renderer::Instance().Init())
         return 0;
 
-    Scene scene;
+    Input input = Input(renderer.window());
 
-    // TEMP
+    Scene scene;
     Entity entity = scene.CreateEntity();
     entity.AddComponent<MeshRenderer>(Phantom::Model("D:\\Dev\\repos\\phantom\\assets\\backpack.obj"));
-    entity.GetComponent<Transform>()._matrix = glm::translate(entity.GetComponent<Transform>()._matrix, glm::vec3(0.0f, 2.0f, 0.0f));
 
     Mesh planeMesh;
     Entity plane = scene.CreateEntity();
-    plane.GetComponent<Transform>()._matrix = glm::scale(plane.GetComponent<Transform>()._matrix, glm::vec3(15.0f));
+    //plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
     plane.AddComponent<MeshRenderer>(planeMesh);
+    
+    Entity plane2 = scene.CreateEntity();
+    plane2.GetComponent<Transform>().Scale(glm::vec3(10.0f));
+    plane2.AddComponent<MeshRenderer>(planeMesh);
 
     Entity light = scene.CreateEntity();
-    light.AddComponent<Light>(glm::vec3(0.5f, 0.2f, 0.3f));
+    light.GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.5f, 2.0f));
+    light.AddComponent<Light>(glm::vec3(1.0f, 1.0f, 1.0f));
 
-    
-    while (true)
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
+    if (!ImGui_ImplGlfw_InitForOpenGL(renderer.window(), true)) { return false; }
+    if (!ImGui_ImplOpenGL3_Init()) { return false; }
+
+    SceneManager::AddScene("Default", &scene);
+
+    while (!Renderer::Instance().ShouldClose())
     {
         // Update Delta Time;
         Time::UpdateDeltaTime(glfwGetTime());
-        RenderManager::Instance().Clear();
+        Renderer::Instance().Clear(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
 
         // feed inputs to dear imgui, start new frame
-      /*  ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();*/
-        scene.Update();
+        ImGui::NewFrame();
+
+        SceneManager::ActiveScene()->Update(Time::DeltaTime());
+
         // Render dear imgui into screen
-        /*ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());*/
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwPollEvents();
-        RenderManager::Instance().SwapBuffers();
+        Renderer::Instance().SwapBuffers();
     }
 
-    /*ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();*/
+    ImGui::DestroyContext();
 
     glfwTerminate();
 

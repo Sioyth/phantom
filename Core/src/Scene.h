@@ -1,11 +1,9 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include <entt/entt.hpp>
-#include "components/Components.h"
 
 namespace Phantom
 {
-
 	class Entity;
 
 	class Scene
@@ -14,14 +12,21 @@ namespace Phantom
 			Scene();
 			~Scene();
 
-			void Update();
+			void Update(const float& dt);
 
 			// TEMP - Should be handled through some sort of SCENE MANAGER instead.
+			Entity* activeCamera();
 			Entity CreateEntity(const std::string& name = std::string());
 
+			/*Scene(const Scene& other) {
+				_registry = other._registry;
+			};*/
+
 		private:
+			Entity* _activeCamera;
 			entt::registry _registry;
 			friend class Entity;
+			friend class Renderer;
 	};
 }
 

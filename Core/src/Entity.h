@@ -6,16 +6,18 @@
 #include <entt/entt.hpp>
 #include "Scene.h"
 
-namespace Phantom {
+#include "components/Transform.h"
 
+namespace Phantom {
 	class Entity
 	{
 
 	public:
-		Entity() = default;
 		Entity(entt::entity id, Scene* scene);
 		Entity(Entity& other) = default;
 
+		Transform* transform();
+		void SetTransform(Transform* transform);
 		template<typename Component> bool HasComponent();
 		template<typename Component, typename... Args> Component& AddComponent(Args&&... args);
 		template<typename Component> Component& GetComponent();
@@ -23,8 +25,9 @@ namespace Phantom {
 
 		operator bool() { return _id != entt::null; }
 	private:
-		entt::entity _id = entt::null;
+		Transform* _transform;
 		Scene* _scene = nullptr;
+		entt::entity _id = entt::null;
 	};
 
 	template<typename Component>

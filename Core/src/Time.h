@@ -4,7 +4,7 @@
 class Time
 {
 	public:
-		static void UpdateDeltaTime(double time);
+		static void UpdateDeltaTime(const double& time);
 		inline static const double& DeltaTime() { return _deltaTime; };
 	private:
 		static double _deltaTime;

@@ -26,14 +26,15 @@ namespace Phantom
 		void SendUniformData(const char* name, float x, float y, float z, float w = 1.0f);
 
 		static void LoadDefaultShaders();
+		static Shader& CurrentShader();
 		inline static void UseDefault() { _defaultShader->Use(); };
 		inline static Shader& GetDefault() { return *_defaultShader; };
 		inline static const unsigned int& GetDefaultID() { return _defaultShader->_id; }
 
 	private:
 		unsigned int _id;
+		static Shader* _currentShader;
 		static Shader* _defaultShader; // TEMP - change this to stack rather than a pointer
-
 	};
 
 }

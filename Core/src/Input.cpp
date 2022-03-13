@@ -30,6 +30,14 @@ namespace Phantom
 		else
 			return false;
 	}
+	bool Input::GetMouseButton(int key, KeyState state)
+	{
+		if (glfwGetMouseButton(_window, key) == state)
+			return true;
+		else
+			return false;
+		return false;
+	}
 }
 
 

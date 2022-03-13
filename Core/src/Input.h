@@ -26,9 +26,10 @@ namespace Phantom
 			Input(GLFWwindow* window);
 			void UpdateKeys();
 			bool GetKey(int key, KeyState state);
-			bool GetMouseButton(); //GetMouseKey?
+			bool GetMouseButton(int key, KeyState state); //GetMouseKey?
 
 			inline static Input* Instance() { return _instance; };
+			inline static void SetWindow(GLFWwindow* window) { _window = window; }
 
 		private:
 			static Input* _instance;
