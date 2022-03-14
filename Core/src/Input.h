@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 #include <glfw/glfw3.h>
+#include <glm/vec2.hpp>
 #include <map>
 #include <string>
 
@@ -26,6 +27,8 @@ namespace Phantom
 			Input(GLFWwindow* window);
 			void UpdateKeys();
 			bool GetKey(int key, KeyState state);
+
+			const glm::vec2 &GetMousePos();
 			bool GetMouseButton(int key, KeyState state); //GetMouseKey?
 
 			inline static Input* Instance() { return _instance; };

@@ -15,7 +15,7 @@ namespace Phantom {
 	public:
 		Entity(entt::entity id, Scene* scene);
 		Entity(Entity& other) = default;
-
+		glm::vec3 _dir = glm::vec3(0.0f, 0.0f, -1.0f);
 		Transform* transform();
 		void SetTransform(Transform* transform);
 		template<typename Component> bool HasComponent();
@@ -25,6 +25,7 @@ namespace Phantom {
 
 		operator bool() { return _id != entt::null; }
 	private:
+		
 		Transform* _transform;
 		Scene* _scene = nullptr;
 		entt::entity _id = entt::null;

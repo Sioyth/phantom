@@ -33,7 +33,7 @@ namespace Phantom
 		static Renderer* _instance;
 
 		void DrawLight(Transform& transform, Light& light);
-		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Entity& camera);
+		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene);
 	};
 }
 

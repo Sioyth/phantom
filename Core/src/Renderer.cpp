@@ -16,7 +16,9 @@ namespace Phantom
         _window = nullptr;
         _width = 800.0f;
         _height = 600.0f;
+        _mvp = glm::mat4(1.0f);
 	}
+
 	bool Renderer::Init(int width, int heigth)
 	{
         _width = 800;
@@ -51,7 +53,7 @@ namespace Phantom
         glDepthFunc(GL_LESS);
 
         Shader::LoadDefaultShaders();
-
+        glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		return true;
 	}
 
@@ -73,20 +75,25 @@ namespace Phantom
         Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f);
     }
 
-	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Entity& camera)
+	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& Scene)
 	{
         //temp
-        Camera& cam = camera.GetComponent<Camera>();
-        cam.CalculateMatrices(*camera.transform());
-        glm::mat4 mvp = cam.proj() * cam.view() * model.matrix();
+        // if not editor ...
+        
+       /* Camera& cam = Scene._activeCamera->GetComponent<Camera>();
+        cam.CalculateMatrices(*Scene._activeCamera->transform());
+        glm::mat4 mvp = cam.proj() * cam.view() * model.matrix();*/
+           
+        /*meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
+        meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
+        meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.transform());*/
 
+        glm::mat4 mvp = Scene._editorCamera.Proj() * Scene._editorCamera.View() * model.matrix();
         meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
         meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
-        meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.transform()->matrix());
 
         meshRenderer._material.Apply();
         meshRenderer._model.Draw(meshRenderer._material.GetShader());
-
 	}
     Renderer& Renderer::Instance()
     {
@@ -105,7 +112,7 @@ namespace Phantom
         for (auto entity : meshes)
         {
             const auto& [transform, mesh] = meshes.get<Transform, MeshRenderer>(entity);
-            Renderer::Instance().DrawMesh(transform, mesh, *scene.activeCamera());
+            Renderer::Instance().DrawMesh(transform, mesh, scene);
         }
     }
 }

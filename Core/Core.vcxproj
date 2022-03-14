@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EditorCamera.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_draw.cpp" />
@@ -42,12 +43,14 @@
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\shader\UniformValue.cpp" />
     <ClCompile Include="src\Time.cpp" />
+    <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.frag" />
     <None Include="src\shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EditorCamera.h" />
     <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />
     <ClInclude Include="libs\imgui\include\imgui\imgui.h" />
     <ClInclude Include="libs\imgui\include\imgui\imgui_impl_glfw.h" />
@@ -71,6 +74,7 @@
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\shader\UniformValue.h" />
     <ClInclude Include="src\Time.h" />
+    <ClInclude Include="src\UI.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -12,6 +12,7 @@ namespace Phantom
 		_activeCamera = new Entity(_registry.create(), this);
 		_activeCamera->AddComponent<Camera>();
 		_activeCamera->transform()->Translate(glm::vec3(0.0f, 1.0f, 10.0f));
+		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 	}
 
 	Scene::~Scene()
@@ -21,15 +22,8 @@ namespace Phantom
 
 	void Scene::Update(const float& dt)
 	{
-		if (Input::Instance()->GetKey(GLFW_KEY_W, KeyState::PRESS))
-			_activeCamera->transform()->Translate(_activeCamera->transform()->forward() * 1.0f * dt);
-		if (Input::Instance()->GetKey(GLFW_KEY_S, KeyState::PRESS))
-			_activeCamera->transform()->Translate(-_activeCamera->transform()->forward() * 1.0f * dt);
-		if (Input::Instance()->GetKey(GLFW_KEY_A, KeyState::PRESS))
-			_activeCamera->transform()->Translate(-_activeCamera->transform()->right() * 1.0f * dt);
-		if (Input::Instance()->GetKey(GLFW_KEY_D, KeyState::PRESS))
-			_activeCamera->transform()->Translate(_activeCamera->transform()->right() * 1.0f * dt);
-
+	
+		_editorCamera.Update(dt);
 		Renderer::Instance().Draw(*this);
 	}
 

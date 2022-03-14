@@ -23,8 +23,10 @@ void Phantom::Transform::Scale(const glm::vec3& scale)
 	_matrix = glm::scale(_matrix, scale);
 }
 
-void Phantom::Transform::Rotate(const glm::vec3& rotation)
+void Phantom::Transform::Rotate(const glm::vec3& axis, const float& angle)
 {
+	//_rotation += rotation;
+	_matrix = glm::rotate(_matrix, angle, axis);
 }
 
 void Phantom::Transform::Translate(const glm::vec3& translation)
@@ -52,4 +54,9 @@ const glm::vec3& Phantom::Transform::right()
 const glm::vec3& Phantom::Transform::forward()
 {
 	return glm::normalize(glm::vec3(_matrix[2].x, _matrix[2].y, -_matrix[2].z));
+}
+
+void Phantom::Transform::LookAt(glm::vec3 forward)
+{
+	_matrix = glm::lookAt(_position, _position + forward, up());
 }

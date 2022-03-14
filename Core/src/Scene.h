@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include <entt/entt.hpp>
-
+#include "EditorCamera.h"
 namespace Phantom
 {
 	class Entity;
@@ -23,6 +23,7 @@ namespace Phantom
 			};*/
 
 		private:
+			EditorCamera _editorCamera;
 			Entity* _activeCamera;
 			entt::registry _registry;
 			friend class Entity;

@@ -6,6 +6,8 @@
 #include <imgui/imconfig.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
+
+// PHANTOM.H include
 #include "Renderer.h"
 #include "Time.h"
 #include "SceneManager.h"
@@ -25,11 +27,19 @@ int main()
     if (!Renderer::Instance().Init())
         return 0;
 
+    // TEMP -  put this in UI class.
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
+    if (!ImGui_ImplGlfw_InitForOpenGL(renderer.window(), true)) { return false; }
+    if (!ImGui_ImplOpenGL3_Init()) { return false; }
+
     Input input = Input(renderer.window());
 
+    // TEMP big temp temp
     Scene scene;
     Entity entity = scene.CreateEntity();
-    entity.AddComponent<MeshRenderer>(Phantom::Model("D:\\Dev\\repos\\phantom\\assets\\backpack.obj"));
+    //entity.AddComponent<MeshRenderer>(Phantom::Model("D:\\Dev\\repos\\phantom\\assets\\backpack.obj"));
 
     Mesh planeMesh;
     Entity plane = scene.CreateEntity();
@@ -41,14 +51,8 @@ int main()
     plane2.AddComponent<MeshRenderer>(planeMesh);
 
     Entity light = scene.CreateEntity();
-    light.GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.5f, 2.0f));
+    light.GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.0f, 2.0f));
     light.AddComponent<Light>(glm::vec3(1.0f, 1.0f, 1.0f));
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    if (!ImGui_ImplGlfw_InitForOpenGL(renderer.window(), true)) { return false; }
-    if (!ImGui_ImplOpenGL3_Init()) { return false; }
 
     SceneManager::AddScene("Default", &scene);
 

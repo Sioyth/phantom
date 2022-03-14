@@ -12,12 +12,13 @@ namespace Phantom
 			Transform(const Transform& other);
 
 			void Scale(const glm::vec3& scale);
-			void Rotate(const glm::vec3& rotation);
+			void Rotate(const glm::vec3& axis, const float& angle);
 			void Translate(const glm::vec3& translation);
 
 			const glm::vec3& up();
 			const glm::vec3& right();
 			const glm::vec3& forward();
+			void LookAt(glm::vec3 forward);
 			inline const glm::vec3& scale() { return _scale; };
 			inline const glm::mat4& matrix() { return _matrix; };
 			inline const glm::vec3& rotation() { return _rotation; };

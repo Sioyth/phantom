@@ -23,6 +23,13 @@ namespace Phantom
 		}
 	}
 
+	const glm::vec2& Input::GetMousePos()
+	{
+		double xpos, ypos;
+		glfwGetCursorPos(_window, &xpos, &ypos);
+		return glm::vec2(xpos, ypos);
+	}
+
 	bool Input::GetKey(int key, KeyState state)
 	{
 		if (glfwGetKey(_window, key) == state)
