@@ -1,19 +1,4 @@
-#include <glad/glad.h>
-#include <glfw/glfw3.h>
-#include <iostream>
-
-#include <glm/gtc/matrix_transform.hpp>
-#include <imgui/imconfig.h>
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
-
-// PHANTOM.H include
-#include "Renderer.h"
-#include "Time.h"
-#include "SceneManager.h"
-#include "Scene.h"
-#include "Entity.h"
-#include "Input.h"
+#include "Phantom.h"
 
 int width = 800;
 int height = 600;
@@ -27,14 +12,8 @@ int main()
     if (!Renderer::Instance().Init())
         return 0;
 
-    // TEMP -  put this in UI class.
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    if (!ImGui_ImplGlfw_InitForOpenGL(renderer.window(), true)) { return false; }
-    if (!ImGui_ImplOpenGL3_Init()) { return false; }
-
     Input input = Input(renderer.window());
+    UI::Init(renderer.window());
 
     // TEMP big temp temp
     Scene scene;
@@ -61,26 +40,12 @@ int main()
         // Update Delta Time;
         Time::UpdateDeltaTime(glfwGetTime());
         Renderer::Instance().Clear(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
-
-        // feed inputs to dear imgui, start new frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
         SceneManager::ActiveScene()->Update(Time::DeltaTime());
+        UI::Render();
 
-        // Render dear imgui into screen
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        glfwPollEvents();
+        Input::Instance()->PollEvents();
         Renderer::Instance().SwapBuffers();
     }
-
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-
     glfwTerminate();
 
     return 0;

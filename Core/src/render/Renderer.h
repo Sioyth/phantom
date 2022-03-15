@@ -3,10 +3,10 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-#include "shader/Shader.h"
-#include "components/Components.h"
-#include "components/Transform.h"
-#include "components/Camera.h"
+#include "../shader/Shader.h"
+#include "../components/Components.h"
+#include "../components/Transform.h"
+#include "../components/Camera.h"
 
 namespace Phantom
 {
@@ -20,11 +20,13 @@ namespace Phantom
 
 		void SwapBuffers();
 		void Draw(Scene& scene);
-		static Renderer& Instance();
 		void Clear(glm::vec4 color = glm::vec4(0.0f));
-		inline bool ShouldClose() { return glfwWindowShouldClose(_window); };
-		inline GLFWwindow* window() { return _window; };
 
+		void SetCursorMode(bool enabled);
+		inline bool ShouldClose() { return glfwWindowShouldClose(_window); };
+
+		static Renderer& Instance();
+		inline GLFWwindow* window() { return _window; };
 	private:
 		float _width;
 		float _height;

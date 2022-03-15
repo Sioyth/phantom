@@ -1,8 +1,8 @@
 #include "Renderer.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Entity.h"
-#include "Scene.h"
+#include "../scene/Entity.h"
+#include "../scene/Scene.h"
 
 namespace Phantom
 {
@@ -53,7 +53,6 @@ namespace Phantom
         glDepthFunc(GL_LESS);
 
         Shader::LoadDefaultShaders();
-        glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		return true;
 	}
 
@@ -61,6 +60,14 @@ namespace Phantom
     {
         glClearColor(color.r, color.g, color.b, color.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void Renderer::SetCursorMode(bool enabled)
+    {
+        if(enabled)
+            glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        else 
+            glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     }
 
     void Renderer::SwapBuffers()
@@ -91,6 +98,7 @@ namespace Phantom
         glm::mat4 mvp = Scene._editorCamera.Proj() * Scene._editorCamera.View() * model.matrix();
         meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
         meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
+        meshRenderer._material.GetShader().SendUniformData("cameraPos", Scene._editorCamera.position());
 
         meshRenderer._material.Apply();
         meshRenderer._model.Draw(meshRenderer._material.GetShader());

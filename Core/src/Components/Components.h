@@ -1,8 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
-#include "mesh/Model.h"
-#include "Shader/Material.h"
+#include "../render/Model.h"
+#include "../shader/Material.h"
 
 namespace Phantom
 {

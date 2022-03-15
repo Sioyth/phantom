@@ -25,6 +25,8 @@ namespace Phantom
 		public:
 
 			Input(GLFWwindow* window);
+
+			void PollEvents();
 			void UpdateKeys();
 			bool GetKey(int key, KeyState state);
 

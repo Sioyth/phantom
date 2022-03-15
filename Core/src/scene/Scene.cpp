@@ -1,8 +1,7 @@
 #include "Scene.h"
 #include "Entity.h"
-#include "Components/Components.h"
-#include "Renderer.h"
-#include "Input.h"
+#include "../render/Renderer.h"
+#include "../components/Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Phantom

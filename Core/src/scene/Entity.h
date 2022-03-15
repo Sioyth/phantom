@@ -6,7 +6,7 @@
 #include <entt/entt.hpp>
 #include "Scene.h"
 
-#include "components/Transform.h"
+#include "../components/Transform.h"
 
 namespace Phantom {
 	class Entity

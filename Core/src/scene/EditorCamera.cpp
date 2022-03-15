@@ -1,6 +1,6 @@
 #include "EditorCamera.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "Input.h"
+#include "../Input.h"
 
 Phantom::EditorCamera::EditorCamera(float fov)
 {
@@ -31,6 +31,10 @@ const glm::mat4& Phantom::EditorCamera::View()
 
 void Phantom::EditorCamera::Update(const float& dt)
 {
+
+	if (!Input::Instance()->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT, KeyState::PRESS))
+		return;
+
 	static bool firstPass = true;
 	static float lastX;
 	static float lastY;
@@ -46,9 +50,9 @@ void Phantom::EditorCamera::Update(const float& dt)
 		Translate(_right * _speed * dt);
 	//
 	if (Input::Instance()->GetKey(GLFW_KEY_Q, KeyState::PRESS))
-		Translate(-_up * 1.0f * dt);
+		Translate(-_up * _speed * dt);
 	if (Input::Instance()->GetKey(GLFW_KEY_E, KeyState::PRESS))
-		Translate(_up * 1.0f * dt);
+		Translate(_up * _speed * dt);
 
 	float xpos = Input::Instance()->GetMousePos().x;
 	float ypos = Input::Instance()->GetMousePos().y;

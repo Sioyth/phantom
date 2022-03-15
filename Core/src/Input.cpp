@@ -15,6 +15,11 @@ namespace Phantom
 		_window = window;
 	}
 
+	void Input::PollEvents()
+	{
+		glfwPollEvents();
+	}
+
 	void Input::UpdateKeys()
 	{
 		for (const auto& [k, v] : _controls)

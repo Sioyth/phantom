@@ -3,15 +3,14 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="libs\glad.c" />
-    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\scene\Entity.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\shader\Material.cpp" />
     <ClCompile Include="src\shader\UniformValue.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Time.cpp" />
-    <ClCompile Include="src\mesh\Mesh.cpp" />
-    <ClCompile Include="src\mesh\Model.cpp" />
-    <ClCompile Include="src\dump.cpp" />
+    <ClCompile Include="src\render\Mesh.cpp" />
+    <ClCompile Include="src\render\Model.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_draw.cpp" />
@@ -19,13 +18,13 @@
     <ClCompile Include="libs\imgui\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\render\Renderer.cpp" />
+    <ClCompile Include="src\scene\Scene.cpp" />
+    <ClCompile Include="src\scene\SceneManager.cpp" />
     <ClCompile Include="src\components\Transform.cpp" />
     <ClCompile Include="src\components\Camera.cpp" />
     <ClCompile Include="src\UI.cpp" />
-    <ClCompile Include="src\EditorCamera.cpp" />
+    <ClCompile Include="src\scene\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -33,14 +32,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\shader\Shader.h" />
-    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\scene\Entity.h" />
     <ClInclude Include="src\shader\Material.h" />
     <ClInclude Include="src\shader\UniformValue.h" />
     <ClInclude Include="src\shader\IUniformValue.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Time.h" />
-    <ClInclude Include="src\mesh\Mesh.h" />
-    <ClInclude Include="src\mesh\Model.h" />
+    <ClInclude Include="src\render\Mesh.h" />
+    <ClInclude Include="src\render\Model.h" />
     <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />
     <ClInclude Include="libs\imgui\include\imgui\imgui.h" />
     <ClInclude Include="libs\imgui\include\imgui\imgui_impl_glfw.h" />
@@ -49,13 +48,14 @@
     <ClInclude Include="libs\imgui\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_textedit.h" />
     <ClInclude Include="libs\imgui\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\render\Renderer.h" />
+    <ClInclude Include="src\scene\Scene.h" />
     <ClInclude Include="src\components\Components.h" />
-    <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\scene\SceneManager.h" />
     <ClInclude Include="src\components\Transform.h" />
     <ClInclude Include="src\components\Camera.h" />
     <ClInclude Include="src\UI.h" />
-    <ClInclude Include="src\EditorCamera.h" />
+    <ClInclude Include="src\scene\EditorCamera.h" />
+    <ClInclude Include="src\Phantom.h" />
   </ItemGroup>
 </Project>
