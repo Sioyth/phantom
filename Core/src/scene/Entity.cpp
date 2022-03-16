@@ -3,19 +3,14 @@
 
 namespace Phantom {
 
-	Entity::Entity(entt::entity id, Scene* scene)
+	Entity::Entity(entt::registry& registry, std::string name)
 	{
-		_id = id;
-		_scene = scene;
+		_name = name;
+		_registry = &registry;
+		_id = _registry->create();
 
-		//Add and store transform (bug why can't I pass it as reference?)
-		//entity.SetTransform(&entity.AddComponent<Transform>());
-
+		// TODO: BETTER WAY TO DO THIS
 		_transform = &AddComponent<Transform>();
-
-		//// Tag
-		//Tag& tag = entity.AddComponent<Tag>();
-		//tag._name = name.empty() ? "Entity" : name;
 	}
 
 	Transform* Entity::transform()
@@ -39,12 +34,13 @@ namespace Phantom {
 
 		_children.clear();
 	}
-	void Entity::AddChild(Entity& child)
+	void Entity::AddChild(Entity* child)
 	{
-		_children.push_back(&child);
+		child->SetParent(this);
+		_children.push_back(child);
 	}
-	void Entity::SetParent(Entity& parent)
+	void Entity::SetParent(Entity* parent)
 	{
-		_parent = &parent;
+		_parent = parent;
 	}
 }

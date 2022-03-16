@@ -2,10 +2,9 @@
 #define SCENE_H
 #include <entt/entt.hpp>
 #include "EditorCamera.h"
+#include "Entity.h"
 namespace Phantom
 {
-	class Entity;
-
 	class Scene
 	{
 		public:
@@ -14,7 +13,8 @@ namespace Phantom
 
 			void Update(const float& dt);
 			Entity* activeCamera();
-			Entity& CreateEntity(const std::string& name = "");
+			Entity* CreateEntity(const std::string& name = "Empty Entity");
+			inline std::vector<Entity>& Entities() { return _entities; };
 
 		private:
 			Entity* _activeCamera;

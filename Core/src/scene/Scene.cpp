@@ -8,7 +8,7 @@ namespace Phantom
 {
 	Scene::Scene()
 	{
-		_activeCamera = new Entity(_registry.create(), this);
+		_activeCamera = CreateEntity("MainCamera");
 		_activeCamera->AddComponent<Camera>();
 		_activeCamera->transform()->Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));
@@ -31,11 +31,10 @@ namespace Phantom
 		return _activeCamera;
 	}
 
-	Entity& Scene::CreateEntity(const std::string& name)
+	Entity* Scene::CreateEntity(const std::string& name)
 	{
-		Entity entity = Entity( _registry.create(), this);
+		Entity entity = Entity(_registry, name);
 		_entities.push_back(entity);
-		
-		return _entities.back();
+		return &_entities.back();
 	}
 }

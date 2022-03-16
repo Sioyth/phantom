@@ -17,21 +17,26 @@ int main()
 
     // TEMP big temp temp
     Scene scene;
-    Entity entity = scene.CreateEntity();
+    Entity* entity = scene.CreateEntity("Backpack");
     //entity.AddComponent<MeshRenderer>(Phantom::Model("D:\\Dev\\repos\\phantom\\assets\\backpack.obj"));
 
     Mesh planeMesh;
-    Entity plane = scene.CreateEntity();
+    Entity* plane = scene.CreateEntity("Plane");
     //plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
-    plane.AddComponent<MeshRenderer>(planeMesh);
+    plane->AddComponent<MeshRenderer>(planeMesh);
     
-    Entity plane2 = scene.CreateEntity();
-    plane2.GetComponent<Transform>().Scale(glm::vec3(10.0f));
-    plane2.AddComponent<MeshRenderer>(planeMesh);
+    Entity* plane2 = scene.CreateEntity();
+    plane2->GetComponent<Transform>().Scale(glm::vec3(10.0f));
+    plane2->AddComponent<MeshRenderer>(planeMesh);
 
-    Entity light = scene.CreateEntity();
-    light.GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.0f, 2.0f));
-    light.AddComponent<Light>(glm::vec3(1.0f, 1.0f, 1.0f));
+    Entity* light = scene.CreateEntity();
+    light->GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.0f, 2.0f));
+    light->AddComponent<Light>(glm::vec3(1.0f, 1.0f, 1.0f));
+
+    Entity* parent = scene.CreateEntity("Parent");
+    Entity* child = scene.CreateEntity("Children");
+    parent->AddChild(child);
+    //child->SetParent(parent);
 
     SceneManager::AddScene("Default", &scene);
 

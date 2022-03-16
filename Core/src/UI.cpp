@@ -3,7 +3,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-
+#include "scene/Entity.h"
 #include "scene/SceneManager.h"
 
 namespace Phantom
@@ -54,25 +54,38 @@ namespace Phantom
 		NewFrame();
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-		
-		/*ImGui::Begin("Hierarchy");
-		for (int i = 0; i < entities; i++)
-		{
-			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
-			ImGui::TreeNodeEx("Object B");
-			ImGui::TreePop();
-			ImGui::End();
-
-			ImGui::Begin("Components");
-		}*/
-
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
-
+		static Entity* nodeSelected = nullptr;
 		ImGui::Begin("Hierarchy");
-		ImGui::TreeNodeEx("Object A");
-		ImGui::TreeNodeEx("Object B");
-		ImGui::TreeNodeEx("Object C");
+		//Entity* entities = SceneManager::ActiveScene()->Entities();
+			for (int i = 0; i < SceneManager::ActiveScene()->Entities().size(); i++)
+			{
+				//ignore entities with parent;
+				if (SceneManager::ActiveScene()->Entities()[i].Parent())
+					continue;
+
+				// turn this into recursive function
+				ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
+				float childrenSize = SceneManager::ActiveScene()->Entities()[i].Children().size();
+				if(childrenSize > 0)
+					flags = ImGuiTreeNodeFlags_None;
+				
+				ImGui::TreeNodeEx(SceneManager::ActiveScene()->Entities()[i].Name().c_str(), flags);
+				{
+					for (int j = 0; j < SceneManager::ActiveScene()->Entities()[i].Children().size(); j++)
+					{
+						ImGui::TreeNodeEx(SceneManager::ActiveScene()->Entities()[i].Children()[j]->Name().c_str(), ImGuiTreeNodeFlags_Leaf);
+						if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+							nodeSelected = SceneManager::ActiveScene()->Entities()[i].Children()[j];
+					}
+				}
+				if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+					nodeSelected = &SceneManager::ActiveScene()->Entities()[i];
+				ImGui::TreePop();
+			}
+			
 		ImGui::End();
+
+		// ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
 		
 		// temp
 		static bool demo = true;
