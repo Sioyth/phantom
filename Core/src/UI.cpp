@@ -3,6 +3,9 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+
+#include "scene/SceneManager.h"
+
 namespace Phantom
 {
 	bool UI::Init(GLFWwindow* window)
@@ -62,9 +65,15 @@ namespace Phantom
 
 			ImGui::Begin("Components");
 		}*/
-		
-		ImGui::End();
 
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
+
+		ImGui::Begin("Hierarchy");
+		ImGui::TreeNodeEx("Object A");
+		ImGui::TreeNodeEx("Object B");
+		ImGui::TreeNodeEx("Object C");
+		ImGui::End();
+		
 		// temp
 		static bool demo = true;
 		ImGui::ShowDemoWindow(&demo);

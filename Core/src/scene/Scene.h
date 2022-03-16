@@ -13,19 +13,15 @@ namespace Phantom
 			~Scene();
 
 			void Update(const float& dt);
-
-			// TEMP - Should be handled through some sort of SCENE MANAGER instead.
 			Entity* activeCamera();
-			Entity CreateEntity(const std::string& name = std::string());
-
-			/*Scene(const Scene& other) {
-				_registry = other._registry;
-			};*/
+			Entity& CreateEntity(const std::string& name = "");
 
 		private:
-			EditorCamera _editorCamera;
 			Entity* _activeCamera;
 			entt::registry _registry;
+			EditorCamera _editorCamera;
+			std::vector<Entity> _entities;
+
 			friend class Entity;
 			friend class Renderer;
 	};

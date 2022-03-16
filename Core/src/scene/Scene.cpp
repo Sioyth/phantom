@@ -31,9 +31,11 @@ namespace Phantom
 		return _activeCamera;
 	}
 
-	Entity Scene::CreateEntity(const std::string& name)
+	Entity& Scene::CreateEntity(const std::string& name)
 	{
 		Entity entity = Entity( _registry.create(), this);
-		return entity;
+		_entities.push_back(entity);
+		
+		return _entities.back();
 	}
 }

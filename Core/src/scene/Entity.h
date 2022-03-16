@@ -14,8 +14,11 @@ namespace Phantom {
 
 	public:
 		Entity(entt::entity id, Scene* scene);
-		Entity(Entity& other) = default;
-		glm::vec3 _dir = glm::vec3(0.0f, 0.0f, -1.0f);
+		~Entity();
+
+		void AddChild(Entity& child);
+		void SetParent(Entity& parent);
+		void RemoveChild(Entity& child);
 		Transform* transform();
 		void SetTransform(Transform* transform);
 		template<typename Component> bool HasComponent();
@@ -28,13 +31,15 @@ namespace Phantom {
 		
 		Transform* _transform;
 		Scene* _scene = nullptr;
+		Entity* _parent;
+		std::vector<Entity*> _children;
 		entt::entity _id = entt::null;
 	};
 
 	template<typename Component>
 	inline bool Entity::HasComponent()
 	{
-		return _scene->_registry.all_of<Component>();;
+		return _scene->_registry.all_of<Component>();
 	}
 
 	template<typename Component, typename... Args>
