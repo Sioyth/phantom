@@ -10,6 +10,7 @@ namespace Phantom {
 		_id = _registry->create();
 
 		// TODO: BETTER WAY TO DO THIS
+		_parent = nullptr;
 		_transform = &AddComponent<Transform>();
 	}
 
@@ -25,7 +26,8 @@ namespace Phantom {
 
 	Entity::~Entity()
 	{
-		delete _parent;
+		std::cout << "Deleted " + _name << std::endl;
+		//delete _parent;
 		// Loop through vector of pointers, delete each pointer then clear. Otherwise it will have a memory leak
 		for (int i = 0; i < _children.size(); i++)
 		{

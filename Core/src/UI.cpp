@@ -6,8 +6,12 @@
 #include "scene/Entity.h"
 #include "scene/SceneManager.h"
 
+#include <iostream>
+
 namespace Phantom
 {
+	Entity* UI::_nodeSelected = nullptr;
+
 	bool UI::Init(GLFWwindow* window)
 	{
 
@@ -15,10 +19,10 @@ namespace Phantom
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
-		if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) 
+		if (!ImGui_ImplGlfw_InitForOpenGL(window, true))
 			return false;
-		if (!ImGui_ImplOpenGL3_Init()) 
-			return false; 
+		if (!ImGui_ImplOpenGL3_Init())
+			return false;
 
 		ImGui::StyleColorsDark();
 
@@ -41,6 +45,43 @@ namespace Phantom
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
+	void UI::DrawChildren(Entity* entity)
+	{
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+		if (entity == _nodeSelected)
+			flags |= ImGuiTreeNodeFlags_Selected;
+			
+		bool open = ImGui::TreeNodeEx(entity->Name().c_str(), flags);
+		
+		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+			_nodeSelected = entity;
+
+		if(open)
+		{
+			for (int j = 0; j < entity->Children().size(); j++)
+			{
+				auto child = entity->Children()[j];
+				if (child->Children().empty())
+					DrawLeaf(child);
+				else
+					DrawChildren(child);
+			}
+			ImGui::TreePop();
+		}
+	}
+
+	void UI::DrawLeaf(Entity* entity)
+	{
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
+		if (entity == _nodeSelected)
+			flags |= ImGuiTreeNodeFlags_Selected;
+
+		ImGui::TreeNodeEx(entity->Name().c_str(), flags);
+			if (ImGui::IsItemClicked())
+				_nodeSelected = entity;
+		ImGui::TreePop();
+	}
+
 	void UI::ShutDown()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
@@ -50,46 +91,32 @@ namespace Phantom
 
 	void UI::Render()
 	{
-	
+
 		NewFrame();
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-		static Entity* nodeSelected = nullptr;
 		ImGui::Begin("Hierarchy");
-		//Entity* entities = SceneManager::ActiveScene()->Entities();
-			for (int i = 0; i < SceneManager::ActiveScene()->Entities().size(); i++)
-			{
-				//ignore entities with parent;
-				if (SceneManager::ActiveScene()->Entities()[i].Parent())
-					continue;
+		for (int i = 0; i < SceneManager::ActiveScene()->Entities().size(); i++)
+		{
+			auto entity = SceneManager::ActiveScene()->Entities()[i];
+			//ignore entities with parent on first pass;
+			if (entity->Parent())
+				continue;
 
-				// turn this into recursive function
-				ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
-				float childrenSize = SceneManager::ActiveScene()->Entities()[i].Children().size();
-				if(childrenSize > 0)
-					flags = ImGuiTreeNodeFlags_None;
-				
-				ImGui::TreeNodeEx(SceneManager::ActiveScene()->Entities()[i].Name().c_str(), flags);
-				{
-					for (int j = 0; j < SceneManager::ActiveScene()->Entities()[i].Children().size(); j++)
-					{
-						ImGui::TreeNodeEx(SceneManager::ActiveScene()->Entities()[i].Children()[j]->Name().c_str(), ImGuiTreeNodeFlags_Leaf);
-						if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
-							nodeSelected = SceneManager::ActiveScene()->Entities()[i].Children()[j];
-					}
-				}
-				if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
-					nodeSelected = &SceneManager::ActiveScene()->Entities()[i];
-				ImGui::TreePop();
-			}
-			
+			if (entity->Children().empty())
+				DrawLeaf(entity);
+			else
+				DrawChildren(entity);
+		}
 		ImGui::End();
 
-		// ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
-		
+		if(_nodeSelected)
+			std::cout << _nodeSelected->Name() << std::endl;
+
 		// temp
 		static bool demo = true;
 		ImGui::ShowDemoWindow(&demo);
 		EndFrame();
 	}
 }
+

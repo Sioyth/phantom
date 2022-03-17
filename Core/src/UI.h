@@ -4,6 +4,7 @@
 
 namespace Phantom
 {
+	class Entity;
 	class UI
 	{
 		public:
@@ -15,6 +16,10 @@ namespace Phantom
 			static void NewFrame();
 			static void EndFrame();
 		private:
+
+			static void DrawChildren(Entity* entity);
+			static void DrawLeaf(Entity* entity);
+			static Entity* _nodeSelected;
 	};
 }
 

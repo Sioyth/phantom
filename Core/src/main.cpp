@@ -36,6 +36,8 @@ int main()
     Entity* parent = scene.CreateEntity("Parent");
     Entity* child = scene.CreateEntity("Children");
     parent->AddChild(child);
+    Entity* child2 = scene.CreateEntity("Children");
+    child->AddChild(child2);
     //child->SetParent(parent);
 
     SceneManager::AddScene("Default", &scene);

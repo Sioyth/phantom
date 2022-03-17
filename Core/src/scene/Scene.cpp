@@ -33,8 +33,8 @@ namespace Phantom
 
 	Entity* Scene::CreateEntity(const std::string& name)
 	{
-		Entity entity = Entity(_registry, name);
-		_entities.push_back(entity);
-		return &_entities.back();
+		_entities.push_back(new Entity(_registry, name));
+      
+		return 	_entities.back();
 	}
 }
