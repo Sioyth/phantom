@@ -11,6 +11,7 @@
 namespace Phantom
 {
 	Entity* UI::_nodeSelected = nullptr;
+	Entity* UI::_nodeDropped = nullptr;
 
 	bool UI::Init(GLFWwindow* window)
 	{
@@ -50,7 +51,6 @@ namespace Phantom
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		if (entity == _nodeSelected)
 			flags |= ImGuiTreeNodeFlags_Selected;
-			
 		bool open = ImGui::TreeNodeEx(entity->Name().c_str(), flags);
 		
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
@@ -60,25 +60,47 @@ namespace Phantom
 		{
 			for (int j = 0; j < entity->Children().size(); j++)
 			{
-				auto child = entity->Children()[j];
+				Entity* child = entity->Children()[j];
 				if (child->Children().empty())
-					DrawLeaf(child);
+					DrawLeaf(entity->Children()[j]);
 				else
-					DrawChildren(child);
+					DrawChildren(child->Children()[j]);
 			}
 			ImGui::TreePop();
 		}
 	}
-
+	// pass id instead
 	void UI::DrawLeaf(Entity* entity)
-	{
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
+	{;
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_SpanAvailWidth;
 		if (entity == _nodeSelected)
 			flags |= ImGuiTreeNodeFlags_Selected;
 
 		ImGui::TreeNodeEx(entity->Name().c_str(), flags);
 			if (ImGui::IsItemClicked())
 				_nodeSelected = entity;
+
+			if (ImGui::BeginDragDropSource())
+			{
+				ImGui::SetDragDropPayload("moving", nullptr, 0);
+				_nodeDropped = entity;
+				ImGui::Text(entity->Name().c_str());
+				ImGui::EndDragDropSource();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				// Temp, does this by passing Refereces of the Entity UID change parent and children to be UID references
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("moving"))
+				{
+					if (_nodeDropped->Parent())
+						_nodeDropped->Parent()->RemoveChild(_nodeDropped);
+					entity->AddChild(_nodeDropped);
+					_nodeDropped->SetParent(entity);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
 		ImGui::TreePop();
 	}
 
@@ -98,20 +120,29 @@ namespace Phantom
 		ImGui::Begin("Hierarchy");
 		for (int i = 0; i < SceneManager::ActiveScene()->Entities().size(); i++)
 		{
-			auto entity = SceneManager::ActiveScene()->Entities()[i];
+			Entity* entity = SceneManager::ActiveScene()->Entities()[i].get();
 			//ignore entities with parent on first pass;
 			if (entity->Parent())
 				continue;
 
 			if (entity->Children().empty())
+			{
 				DrawLeaf(entity);
+				//ImGui::Separator();
+				////
+				//if (ImGui::BeginDragDropTarget())
+				//{
+				//	ImGui::AcceptDragDropPayload("_TREENODE");
+				//	ImGui::EndDragDropTarget();
+				//}
+			}
 			else
 				DrawChildren(entity);
 		}
 		ImGui::End();
 
-		if(_nodeSelected)
-			std::cout << _nodeSelected->Name() << std::endl;
+		//if(_nodeSelected >= 0)
+			//std::cout << SceneManager::ActiveScene()->Entities()[_nodeSelected]->Name() << std::endl;
 
 		// temp
 		static bool demo = true;

@@ -16,20 +16,21 @@ namespace Phantom {
 
 			Transform* transform();
 			void AddChild(Entity* child);
-			void SetParent(Entity* parent);
+			void SetParent(Entity* child);
 			void RemoveChild(Entity* child);
 			void SetTransform(Transform* transform);
+			inline unsigned int ID() { return _uid; };
 			inline std::string& Name() { return _name; };
-			inline const Entity* Parent() { return _parent; };
+			inline Entity* Parent() { return _parent; };
 			inline std::vector<Entity*>& Children() { return _children; };
 			template<typename Component> bool HasComponent();
 			template<typename Component, typename... Args> Component& AddComponent(Args&&... args);
 			template<typename Component> Component& GetComponent();
 			template<typename Component> void RemoveComponent();
-
 			operator bool() { return _id != entt::null; }
 		private:
 			
+			unsigned int _uid;
 			Entity* _parent;
 			std::string _name;
 			Transform* _transform;

@@ -13,14 +13,14 @@ namespace Phantom
 
 			void Update(const float& dt);
 			Entity* activeCamera();
-			Entity* CreateEntity(const std::string& name = "Empty Entity");
-			inline std::vector<Entity*>& Entities() { return _entities; };
+			std::unique_ptr<Entity>* CreateEntity(const std::string& name = "Empty Entity");
+			inline std::vector<std::unique_ptr<Entity>>& Entities() { return _entities; };
 
 		private:
 			Entity* _activeCamera;
 			entt::registry _registry;
 			EditorCamera _editorCamera;
-			std::vector<Entity*> _entities;
+			std::vector<std::unique_ptr<Entity>> _entities;
 
 			friend class Entity;
 			friend class Renderer;

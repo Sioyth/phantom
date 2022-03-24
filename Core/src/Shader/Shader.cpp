@@ -143,8 +143,8 @@ namespace Phantom
 
 	void Shader::LoadDefaultShaders()
 	{
-		//// TODO: Fix this fucking paths
-		_defaultShader = new Shader("D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.vert", "D:\\Dev\\repos\\phantom\\Core\\src\\Shader\\default.frag");
+		// TODO: Fix this fucking paths
+		_defaultShader = new Shader("C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.vert", "C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.frag");
 	}
 	Shader& Shader::CurrentShader()
 	{

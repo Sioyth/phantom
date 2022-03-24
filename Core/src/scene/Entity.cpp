@@ -29,20 +29,30 @@ namespace Phantom {
 		std::cout << "Deleted " + _name << std::endl;
 		//delete _parent;
 		// Loop through vector of pointers, delete each pointer then clear. Otherwise it will have a memory leak
-		for (int i = 0; i < _children.size(); i++)
+		/*for (int i = 0; i < _children.size(); i++)
 		{
 			delete _children[i];
-		}
+		}*/
 
 		_children.clear();
 	}
 	void Entity::AddChild(Entity* child)
 	{
-		child->SetParent(this);
+		std::cout << "Child: " << child->Name() << std::endl;
 		_children.push_back(child);
+
 	}
 	void Entity::SetParent(Entity* parent)
 	{
+		//parent->AddChild(this);
 		_parent = parent;
+		//parent.get.add
+		std::cout << "Parent: " << _parent->Name() << std::endl;
+	}
+	void Entity::RemoveChild(Entity* child)
+	{
+		auto it = std::find(_children.begin(), _children.end(), child);
+		if(it != _children.end())
+			_children.erase(it);
 	}
 }

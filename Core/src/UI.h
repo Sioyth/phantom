@@ -20,6 +20,7 @@ namespace Phantom
 			static void DrawChildren(Entity* entity);
 			static void DrawLeaf(Entity* entity);
 			static Entity* _nodeSelected;
+			static Entity* _nodeDropped; // Temp
 	};
 }
 
