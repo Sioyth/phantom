@@ -18,6 +18,7 @@ namespace Phantom
 		vertexShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 		fragmentShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
+		
 		try
 		{
 			// Open files
@@ -26,6 +27,7 @@ namespace Phantom
 
 			if (!vertexShaderFile.is_open())
 			{
+				std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_OPENED" << std::endl;
 				return; //if cannot find file, all of the time
 			}
 
@@ -143,8 +145,7 @@ namespace Phantom
 
 	void Shader::LoadDefaultShaders()
 	{
-		// TODO: Fix this fucking paths
-		_defaultShader = new Shader("C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.vert", "C:\\Users\\Joao Parreira\\source\\repos\\Phantom\\Core\\src\\Shader\\default.frag");
+		_defaultShader = new Shader("shader/default.vert", "shader/default.frag");
 	}
 	Shader& Shader::CurrentShader()
 	{
