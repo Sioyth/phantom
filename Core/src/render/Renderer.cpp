@@ -10,8 +10,10 @@ namespace Phantom
 
 	Renderer::Renderer()
 	{
-		if(!_instance)
-			_instance = this;
+        if (!_instance)
+            _instance = this;
+        else
+            std::cout << "ERROR::RENDERER::ALREADY_EXISTS" << std::endl;
 
         _window = nullptr;
         _width = 800.0f;
@@ -53,6 +55,7 @@ namespace Phantom
         glDepthFunc(GL_LESS);
 
         Shader::LoadDefaultShaders();
+        SetupFrameBuffer();
 		return true;
 	}
 
@@ -103,12 +106,38 @@ namespace Phantom
         meshRenderer._material.Apply();
         meshRenderer._model.Draw(meshRenderer._material.GetShader());
 	}
+    void Renderer::SetupFrameBuffer()
+    {
+        // temp fbo
+        glGenFramebuffers(1, &_fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            std::cout << "RENDERER::FRAMEBUFFER::ERROR" << std::endl;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glGenTextures(1, &_fboTexture);
+        glBindTexture(GL_TEXTURE_2D, _fboTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fboTexture, 0);
+
+        unsigned int rbo;
+        glGenRenderbuffers(1, &rbo);
+        glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+    }
     Renderer& Renderer::Instance()
     {
         return *_instance;
     }
     void Renderer::Draw(Scene& scene)
     {
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+
         const auto& lights = scene._registry.view<Light, Transform>();
         for (auto entity : lights)
         {
@@ -122,5 +151,7 @@ namespace Phantom
             const auto& [transform, mesh] = meshes.get<Transform, MeshRenderer>(entity);
             Renderer::Instance().DrawMesh(transform, mesh, scene);
         }
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 }

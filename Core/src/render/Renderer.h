@@ -28,14 +28,19 @@ namespace Phantom
 		static Renderer& Instance();
 		inline GLFWwindow* window() { return _window; };
 	private:
+		
 		float _width;
 		float _height;
 		glm::mat4 _mvp;
+		unsigned int _fbo;
+		unsigned int _fboTexture;
 		GLFWwindow* _window;
 		static Renderer* _instance;
 
 		void DrawLight(Transform& transform, Light& light);
 		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene);
+
+		void SetupFrameBuffer();
 	};
 }
 
