@@ -4,6 +4,10 @@
 #include "../scene/Entity.h"
 #include "../scene/Scene.h"
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 namespace Phantom
 {
     Renderer* Renderer::_instance = nullptr;
@@ -16,8 +20,8 @@ namespace Phantom
             std::cout << "ERROR::RENDERER::ALREADY_EXISTS" << std::endl;
 
         _window = nullptr;
-        _width = 800.0f;
-        _height = 600.0f;
+        _width = 1920.0f;
+        _height = 1080.0f;
         _mvp = glm::mat4(1.0f);
 	}
 
@@ -55,7 +59,8 @@ namespace Phantom
         glDepthFunc(GL_LESS);
 
         Shader::LoadDefaultShaders();
-        SetupFrameBuffer();
+
+        _colorFrameBuffer.Create(800, 600);
 		return true;
 	}
 
@@ -89,15 +94,7 @@ namespace Phantom
 	{
         //temp
         // if not editor ...
-        
-       /* Camera& cam = Scene._activeCamera->GetComponent<Camera>();
-        cam.CalculateMatrices(*Scene._activeCamera->transform());
-        glm::mat4 mvp = cam.proj() * cam.view() * model.matrix();*/
-           
-        /*meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
-        meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
-        meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.transform());*/
-
+        //Scene._editorCamera.SetAspect(_colorFrameBuffer.Witdh() / _colorFrameBuffer.Height());
         glm::mat4 mvp = Scene._editorCamera.Proj() * Scene._editorCamera.View() * model.matrix();
         meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
         meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
@@ -106,38 +103,15 @@ namespace Phantom
         meshRenderer._material.Apply();
         meshRenderer._model.Draw(meshRenderer._material.GetShader());
 	}
-    void Renderer::SetupFrameBuffer()
-    {
-        // temp fbo
-        glGenFramebuffers(1, &_fbo);
-        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            std::cout << "RENDERER::FRAMEBUFFER::ERROR" << std::endl;
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        glGenTextures(1, &_fboTexture);
-        glBindTexture(GL_TEXTURE_2D, _fboTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fboTexture, 0);
-
-        unsigned int rbo;
-        glGenRenderbuffers(1, &rbo);
-        glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-    }
     Renderer& Renderer::Instance()
     {
         return *_instance;
     }
     void Renderer::Draw(Scene& scene)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-
+        _colorFrameBuffer.Bind();
+        Clear(glm::vec4(0.5f, 0.2f, 0.8f, 1.0f));
         const auto& lights = scene._registry.view<Light, Transform>();
         for (auto entity : lights)
         {
@@ -151,7 +125,6 @@ namespace Phantom
             const auto& [transform, mesh] = meshes.get<Transform, MeshRenderer>(entity);
             Renderer::Instance().DrawMesh(transform, mesh, scene);
         }
-
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        _colorFrameBuffer.Unbind();
     }
 }

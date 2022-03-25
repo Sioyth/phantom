@@ -7,11 +7,12 @@ namespace Phantom {
 	class EditorCamera
 	{
 		public:
-			EditorCamera(float fov = 50.0f);
+			EditorCamera(float aspect = 800/600, float fov = 50.0f);
 			inline const glm::vec3& position() { return _position; };
 			inline const glm::vec3& forward() { return _forward; };
 
 			void Translate(const glm::vec3& translation);
+			inline void SetAspect(float aspect) { _aspect = aspect; };
 			inline void SetForward(const glm::vec3& forward) { _forward = forward; };
 
 			const glm::mat4& Proj();
@@ -25,6 +26,7 @@ namespace Phantom {
 
 			float _fov;
 			float _speed;
+			float _aspect;
 			glm::vec3 _up;
 			glm::vec3 _right;
 			glm::vec3 _forward;

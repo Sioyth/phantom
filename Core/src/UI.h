@@ -1,6 +1,7 @@
 #ifndef UI_H
 #define UI_H
-#include <glfw/glfw3.h>
+//temp
+#include "render/Renderer.h"
 
 namespace Phantom
 {
@@ -20,7 +21,10 @@ namespace Phantom
 			static void DrawChildren(Entity* entity);
 			static void DrawLeaf(Entity* entity);
 			static Entity* _nodeSelected;
-			static Entity* _nodeDropped; // Temp
+
+			// Temp
+			static glm::vec2 currentViewPortSize; 
+			static Entity* _nodeDropped;
 	};
 }
 

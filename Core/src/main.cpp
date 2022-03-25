@@ -47,7 +47,6 @@ int main()
     {
         // Update Delta Time;
         Time::UpdateDeltaTime(glfwGetTime());
-        Renderer::Instance().Clear(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
         SceneManager::ActiveScene()->Update(Time::DeltaTime());
         UI::Render();
 

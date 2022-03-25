@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\render\FrameBuffer.cpp" />
     <ClCompile Include="src\scene\EditorCamera.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui_demo.cpp" />
@@ -49,6 +50,7 @@
     <None Include="src\shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\render\FrameBuffer.h" />
     <ClInclude Include="src\scene\EditorCamera.h" />
     <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />
     <ClInclude Include="libs\imgui\include\imgui\imgui.h" />

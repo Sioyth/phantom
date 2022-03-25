@@ -12,6 +12,7 @@ namespace Phantom
 {
 	Entity* UI::_nodeSelected = nullptr;
 	Entity* UI::_nodeDropped = nullptr;
+	glm::vec2 UI::currentViewPortSize;
 
 	bool UI::Init(GLFWwindow* window)
 	{
@@ -141,12 +142,23 @@ namespace Phantom
 		}
 		ImGui::End();
 
-		//if(_nodeSelected >= 0)
-			//std::cout << SceneManager::ActiveScene()->Entities()[_nodeSelected]->Name() << std::endl;
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+		ImGui::Begin("Scene ViewPort");
+		ImVec2 imvpSize = ImGui::GetContentRegionAvail();
+			glm::vec2 newViewPortSize = { imvpSize.x, imvpSize.y };
 
-		// temp
-		static bool demo = true;
-		ImGui::ShowDemoWindow(&demo);
+			ImGui::Image((void*)Renderer::Instance().ColorFrameBuffer().Texture(), imvpSize, ImVec2(0, 1), ImVec2(1, 0));
+			if (newViewPortSize != currentViewPortSize)
+			{
+				currentViewPortSize = newViewPortSize;
+				//Renderer::Instance().ColorFrameBuffer().Resize(currentViewPortSize.x, currentViewPortSize.y);
+				std::cout << "Resize" << std::endl;
+			}
+		ImGui::End();
+		ImGui::PopStyleVar();
+
+		/*static bool demo = true;
+		ImGui::ShowDemoWindow(&demo);*/
 		EndFrame();
 	}
 }
