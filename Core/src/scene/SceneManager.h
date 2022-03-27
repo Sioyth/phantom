@@ -7,11 +7,11 @@ namespace Phantom
 	class SceneManager
 	{
 		public:
-			inline static Scene* ActiveScene() { return _activeScene; };
+			static Scene* CurrentScene();
 			static void ChangeScene(const std::string& name);
 			static void AddScene(const std::string& name, Scene* scene = new Scene());
 		private:
-			static Scene* _activeScene;
+			static Scene* _currentScene;
 			static std::map<std::string, Scene*> _scenes;
 	};
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ui\SceneHierarchy.cpp" />
     <ClCompile Include="src\ui\SceneViewPort.cpp" />
     <ClCompile Include="src\EditorLayer.cpp" />
@@ -47,12 +48,14 @@
     <ClCompile Include="src\shader\UniformValue.cpp" />
     <ClCompile Include="src\Time.cpp" />
     <ClCompile Include="src\UI.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.frag" />
     <None Include="src\shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\ui\SceneHierarchy.h" />
     <ClInclude Include="src\ui\SceneViewPort.h" />
     <ClInclude Include="src\EditorLayer.h" />
@@ -83,6 +86,7 @@
     <ClInclude Include="src\shader\UniformValue.h" />
     <ClInclude Include="src\Time.h" />
     <ClInclude Include="src\UI.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

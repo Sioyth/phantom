@@ -18,10 +18,10 @@ namespace Phantom
 		Load(path);
 	}
 
-	void Model::Draw(Shader& shader)
+	void Model::Render(Shader& shader)
 	{
 		for (unsigned int i = 0; i < _meshes.size(); i++)
-			_meshes[i].Draw(shader);
+			_meshes[i].Render(shader);
 	}
 
 	void Model::AddMesh(Mesh& mesh)

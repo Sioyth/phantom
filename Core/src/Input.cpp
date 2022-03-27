@@ -6,15 +6,6 @@ namespace Phantom
 	Input* Input::_instance = nullptr;
 	GLFWwindow* Input::_window = nullptr;
 
-	Input::Input(GLFWwindow* window)
-	{
-		if (_instance != nullptr)
-			return;
-
-		_instance = this;
-		_window = window;
-	}
-
 	void Input::PollEvents()
 	{
 		glfwPollEvents();
@@ -49,6 +40,12 @@ namespace Phantom
 		else
 			return false;
 		return false;
+	}
+	Input* Input::Instance()
+	{
+		if (_instance == nullptr)
+			_instance = new Input();
+		return _instance;
 	}
 }
 

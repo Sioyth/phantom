@@ -20,7 +20,6 @@ void Phantom::FrameBuffer::Resize(const unsigned int& width, const unsigned int&
 
 bool Phantom::FrameBuffer::Create(const unsigned int& width, const unsigned int& heigth)
 {
-    // temp fbo
     _width = width;
     _height = heigth;
     glGenFramebuffers(1, &_id);

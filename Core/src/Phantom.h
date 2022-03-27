@@ -1,6 +1,7 @@
 #pragma once
 
 // PHANTOM.H include
+#include "Window.h"
 
 //-------Render-------
 #include "render/Model.h"

@@ -8,7 +8,7 @@ namespace Phantom
 	class Scene
 	{
 		public:
-			Scene();
+			Scene(bool stock = false);
 			~Scene();
 
 			void Update(const float& dt);
@@ -19,7 +19,6 @@ namespace Phantom
 		private:
 			Entity* _activeCamera;
 			entt::registry _registry;
-			EditorCamera _editorCamera;
 			std::vector<std::unique_ptr<Entity>> _entities;
 
 			friend class Entity;

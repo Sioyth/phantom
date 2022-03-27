@@ -13,7 +13,7 @@ namespace Phantom
 		public:
 			Model(Mesh& mesh);
 			Model(std::string path);
-			void Draw(Shader& shader);
+			void Render(Shader& shader);
 			void AddMesh(Mesh& mesh);
 		private:
 

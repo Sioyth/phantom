@@ -14,7 +14,7 @@ namespace Phantom
 		Setup();
 	}
 
-	void Mesh::Draw(Shader& shader)
+	void Mesh::Render(Shader& shader)
 	{
 		if (_textures.size() > 0)
 		{

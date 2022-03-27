@@ -29,6 +29,8 @@
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\ui\SceneViewPort.cpp" />
     <ClCompile Include="src\ui\SceneHierarchy.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -65,5 +67,7 @@
     <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\ui\SceneViewPort.h" />
     <ClInclude Include="src\ui\SceneHierarchy.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Application.h" />
   </ItemGroup>
 </Project>

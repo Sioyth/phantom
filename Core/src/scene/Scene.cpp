@@ -6,13 +6,30 @@
 
 namespace Phantom
 {
-	Scene::Scene()
+	Scene::Scene(bool stock)
 	{
 		/*_activeCamera = CreateEntity("MainCamera");
 		_activeCamera->AddComponent<Camera>();
 		_activeCamera->transform()->Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));*/
 		//_editorCamera.Translate(glm::vec3(0.0f, 2.0f, 10.0f));
+
+		if (!stock)
+			return;
+
+		Mesh planeMesh;
+	  Entity* plane = CreateEntity("Plane")->get();
+	  //plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
+	  plane->AddComponent<MeshRenderer>(planeMesh);
+  
+	  Entity* plane2 = CreateEntity()->get();
+	  plane2->GetComponent<Transform>().Scale(glm::vec3(10.0f));
+	  plane2->AddComponent<MeshRenderer>(planeMesh);
+
+	  Entity* light = CreateEntity()->get();
+	  light->GetComponent<Transform>().Translate(glm::vec3(0.0f, 1.0f, 2.0f));
+	  light->AddComponent<Light>(glm::vec3(1.0f, 0.0f, 1.0f));
+
 	}
 
 	Scene::~Scene()
@@ -22,8 +39,7 @@ namespace Phantom
 
 	void Scene::Update(const float& dt)
 	{
-		_editorCamera.Update(dt);
-		Renderer::Instance().Draw(*this);
+		//Renderer::Instance().Render(*this);
 	}
 
 	Entity* Scene::activeCamera()

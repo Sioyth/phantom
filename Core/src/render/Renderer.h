@@ -7,6 +7,7 @@
 #include "../components/Components.h"
 #include "../components/Transform.h"
 #include "../components/Camera.h"
+#include "../scene/EditorCamera.h"
 #include "FrameBuffer.h"
 
 namespace Phantom
@@ -17,33 +18,17 @@ namespace Phantom
 	{
 	public:
 		Renderer();
-		bool Init(int width = 800, int heigth = 600);
 
-		void SwapBuffers();
-		void Draw(Scene& scene);
+		void Render(Scene& scene, EditorCamera& camera);
 		void Clear(glm::vec4 color = glm::vec4(0.0f));
+		static Renderer* Instance();
 
-		void SetCursorMode(bool enabled);
-		inline bool ShouldClose() { return glfwWindowShouldClose(_window); };
-		static Renderer& Instance();
-		inline GLFWwindow* window() { return _window; };
-
-		// temp 
-		inline const float&  Witdh() { return _width; }
-		inline const float&  Height() { return _height; }
-		inline FrameBuffer& ColorFrameBuffer() { return _colorFrameBuffer; }
 	private:
 		
-		//temp width height mvoe to window or something class
-		float _width;
-		float _height;
-		glm::mat4 _mvp;
-		GLFWwindow* _window;
-		FrameBuffer _colorFrameBuffer;
 		static Renderer* _instance;
 
 		void DrawLight(Transform& transform, Light& light);
-		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene);
+		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene, EditorCamera& camera);
 	};
 }
 

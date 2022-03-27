@@ -7,6 +7,7 @@ namespace Phantom
 	class EditorLayer
 	{
 		public:
+			EditorLayer();
 			void Update(const float& dt);
 			static EditorLayer* Instance();
 		private:

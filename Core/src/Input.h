@@ -24,8 +24,6 @@ namespace Phantom
 	{
 		public:
 
-			Input(GLFWwindow* window);
-
 			void PollEvents();
 			void UpdateKeys();
 			bool GetKey(int key, KeyState state);
@@ -33,13 +31,15 @@ namespace Phantom
 			const glm::vec2 &GetMousePos();
 			bool GetMouseButton(int key, KeyState state); //GetMouseKey?
 
-			inline static Input* Instance() { return _instance; };
-			inline static void SetWindow(GLFWwindow* window) { _window = window; }
+			static Input* Instance();
 
 		private:
 			static Input* _instance;
 			static GLFWwindow* _window;
 			std::map <std::string, Control> _controls;
+			inline static void SetWindow(GLFWwindow& window) { _window = &window; }
+
+			friend class Application;
 	};
 }
 
