@@ -12,6 +12,7 @@ namespace Phantom
 		_activeCamera->AddComponent<Camera>();
 		_activeCamera->transform()->Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));*/
+		//_editorCamera.Translate(glm::vec3(0.0f, 2.0f, 10.0f));
 	}
 
 	Scene::~Scene()

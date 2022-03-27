@@ -26,6 +26,9 @@
     <ClCompile Include="src\UI.cpp" />
     <ClCompile Include="src\scene\EditorCamera.cpp" />
     <ClCompile Include="src\render\FrameBuffer.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\ui\SceneViewPort.cpp" />
+    <ClCompile Include="src\ui\SceneHierarchy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -59,5 +62,8 @@
     <ClInclude Include="src\scene\EditorCamera.h" />
     <ClInclude Include="src\Phantom.h" />
     <ClInclude Include="src\render\FrameBuffer.h" />
+    <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\ui\SceneViewPort.h" />
+    <ClInclude Include="src\ui\SceneHierarchy.h" />
   </ItemGroup>
 </Project>

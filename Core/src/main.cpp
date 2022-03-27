@@ -47,6 +47,7 @@ int main()
     {
         // Update Delta Time;
         Time::UpdateDeltaTime(glfwGetTime());
+        //EditorLayer::Instance()->Update(Time::DeltaTime());
         SceneManager::ActiveScene()->Update(Time::DeltaTime());
         UI::Render();
 

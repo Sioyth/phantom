@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\SceneHierarchy.cpp" />
+    <ClCompile Include="src\ui\SceneViewPort.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\render\FrameBuffer.cpp" />
     <ClCompile Include="src\scene\EditorCamera.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
@@ -50,6 +53,9 @@
     <None Include="src\shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ui\SceneHierarchy.h" />
+    <ClInclude Include="src\ui\SceneViewPort.h" />
+    <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\render\FrameBuffer.h" />
     <ClInclude Include="src\scene\EditorCamera.h" />
     <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />

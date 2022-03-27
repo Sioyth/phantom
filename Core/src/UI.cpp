@@ -148,12 +148,12 @@ namespace Phantom
 			glm::vec2 newViewPortSize = { imvpSize.x, imvpSize.y };
 
 			ImGui::Image((void*)Renderer::Instance().ColorFrameBuffer().Texture(), imvpSize, ImVec2(0, 1), ImVec2(1, 0));
-			if (newViewPortSize != currentViewPortSize)
-			{
-				currentViewPortSize = newViewPortSize;
-				//Renderer::Instance().ColorFrameBuffer().Resize(currentViewPortSize.x, currentViewPortSize.y);
-				std::cout << "Resize" << std::endl;
-			}
+			//if (newViewPortSize != currentViewPortSize)
+			//{
+			//	currentViewPortSize = newViewPortSize;
+			//	//Renderer::Instance().ColorFrameBuffer().Resize(currentViewPortSize.x, currentViewPortSize.y);
+			//	std::cout << "Resize" << std::endl;
+			//}
 		ImGui::End();
 		ImGui::PopStyleVar();
 

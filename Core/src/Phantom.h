@@ -13,4 +13,7 @@
 //-------UTIL-------
 #include "Input.h"
 #include "Time.h"
+
+//-------Editor-------
+#include "EditorLayer.h"
 #include "UI.h"

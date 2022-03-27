@@ -7,7 +7,7 @@ namespace Phantom {
 	class EditorCamera
 	{
 		public:
-			EditorCamera(float aspect = 800/600, float fov = 50.0f);
+			EditorCamera(float aspect = 800.0f/600.0f, float fov = 50.0f);
 			inline const glm::vec3& position() { return _position; };
 			inline const glm::vec3& forward() { return _forward; };
 
