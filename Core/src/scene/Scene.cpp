@@ -17,7 +17,7 @@ namespace Phantom
 		if (!stock)
 			return;
 
-		Mesh planeMesh;
+	  Mesh planeMesh = Mesh(Primitive::Plane);
 	  Entity* plane = CreateEntity("Plane")->get();
 	  //plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
 	  plane->AddComponent<MeshRenderer>(planeMesh);
@@ -39,7 +39,7 @@ namespace Phantom
 
 	void Scene::Update(const float& dt)
 	{
-		//Renderer::Instance().Render(*this);
+		
 	}
 
 	Entity* Scene::activeCamera()

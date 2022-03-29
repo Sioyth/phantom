@@ -27,7 +27,7 @@ namespace Phantom
     {
         Shader::CurrentShader().SendUniformData("_light._color", light._color);
         Shader::CurrentShader().SendUniformData("_light._position", transform.position());
-        Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f);
+        Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f); // hardcoded for now
     }
 
 	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& Scene, EditorCamera& camera)
@@ -52,7 +52,7 @@ namespace Phantom
     }
     void Renderer::Render(Scene& scene, EditorCamera& camera)
     {
-        Clear(glm::vec4(0.5f, 0.2f, 0.8f, 1.0f));
+        Clear(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         const auto& lights = scene._registry.view<Light, Transform>();
         for (auto entity : lights)
         {

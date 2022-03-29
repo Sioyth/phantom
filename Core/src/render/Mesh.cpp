@@ -2,10 +2,24 @@
 #include <iostream>
 namespace Phantom
 {
-	Mesh::Mesh()
+	Mesh::Mesh(Primitive type)
 	{
-		Plane();
+		switch (type)
+		{
+		case Phantom::Plane:
+			Plane();
+			break;
+		case Phantom::Cube:
+			break;
+		case Phantom::Sphere:
+			break;
+		case Phantom::Cylinder:
+			break;
+		default:
+			break;
+		}
 	}
+
 	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 	{
 		_vertices = vertices;

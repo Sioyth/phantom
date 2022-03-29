@@ -2,10 +2,14 @@
 #include <iostream>
 namespace Phantom
 {
+    Application::Application()
+    {
+        Start();
+    }
+
     void Application::Start()
     {
         _window.Create();
-        LoadGlad();
 
         Input::Instance()->SetWindow(_window.Handle());
         UI::Init(_window.Handle());
@@ -24,28 +28,9 @@ namespace Phantom
         }
     }
 
-    Application::Application()
-    {
-        Start();
-    }
-
-    void Application::LoadGlad()
-    {
-        // Glad
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            std::cout << "Failed to initialize GLAD" << std::endl;
-            //quit
-        }
-
-        // temp
-        glViewport(0, 0, 800, 600);
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-    }
-
     void Application::Quit()
     {
+        UI::ShutDown();
     }
 
     Application::~Application()

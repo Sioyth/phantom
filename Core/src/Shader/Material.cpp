@@ -6,7 +6,7 @@ namespace Phantom
 	{
 		_color = glm::vec3(1.0f, 1.0f, 1.0f);
 		_shader = &Shader::GetDefault();
-		_ambientReflectance = 0.2f;
+		_ambientReflectance = 1.0f;
 		_diffuseReflectance = 0.5f;
 		_specularReflectance = 0.7f;
 		_specularExponent = 20.0f;

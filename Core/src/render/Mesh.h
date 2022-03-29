@@ -26,10 +26,12 @@ namespace Phantom
 		std::string path;
 	};
 
+	enum Primitive {Plane, Cube, Sphere, Cylinder};
+
 	class Mesh
 	{
 	public:
-		Mesh();
+		Mesh(Primitive type);
 		Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 		void Render(Shader& shader);
 

@@ -1,5 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include <glm/vec2.hpp>
 

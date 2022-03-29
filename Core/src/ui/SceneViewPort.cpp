@@ -14,8 +14,10 @@ namespace Phantom
 
 	void SceneViewPort::Render()
 	{
+		//ImGui::SetWindowSize(ImVec2(200, 200));
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-		ImGui::Begin("Scene ViewPort");
+		static bool x = false;
+		ImGui::Begin("Scene ViewPort", &x);
 		ImVec2 imvpSize = ImGui::GetContentRegionAvail();
 		glm::vec2 newViewPortSize = { imvpSize.x, imvpSize.y };
 

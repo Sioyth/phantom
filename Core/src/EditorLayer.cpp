@@ -13,6 +13,7 @@ namespace Phantom
 	EditorLayer::EditorLayer()
 	{
 		SceneViewPort::Init();
+		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 	}
 
 	void EditorLayer::Update(const float& dt)

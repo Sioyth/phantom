@@ -11,6 +11,8 @@ namespace Phantom
 			static void EndFrame();
 			static void ShutDown();
 			static bool Init(GLFWwindow& window);
+	private:
+			static void SetDefaultTheme();
 	};
 }
 
