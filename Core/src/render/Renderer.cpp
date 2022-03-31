@@ -30,14 +30,15 @@ namespace Phantom
         Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f); // hardcoded for now
     }
 
-	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& Scene, EditorCamera& camera)
+	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& Scene, EditorCamera& camera, const float& aspectRatio)
 	{
         //temp
         // if not editor ...
         //Scene._editorCamera.SetAspect(_colorFrameBuffer.Witdh() / _colorFrameBuffer.Height());
+        camera.SetAspectRatio(aspectRatio);
         glm::mat4 mvp = camera.Proj() * camera.View() * model.matrix();
-        meshRenderer._material.GetShader().SendUniformData("mvp", mvp);
-        meshRenderer._material.GetShader().SendUniformData("model", model.matrix());
+        meshRenderer._material.GetShader().SendUniformData("mvp", mvp); // change it to just mv.
+        meshRenderer._material.GetShader().SendUniformData("model", model.matrix()); 
         meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.position());
 
         meshRenderer._material.Apply();
@@ -50,7 +51,7 @@ namespace Phantom
             _instance = new Renderer();
         return _instance;
     }
-    void Renderer::Render(Scene& scene, EditorCamera& camera)
+    void Renderer::Render(Scene& scene, EditorCamera& camera, const float& aspectRatio)
     {
         Clear(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
         const auto& lights = scene._registry.view<Light, Transform>();
@@ -64,7 +65,7 @@ namespace Phantom
         for (auto entity : meshes)
         {
             const auto& [transform, mesh] = meshes.get<Transform, MeshRenderer>(entity);
-            DrawMesh(transform, mesh, scene, camera);
+            DrawMesh(transform, mesh, scene, camera, aspectRatio);
         }
     }
 }

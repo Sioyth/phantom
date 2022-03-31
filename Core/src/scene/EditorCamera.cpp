@@ -6,11 +6,11 @@ Phantom::EditorCamera::EditorCamera(float aspect, float fov)
 {
 	_fov = fov;
 	_speed = 5.0f;
-	_aspect = aspect;
+	_aspectRatio = aspect;
 	_position = glm::vec3(0.0f);
 	_forward = glm::vec3(0.0f, 0.0f, -1.0f);
 	
-	_proj = glm::perspective(glm::radians(_fov), _aspect, 0.1f, 100.0f);
+	_proj = glm::perspective(glm::radians(_fov), _aspectRatio, 0.1f, 100.0f);
 	_view = glm::lookAt(_position, _position + _forward, _up);
 	UpdateDirs();
 }
@@ -22,7 +22,7 @@ void Phantom::EditorCamera::Translate(const glm::vec3& translation)
 
 const glm::mat4& Phantom::EditorCamera::Proj()
 {
-	return glm::perspective(glm::radians(_fov), _aspect, 0.1f, 100.0f);
+	return glm::perspective(glm::radians(_fov), _aspectRatio, 0.1f, 100.0f);
 }
 const glm::mat4& Phantom::EditorCamera::View()
 {

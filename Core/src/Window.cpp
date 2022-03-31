@@ -6,8 +6,8 @@ namespace Phantom
 
     bool Window::Create()
     {
-        _viewPort.x = 800;
-        _viewPort.y = 600;
+        _viewPort.x = 1280;
+        _viewPort.y = 800;
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

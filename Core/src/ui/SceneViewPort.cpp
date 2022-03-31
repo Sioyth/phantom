@@ -4,30 +4,39 @@
 
 namespace Phantom
 {
-	FrameBuffer SceneViewPort::_sceneBuffer;
+	float SceneViewPort::_aspectRatio;
 	glm::vec2 SceneViewPort::_viewPortSize;
+	FrameBuffer SceneViewPort::_sceneBuffer;
 
-	void SceneViewPort::Init()
+	void SceneViewPort::Init(const float& width, const float& height)
 	{
-		_sceneBuffer.Create(800, 600);
+		Init(glm::vec2(width, height));
+	}
+
+	void SceneViewPort::Init(const glm::vec2& viewPortSize)
+	{
+		_viewPortSize = viewPortSize;
+		_sceneBuffer.Create(_viewPortSize.x, _viewPortSize.y);
+		_aspectRatio = (float)_viewPortSize.x / (float)_viewPortSize.y;
+		std::cout << "Aspect Ratio: " << _aspectRatio << std::endl;
 	}
 
 	void SceneViewPort::Render()
 	{
-		//ImGui::SetWindowSize(ImVec2(200, 200));
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-		static bool x = false;
-		ImGui::Begin("Scene ViewPort", &x);
-		ImVec2 imvpSize = ImGui::GetContentRegionAvail();
-		glm::vec2 newViewPortSize = { imvpSize.x, imvpSize.y };
+		ImGui::SetNextWindowSize(ImVec2(_viewPortSize.x, _viewPortSize.y), ImGuiCond_FirstUseEver);
+		ImGui::Begin("Scene ViewPort");
 
-		ImGui::Image((void*)_sceneBuffer.Texture(), imvpSize, ImVec2(0, 1), ImVec2(1, 0));
-		if (newViewPortSize != _viewPortSize)
-		{
-			_viewPortSize = newViewPortSize;
-			//Renderer::Instance().ColorFrameBuffer().Resize(currentViewPortSize.x, currentViewPortSize.y);
-			//std::cout << "Resize" << std::endl;
-		}
+			ImVec2 imvpSize = ImGui::GetContentRegionAvail();
+			glm::vec2 newViewPortSize = { imvpSize.x, imvpSize.y };
+			ImGui::Image((void*)_sceneBuffer.Texture(), imvpSize, ImVec2(0, 1), ImVec2(1, 0));
+			if (newViewPortSize != _viewPortSize)
+			{
+				_viewPortSize = newViewPortSize;
+				_sceneBuffer.Resize(_viewPortSize);
+				_aspectRatio = (float)_viewPortSize.x / (float)_viewPortSize.y;
+			}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}

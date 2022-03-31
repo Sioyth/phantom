@@ -12,7 +12,7 @@ namespace Phantom
 
 	EditorLayer::EditorLayer()
 	{
-		SceneViewPort::Init();
+		SceneViewPort::Init(800, 600);
 		_editorCamera.Translate(glm::vec3(0.0f, 1.0f, 10.0f));
 	}
 
@@ -21,7 +21,7 @@ namespace Phantom
 		_editorCamera.Update(dt);
 
 		SceneViewPort::BindFrameBuffer();
-		Renderer::Instance()->Render(*SceneManager::CurrentScene(), _editorCamera);
+		Renderer::Instance()->Render(*SceneManager::CurrentScene(), _editorCamera, SceneViewPort::GetAspectRatio());
 		SceneViewPort::UnbindFrameBuffer();
 
 		// ui

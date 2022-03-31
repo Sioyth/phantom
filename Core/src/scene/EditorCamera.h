@@ -12,7 +12,7 @@ namespace Phantom {
 			inline const glm::vec3& forward() { return _forward; };
 
 			void Translate(const glm::vec3& translation);
-			inline void SetAspect(float aspect) { _aspect = aspect; };
+			inline void SetAspectRatio(const float& aspect) { _aspectRatio = aspect; };
 			inline void SetForward(const glm::vec3& forward) { _forward = forward; };
 
 			const glm::mat4& Proj();
@@ -26,7 +26,7 @@ namespace Phantom {
 
 			float _fov;
 			float _speed;
-			float _aspect;
+			float _aspectRatio;
 			glm::vec3 _up;
 			glm::vec3 _right;
 			glm::vec3 _forward;

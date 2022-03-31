@@ -12,6 +12,16 @@ void Phantom::FrameBuffer::Unbind()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void Phantom::FrameBuffer::Resize(const glm::vec2& size)
+{
+    Resize(size.x, size.y);
+}
+
+bool Phantom::FrameBuffer::Create(const glm::vec2& size)
+{
+    return Create(size.x, size.y);
+}
+
 void Phantom::FrameBuffer::Resize(const unsigned int& width, const unsigned int& heigth)
 {
     Delete();
@@ -32,12 +42,6 @@ bool Phantom::FrameBuffer::Create(const unsigned int& width, const unsigned int&
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
-
-    unsigned int rbo;
-    glGenRenderbuffers(1, &rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {

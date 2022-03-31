@@ -3,9 +3,6 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include "scene/Entity.h"
-#include "scene/SceneManager.h"
-
 #include <iostream>
 
 namespace Phantom
@@ -15,6 +12,10 @@ namespace Phantom
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
+		// Config
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
 		if (!ImGui_ImplGlfw_InitForOpenGL(&window, true))
 			return false;
 		if (!ImGui_ImplOpenGL3_Init())
@@ -22,8 +23,6 @@ namespace Phantom
 
 		ImGui::StyleColorsDark();
 
-		// Enable Docking
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		SetDefaultTheme();
 		return true;
 	}
@@ -44,6 +43,17 @@ namespace Phantom
 		// Render dear imgui into screen
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+	    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+	    //  We could also call glfwMakeContextCurrent(_window) if we had acess to the glfw window)
+		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 
 	void UI::ShutDown()

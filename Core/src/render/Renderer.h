@@ -19,7 +19,7 @@ namespace Phantom
 	public:
 		Renderer();
 
-		void Render(Scene& scene, EditorCamera& camera);
+		void Render(Scene& scene, EditorCamera& camera, const float& aspectRatio);
 		void Clear(glm::vec4 color = glm::vec4(0.0f));
 		static Renderer* Instance();
 
@@ -28,7 +28,7 @@ namespace Phantom
 		static Renderer* _instance;
 
 		void DrawLight(Transform& transform, Light& light);
-		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene, EditorCamera& camera);
+		void DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& scene, EditorCamera& camera, const float& aspectRatio);
 	};
 }
 

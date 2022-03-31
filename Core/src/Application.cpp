@@ -21,9 +21,9 @@ namespace Phantom
     {
         while (!_window.ShouldClose())
         {
+            Input::Instance()->PollEvents();
             Time::UpdateDeltaTime(glfwGetTime());
             EditorLayer::Instance()->Update(Time::DeltaTime());
-            Input::Instance()->PollEvents();
             _window.SwapBuffers();
         }
     }
