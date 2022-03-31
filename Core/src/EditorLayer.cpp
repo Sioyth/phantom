@@ -4,6 +4,7 @@
 
 #include "ui/SceneHierarchy.h"
 #include "ui/SceneViewPort.h"
+#include "ui/ShaderGraph.h"
 #include "UI.h"
 
 namespace Phantom
@@ -28,6 +29,7 @@ namespace Phantom
 		UI::NewFrame();
 		SceneViewPort::Render();
 		SceneHierarchy::Render();
+		ShaderGraph::Render();
 		UI::EndFrame();
 	}
 

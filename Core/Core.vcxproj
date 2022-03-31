@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\ShaderGraph.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ui\SceneHierarchy.cpp" />
     <ClCompile Include="src\ui\SceneViewPort.cpp" />
@@ -55,6 +56,7 @@
     <None Include="src\shader\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ui\ShaderGraph.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\ui\SceneHierarchy.h" />
     <ClInclude Include="src\ui\SceneViewPort.h" />

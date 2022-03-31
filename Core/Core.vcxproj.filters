@@ -31,6 +31,7 @@
     <ClCompile Include="src\ui\SceneHierarchy.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\ui\ShaderGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -69,5 +70,6 @@
     <ClInclude Include="src\ui\SceneHierarchy.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\ui\ShaderGraph.h" />
   </ItemGroup>
 </Project>
