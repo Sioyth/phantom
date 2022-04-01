@@ -42,28 +42,58 @@ namespace Phantom
 		for (int y = fmodf(mouseDrag.y, gridSize); y < winSize.y; y += gridSize)
 			drawList->AddLine(ImVec2(0.0f, y) + win_pos, ImVec2(winSize.x, y) + win_pos, GRID_COLOR);
 
-		//// Node
-		//drawList->ChannelsSplit(2);
-		//for (int i = 0; i < _nodes.size(); i++)
-		//{
-		//	ImGui::PushID(i);
+		// Node
+		drawList->ChannelsSplit(3);
+		for (int i = 0; i < _nodes.size(); i++)
+		{
+			ImGui::PushID(i);
 
-		//	// Node Content
-		//	drawList->ChannelsSetCurrent(1);
-		//	ImGui::BeginGroup(); 
-		//	ImGui::Text(_nodes[i]._name.c_str());
-		//	ImGui::Separator();
-		//	ImGui::EndGroup();
+			ImVec2 windowMinSize = ImVec2(150.0f, 50.0f);
+			ImVec2 node_rect_min = win_pos + offset;
+			ImVec2 windowPadding = ImVec2(10.0f, 8.0f);
+			ImVec4 headerPadding = ImVec4(5.0f, 5.0f, 0.0f, 0.0f); // Top - Bottom - Left - Right padding
+			ImVec2 headerTitleSize = ImGui::CalcTextSize(_nodes[i]._name.c_str());
 
-		//	// Node Box
-		//	drawList->ChannelsSetCurrent(0);
-		//	ImGui::InvisibleButton("node", ImVec2(100, 100));
-		//	drawList->AddRectFilled(ImVec2(win_pos.x, win_pos.y) + offset, ImVec2(win_pos.x + 100.0f, win_pos.y + 100.0f) + offset, IM_COL32(255, 0, 0, 255), 4.0f);
-		//	drawList->AddRect(ImVec2(0, 0), ImVec2(100, 100), IM_COL32(255, 0, 0, 255), 4.0f);
+			// Node Content
+			drawList->ChannelsSetCurrent(2);
+			ImGui::SetCursorScreenPos(node_rect_min + windowPadding);
+			ImGui::BeginGroup(); 
+			ImGui::Text(_nodes[i]._name.c_str());
+			ImVec2 temp = ImVec2(node_rect_min + windowPadding);
+			temp.y += headerTitleSize.y + headerPadding.y + headerPadding.x;
+			ImGui::SetCursorScreenPos(temp);
+			ImGui::Text("Dummy");
+			ImGui::Text("Dummy");
+			ImGui::Text("Dummy");
+			ImGui::EndGroup();
 
-		//	ImGui::PopID();
-		//}
-		//drawList->ChannelsMerge();
+			ImVec2 windowSize = ImGui::GetItemRectSize() + windowPadding + windowPadding;
+			windowSize.x = windowSize.x < windowMinSize.x ? windowMinSize.x : windowSize.x;
+			windowSize.y = windowSize.y < windowMinSize.y ? windowMinSize.y : windowSize.y;
+			ImVec2 node_rect_max = node_rect_min + windowSize;
+
+			// Node Box Header
+			drawList->ChannelsSetCurrent(1);
+			ImVec2 headerSize = ImVec2(windowSize.x, headerTitleSize.y + windowPadding.y + headerPadding.y);
+			drawList->AddRectFilled(node_rect_min, node_rect_min + headerSize, IM_COL32(60, 90, 60, 255), 4.0f);
+			drawList->AddLine(ImVec2(node_rect_min.x, node_rect_min.y + headerSize.y), node_rect_min + headerSize, IM_COL32(100, 100, 100, 255));
+
+			// Node Box Background
+			drawList->ChannelsSetCurrent(0);
+			ImGui::SetCursorScreenPos(node_rect_min);
+			ImGui::InvisibleButton("node", windowSize);
+			drawList->AddRectFilled(node_rect_min, node_rect_max, IM_COL32(60, 60, 60, 255), 4.0f);
+			drawList->AddRect(node_rect_min, node_rect_max, IM_COL32(100, 100, 100, 255), 4.0f);
+
+			// 
+			drawList->ChannelsSetCurrent(1);
+			ImVec2 circleCenter = ImVec2(node_rect_min.x, node_rect_min.y + headerSize.y + headerPadding.y + headerPadding.x);
+			drawList->AddCircleFilled(circleCenter, 4.0f, IM_COL32(255, 0, 5, 255));
+
+
+			ImGui::PopID();
+		}
+		drawList->ChannelsMerge();
 
 		// Scrolling
 		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Middle, 0.0f))
