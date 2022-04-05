@@ -1,7 +1,7 @@
 #ifndef SCENEVIEWPORT_H
 #define SCENEVIEWPORT_H
 #include <glm/vec2.hpp>
-#include "../render/FrameBuffer.h"
+#include "../../render/FrameBuffer.h"
 namespace Phantom
 {
 	class SceneViewPort

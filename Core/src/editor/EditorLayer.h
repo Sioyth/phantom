@@ -1,6 +1,6 @@
 #ifndef EDITORLAYER_H
 #define EDITORLAYER_H
-#include "scene/EditorCamera.h"
+#include "EditorCamera.h"
 
 namespace Phantom 
 {

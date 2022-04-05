@@ -12,9 +12,9 @@
 #include "scene/Entity.h"
 
 //-------UTIL-------
-#include "Input.h"
-#include "Time.h"
+#include "util/Input.h"
+#include "util/Time.h"
 
 //-------Editor-------
-#include "EditorLayer.h"
-#include "UI.h"
+#include "editor/EditorLayer.h"
+#include "ui/UI.h"

@@ -1,11 +1,11 @@
 #include "EditorLayer.h"
-#include "scene/SceneManager.h"
-#include "render/Renderer.h"
+#include "../scene/SceneManager.h"
+#include "../render/Renderer.h"
 
 #include "ui/SceneHierarchy.h"
 #include "ui/SceneViewPort.h"
 #include "ui/ShaderGraph.h"
-#include "UI.h"
+#include "../ui/UI.h"
 
 namespace Phantom
 {
@@ -19,7 +19,7 @@ namespace Phantom
 
 	void EditorLayer::Update(const float& dt)
 	{
-		_editorCamera.Update(dt);
+		//_editorCamera.Update(dt);
 
 		SceneViewPort::BindFrameBuffer();
 		Renderer::Instance()->Render(*SceneManager::CurrentScene(), _editorCamera, SceneViewPort::GetAspectRatio());

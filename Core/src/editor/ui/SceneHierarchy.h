@@ -1,6 +1,6 @@
 #ifndef SCENEHIERARCHY_H
 #define SCENEHIERARCHY_H
-#include "../scene/Entity.h"
+#include "../../scene/Entity.h"
 
 namespace Phantom
 {

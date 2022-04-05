@@ -1,6 +1,6 @@
 #include "EditorCamera.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "../Input.h"
+#include "../util/Input.h"
 
 Phantom::EditorCamera::EditorCamera(float aspect, float fov)
 {

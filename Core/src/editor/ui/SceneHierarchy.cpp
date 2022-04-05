@@ -1,6 +1,6 @@
 #include "SceneHierarchy.h"
 #include <imgui/imgui.h>
-#include "../scene/SceneManager.h"
+#include "../../scene/SceneManager.h"
 
 namespace Phantom
 {

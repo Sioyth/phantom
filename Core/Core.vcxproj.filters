@@ -7,8 +7,8 @@
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\shader\Material.cpp" />
     <ClCompile Include="src\shader\UniformValue.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Time.cpp" />
+    <ClCompile Include="src\util\Input.cpp" />
+    <ClCompile Include="src\util\Time.cpp" />
     <ClCompile Include="src\render\Mesh.cpp" />
     <ClCompile Include="src\render\Model.cpp" />
     <ClCompile Include="libs\imgui\include\imgui\imgui.cpp" />
@@ -23,15 +23,17 @@
     <ClCompile Include="src\scene\SceneManager.cpp" />
     <ClCompile Include="src\components\Transform.cpp" />
     <ClCompile Include="src\components\Camera.cpp" />
-    <ClCompile Include="src\UI.cpp" />
-    <ClCompile Include="src\scene\EditorCamera.cpp" />
+    <ClCompile Include="src\ui\UI.cpp" />
+    <ClCompile Include="src\editor\EditorCamera.cpp" />
     <ClCompile Include="src\render\FrameBuffer.cpp" />
-    <ClCompile Include="src\EditorLayer.cpp" />
-    <ClCompile Include="src\ui\SceneViewPort.cpp" />
-    <ClCompile Include="src\ui\SceneHierarchy.cpp" />
+    <ClCompile Include="src\editor\EditorLayer.cpp" />
+    <ClCompile Include="src\editor\ui\SceneViewPort.cpp" />
+    <ClCompile Include="src\editor\ui\SceneHierarchy.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\ui\ShaderGraph.cpp" />
+    <ClCompile Include="src\editor\ui\ShaderGraph.cpp" />
+    <ClCompile Include="src\ui\graph\Node.cpp" />
+    <ClCompile Include="src\ui\graph\Graph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -43,8 +45,8 @@
     <ClInclude Include="src\shader\Material.h" />
     <ClInclude Include="src\shader\UniformValue.h" />
     <ClInclude Include="src\shader\IUniformValue.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\Time.h" />
+    <ClInclude Include="src\util\Input.h" />
+    <ClInclude Include="src\util\Time.h" />
     <ClInclude Include="src\render\Mesh.h" />
     <ClInclude Include="src\render\Model.h" />
     <ClInclude Include="libs\imgui\include\imgui\imconfig.h" />
@@ -61,15 +63,17 @@
     <ClInclude Include="src\scene\SceneManager.h" />
     <ClInclude Include="src\components\Transform.h" />
     <ClInclude Include="src\components\Camera.h" />
-    <ClInclude Include="src\UI.h" />
-    <ClInclude Include="src\scene\EditorCamera.h" />
+    <ClInclude Include="src\ui\UI.h" />
+    <ClInclude Include="src\editor\EditorCamera.h" />
     <ClInclude Include="src\Phantom.h" />
     <ClInclude Include="src\render\FrameBuffer.h" />
-    <ClInclude Include="src\EditorLayer.h" />
-    <ClInclude Include="src\ui\SceneViewPort.h" />
-    <ClInclude Include="src\ui\SceneHierarchy.h" />
+    <ClInclude Include="src\editor\EditorLayer.h" />
+    <ClInclude Include="src\editor\ui\SceneViewPort.h" />
+    <ClInclude Include="src\editor\ui\SceneHierarchy.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\ui\ShaderGraph.h" />
+    <ClInclude Include="src\editor\ui\ShaderGraph.h" />
+    <ClInclude Include="src\ui\graph\Node.h" />
+    <ClInclude Include="src\ui\graph\Graph.h" />
   </ItemGroup>
 </Project>

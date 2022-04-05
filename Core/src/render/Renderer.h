@@ -7,7 +7,7 @@
 #include "../components/Components.h"
 #include "../components/Transform.h"
 #include "../components/Camera.h"
-#include "../scene/EditorCamera.h"
+#include "../editor/EditorCamera.h"
 #include "FrameBuffer.h"
 
 namespace Phantom
