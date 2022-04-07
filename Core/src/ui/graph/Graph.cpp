@@ -15,6 +15,7 @@ namespace Phantom
 		slot._name = "UV";
 		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
 		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
+		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
 		//_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
 
 
@@ -74,15 +75,15 @@ namespace Phantom
 
 	void GraphContext::DrawGrid(const char* name)
 	{
-		int gridSize = 32;
+		int _gridSize = 32;
 		ImVec2 winSize = ImGui::GetWindowSize();
 		ImVec2 win_pos = ImGui::GetCursorScreenPos();
 		ImU32 GRID_COLOR = IM_COL32(200, 200, 200, 40);
 
 		// fmodf calculates the reminder of a division we use it to wrap the grid around so it's infinite. 
-		for (int x = fmodf(_graphs[name]._mouseDrag.x, gridSize); x < winSize.x; x += gridSize)
+		for (int x = fmodf(_graphs[name]._mouseDrag.x, _gridSize); x < winSize.x; x += _gridSize)
 			_graphs[name]._drawList->AddLine(ImVec2(x, 0.0f) + win_pos, ImVec2(x, winSize.y) + win_pos, GRID_COLOR);
-		for (int y = fmodf(_graphs[name]._mouseDrag.y, gridSize); y < winSize.y; y += gridSize)
+		for (int y = fmodf(_graphs[name]._mouseDrag.y, _gridSize); y < winSize.y; y += _gridSize)
 			_graphs[name]._drawList->AddLine(ImVec2(0.0f, y) + win_pos, ImVec2(winSize.x, y) + win_pos, GRID_COLOR);
 	}
 
@@ -91,22 +92,21 @@ namespace Phantom
 		ImGui::PushID(node._id);
 		_currentGraph->_drawList->ChannelsSplit(3);
 
-		// temp move this to some configish file
-		ImVec2 nodeWindomMinSize = ImVec2(150.0f, 50.0f);
+		Style* style = &_currentGraph->_style;
+		ColorsStyle* colors = &_currentGraph->_colorsStyle;
+
 		ImVec2 nodeWindowTopLeftCorner = node._position + _currentGraph->_offset;
-		ImVec2 nodeWindowPadding = ImVec2(10.0f, 8.0f);
-		ImVec4 headerPadding = ImVec4(10.0f, 5.0f, 0.0f, 0.0f); // Top - Bottom - Left - Right padding
 		ImVec2 headerTitleSize = ImGui::CalcTextSize(node._name);
-		ImVec2 contentPosition = ImVec2(nodeWindowTopLeftCorner + nodeWindowPadding);
-		contentPosition.y += headerTitleSize.y + headerPadding.x;
+		ImVec2 contentPosition = ImVec2(nodeWindowTopLeftCorner + style->windowPadding);
+		contentPosition.y += headerTitleSize.y + style->headerPadding.x;
 
 		static ImVec2 windowSize = ImVec2(node.CalcNodeWidth(), 0.0f);
-		windowSize.x = windowSize.x < nodeWindomMinSize.x ? nodeWindomMinSize.x : windowSize.x;
-		windowSize.y = windowSize.y < nodeWindomMinSize.y ? nodeWindomMinSize.y : windowSize.y;
+		windowSize.x = windowSize.x < style->windowMinSize.x ? style->windowMinSize.x : windowSize.x;
+		windowSize.y = windowSize.y < style->windowMinSize.y ? style->windowMinSize.y : windowSize.y;
 
 		// Node Content
 		_currentGraph->_drawList->ChannelsSetCurrent(2);
-		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner + nodeWindowPadding);
+		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner + style->windowPadding);
 		ImGui::BeginGroup();
 		ImGui::Text(node._name);
 		ImGui::SetCursorScreenPos(contentPosition);
@@ -116,32 +116,33 @@ namespace Phantom
 		{
 			if (i < node._inputSlots.size())
 			{
+				ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + ImVec2(style->slotOffset, 0.0f));
 				ImGui::Text(node._inputSlots[i]._name);
-				ImVec2 circleCenter = ImVec2(nodeWindowTopLeftCorner.x, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
-				_currentGraph->_drawList->AddCircleFilled(circleCenter, 4.0f, IM_COL32(255, 0, 5, 255));
+				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
+				DrawSlot(center);
 			}
-
 			if (i < node._outputSlots.size())
 			{	
+				ImVec2 offset(windowSize.x - ImGui::CalcTextSize(node._outputSlots[i]._name).x - style->windowPadding.x - style->windowPadding.x - style->slotOffset, 0.0f);
 				if (i < node._inputSlots.size())
-					ImGui::SameLine(windowSize.x - ImGui::CalcTextSize(node._outputSlots[i]._name).x - nodeWindowPadding.x - nodeWindowPadding.x);
+					ImGui::SameLine(offset.x);
 				else
-					ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + ImVec2(windowSize.x - ImGui::CalcTextSize(node._outputSlots[i]._name).x - nodeWindowPadding.x - nodeWindowPadding.x, 0.0f));
+					ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + offset);
 				ImGui::Text(node._outputSlots[i]._name);
 
-				ImVec2 circleCenter = ImVec2(nodeWindowTopLeftCorner.x + windowSize.x, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
-				_currentGraph->_drawList->AddCircleFilled(circleCenter, 4.0f, IM_COL32(255, 0, 5, 255));
-				//ImGui::InvisibleButton()
+				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + windowSize.x - style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
+				DrawSlot(center);
 			}
 		}
-
 		ImGui::EndGroup();
 
 		// Set the window size and make an invisible button the size of it to be possible to be interacted with (E.g hovered, clicked, dragged around)
-		windowSize = ImVec2(node.CalcNodeWidth(), ImGui::GetItemRectSize().y) + nodeWindowPadding + nodeWindowPadding;
-		windowSize.x = windowSize.x < nodeWindomMinSize.x ? nodeWindomMinSize.x : windowSize.x;
-		windowSize.y = windowSize.y < nodeWindomMinSize.y ? nodeWindomMinSize.y : windowSize.y;
+		windowSize = ImVec2(node.CalcNodeWidth(), ImGui::GetItemRectSize().y) + style->windowPadding + style->windowPadding;
+		windowSize.x = windowSize.x < style->windowMinSize.x ? style->windowMinSize.x : windowSize.x;
+		windowSize.y = windowSize.y < style->windowMinSize.y ? style->windowMinSize.y : windowSize.y;
+		ImVec2 headerSize = ImVec2(windowSize.x, headerTitleSize.y + style->windowPadding.y + style->headerPadding.y);
 		ImVec2 nodeBoxBottomRightCorner = nodeWindowTopLeftCorner + windowSize;
+
 		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner);
 		ImGui::InvisibleButton("node", windowSize);
 
@@ -156,16 +157,19 @@ namespace Phantom
 
 		// Node Box Header
 		_currentGraph->_drawList->ChannelsSetCurrent(1);
-		ImU32 headerBgColor = _currentGraph->_nodeHovered == &node || nodeIsSelected ? IM_COL32(60, 80, 60, 255) : IM_COL32(60, 90, 60, 255);
-		ImVec2 headerSize = ImVec2(windowSize.x, headerTitleSize.y + nodeWindowPadding.y + headerPadding.y);
-		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeWindowTopLeftCorner + headerSize, headerBgColor, 4.0f, ImDrawFlags_RoundCornersTop);
-		_currentGraph->_drawList->AddLine(ImVec2(nodeWindowTopLeftCorner.x, nodeWindowTopLeftCorner.y + headerSize.y), nodeWindowTopLeftCorner + headerSize, IM_COL32(100, 100, 100, 255));
+		ImU32 headerBgColor = _currentGraph->_nodeHovered == &node || nodeIsSelected ? colors->_headerBackgroundHovered : colors->_headerBackground;;
+		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeWindowTopLeftCorner + headerSize, headerBgColor, style->windowCornerRadius, ImDrawFlags_RoundCornersTop);
+		_currentGraph->_drawList->AddLine(ImVec2(nodeWindowTopLeftCorner.x, nodeWindowTopLeftCorner.y + headerSize.y), nodeWindowTopLeftCorner + headerSize, colors->_headerSeparator);
 
 		// Node Box Background
-		ImU32 nodeBgBackground = _currentGraph->_nodeHovered == &node || nodeIsSelected ? IM_COL32(50, 50, 50, 255) : IM_COL32(60, 60, 60, 255);
 		_currentGraph->_drawList->ChannelsSetCurrent(0);
-		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, nodeBgBackground, 4.0f);
-		_currentGraph->_drawList->AddRect(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, IM_COL32(100, 100, 100, 255), 4.0f);
+		ImU32 nodeBgBackground = _currentGraph->_nodeHovered == &node || nodeIsSelected ? colors->_backgroundHovered : colors->_background;
+		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, nodeBgBackground, style->windowCornerRadius);
+
+		//Outline
+		_currentGraph->_drawList->ChannelsSetCurrent(1);
+		ImU32 outlineColor = _currentGraph->_nodeHovered == &node || nodeIsSelected ? colors->_outlineHovered : colors->_outline;
+		_currentGraph->_drawList->AddRect(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, outlineColor, style->windowCornerRadius);
 
 		ImGui::PopID();
 		_currentGraph->_drawList->ChannelsMerge();
@@ -181,6 +185,24 @@ namespace Phantom
 
 	void GraphContext::DrawSlot(const ImVec2& center)
 	{
-		_currentGraph->_drawList->AddCircle(center, 4.0f, IM_COL32(255, 0, 5, 255));
+		Style* style = &_currentGraph->_style;
+		ColorsStyle* colors = &_currentGraph->_colorsStyle;
+
+		float r = style->slotRadius;
+		ImGui::SetCursorScreenPos(ImVec2(center.x - r, center.y - r));
+		ImGui::InvisibleButton("s", ImVec2(r * 2.0f, r * 2.0f));
+		
+		bool hovered;
+		if (ImGui::IsItemHovered())
+			hovered = true;
+		else
+			hovered = false;
+
+		/*bool nodeIsSelected = ImGui::IsItemActive();
+		if (nodeIsSelected && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+			node._position = node._position + ImGui::GetIO().MouseDelta;*/
+
+		ImU32 slotColor = hovered ? colors->_slotHovered : colors->_slot;
+		_currentGraph->_drawList->AddCircle(center, style->slotRadius, slotColor);
 	}
 }

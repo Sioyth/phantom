@@ -73,15 +73,15 @@ namespace Phantom
 
 	void ShaderGraph::DrawGrid()
 	{
-		int gridSize = 32;
+		int _gridSize = 32;
 		ImVec2 winSize = ImGui::GetWindowSize();
 		ImVec2 win_pos = ImGui::GetCursorScreenPos();
 		ImU32 GRID_COLOR = IM_COL32(200, 200, 200, 40);
 
 		// fmodf calculates the reminder of a division we use it to wrap the grid around so it's infinite. 
-		for (int x = fmodf(_mouseDrag.x, gridSize); x < winSize.x; x += gridSize)
+		for (int x = fmodf(_mouseDrag.x, _gridSize); x < winSize.x; x += _gridSize)
 			_drawList->AddLine(ImVec2(x, 0.0f) + win_pos, ImVec2(x, winSize.y) + win_pos, GRID_COLOR);
-		for (int y = fmodf(_mouseDrag.y, gridSize); y < winSize.y; y += gridSize)
+		for (int y = fmodf(_mouseDrag.y, _gridSize); y < winSize.y; y += _gridSize)
 			_drawList->AddLine(ImVec2(0.0f, y) + win_pos, ImVec2(winSize.x, y) + win_pos, GRID_COLOR);
 	}
 
