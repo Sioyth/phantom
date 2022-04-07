@@ -20,7 +20,7 @@ namespace Phantom
 
 
 		slot._name = "Out";
-		_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
+		//_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
 		_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
 		_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
 	}
@@ -111,14 +111,14 @@ namespace Phantom
 		ImGui::Text(node._name);
 		ImGui::SetCursorScreenPos(contentPosition);
 		
-		float size = node._inputSlots.size() >= node._outputSlots.size() ? node._inputSlots.size() : node._outputSlots.size();
+		int size = node._inputSlots.size() >= node._outputSlots.size() ? node._inputSlots.size() : node._outputSlots.size();
 		for (int i = 0; i < size; i++)
 		{
 			if (i < node._inputSlots.size())
 			{
 				ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + ImVec2(style->slotOffset, 0.0f));
 				ImGui::Text(node._inputSlots[i]._name);
-				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
+				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._inputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
 				DrawSlot(center);
 			}
 			if (i < node._outputSlots.size())
