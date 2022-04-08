@@ -72,7 +72,7 @@ namespace Phantom
 		private:
 			void DrawLinks();
 			void DrawGrid(const char* name);
-			void DrawSlot(const ImVec2& center);
+			void DrawSlot(const ImVec2& center, Slot& slot);
 			void DrawNodeWindow(Node& node);
 
 			unsigned int _guid;

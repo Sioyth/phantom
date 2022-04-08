@@ -8,6 +8,23 @@ namespace Phantom
 		_position = pos;
 	}
 
+	void Node::AddSlot(const char* name, SlotType type)
+	{
+		switch (type)
+		{
+		case Phantom::In:
+			_inputSlots.push_back(Slot(name, _guid));
+			break;
+		case Phantom::Out:
+			_outputSlots.push_back(Slot(name,_guid));
+			break;
+		default:
+			break;
+		}
+
+		_guid++;
+	}
+
 	float Node::CalcNodeWidth()
 	{
 		float inputWidth = 0;

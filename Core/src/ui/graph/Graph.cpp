@@ -10,19 +10,18 @@ namespace Phantom
 	GraphContext::GraphContext()
 	{
 		_graphs["ShaderGraph"]._nodes.push_back(Node(0, ImVec2(0, 0)));
-		Slot slot;
-		slot._data = 5;
-		slot._name = "UV";
-		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
-		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
-		_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
-		//_graphs["ShaderGraph"]._nodes.front()._inputSlots.push_back(slot);
+		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.front().AddSlot("Out", SlotType::Out);
+		_graphs["ShaderGraph"]._nodes.front().AddSlot("Out", SlotType::Out);
 
-
-		slot._name = "Out";
-		//_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
-		_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
-		_graphs["ShaderGraph"]._nodes.front()._outputSlots.push_back(slot);
+		_graphs["ShaderGraph"]._nodes.push_back(Node(100, ImVec2(100, 0)));
+		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::In);
+		_graphs["ShaderGraph"]._nodes.back().AddSlot("Out", SlotType::Out);
+		_graphs["ShaderGraph"]._nodes.back().AddSlot("Out", SlotType::Out);
 	}
 
 	void GraphContext::BeginGraph(const char* name, GraphFlags flags)
@@ -119,7 +118,7 @@ namespace Phantom
 				ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + ImVec2(style->slotOffset, 0.0f));
 				ImGui::Text(node._inputSlots[i]._name);
 				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._inputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
-				DrawSlot(center);
+				DrawSlot(center, node._inputSlots[i]);
 			}
 			if (i < node._outputSlots.size())
 			{	
@@ -131,7 +130,7 @@ namespace Phantom
 				ImGui::Text(node._outputSlots[i]._name);
 
 				ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + windowSize.x - style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::CalcTextSize(node._outputSlots[i]._name).y + ImGui::GetStyle().ItemSpacing.y);
-				DrawSlot(center);
+				DrawSlot(center, node._outputSlots[i]);
 			}
 		}
 		ImGui::EndGroup();
@@ -183,17 +182,18 @@ namespace Phantom
 		}*/
 	}
 
-	void GraphContext::DrawSlot(const ImVec2& center)
+	void GraphContext::DrawSlot(const ImVec2& center, Slot& slot)
 	{
 		Style* style = &_currentGraph->_style;
 		ColorsStyle* colors = &_currentGraph->_colorsStyle;
 
 		float r = style->slotRadius;
+		ImGui::PushID(slot._id);
 		ImGui::SetCursorScreenPos(ImVec2(center.x - r, center.y - r));
 		ImGui::InvisibleButton("s", ImVec2(r * 2.0f, r * 2.0f));
 		
 		bool hovered;
-		if (ImGui::IsItemHovered())
+		if (ImGui::IsItemActive())
 			hovered = true;
 		else
 			hovered = false;
@@ -204,5 +204,6 @@ namespace Phantom
 
 		ImU32 slotColor = hovered ? colors->_slotHovered : colors->_slot;
 		_currentGraph->_drawList->AddCircle(center, style->slotRadius, slotColor);
+		ImGui::PopID();
 	}
 }
