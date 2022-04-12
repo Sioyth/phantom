@@ -12,11 +12,11 @@ namespace Phantom
 	{
 		switch (type)
 		{
-		case Phantom::In:
-			_inputSlots.push_back(Slot(name, _guid));
+		case Input:
+			_inputSlots.push_back(Slot(name, _guid, this, Input));
 			break;
-		case Phantom::Out:
-			_outputSlots.push_back(Slot(name,_guid));
+		case Output:
+			_outputSlots.push_back(Slot(name ,_guid, this, Output));
 			break;
 		default:
 			break;

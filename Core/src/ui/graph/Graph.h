@@ -10,9 +10,11 @@ namespace Phantom
 
 	enum GraphFlags { None = 0, NoGrid};
 
-	struct Style
+	struct GraphStyle
 	{
 		float gridSize = 32.0f;
+
+		float _outlinethickness = 1.0f;
 
 		float windowCornerRadius = 4.0f;
 		ImVec2 windowPadding = ImVec2(10.0f, 8.0f);
@@ -20,14 +22,18 @@ namespace Phantom
 
 		ImVec4 headerPadding = ImVec4(10.0f, 5.0f, 0.0f, 0.0f); // Bottom - Top - Left - Right padding
 
+		ImColor _linkThickness = 3.0f;
+
 		float slotRadius = 4.0f;
 		float slotOffset = 10.0f;
 
-		Style() {};
+		GraphStyle() {};
 	};
 
-	struct ColorsStyle
+	struct GraphColors
 	{
+		ImColor _grid = IM_COL32(200, 200, 200, 40);
+
 		ImColor _outline= IM_COL32(100, 100, 100, 255);
 		ImColor _outlineHovered = IM_COL32(100, 255, 100, 255);
 
@@ -38,11 +44,13 @@ namespace Phantom
 		ImColor _headerSeparator = IM_COL32(100, 100, 100, 255);
 		ImColor _headerBackgroundHovered = ImColor(60, 80, 60, 255);
 
+		ImColor _linkColor = ImColor(200, 80, 60, 255);
+
 		ImColor _slot = IM_COL32(255, 80, 60, 255);
 		ImColor _slotHovered = IM_COL32(255, 255, 60, 255);
 		ImColor _slotFilled;
 
-		ColorsStyle() {};
+		GraphColors() {};
 	};
 
 	struct Graph
@@ -50,12 +58,13 @@ namespace Phantom
 		ImVec2 _offset;
 		ImVec2 _mouseDrag;
 		Node* _nodeHovered;
+		Slot* _currentSlot;
 		ImDrawList* _drawList;
 		std::list<Node> _nodes;
 		std::vector <Link> _links;
 
-		Style _style;
-		ColorsStyle _colorsStyle;
+		GraphStyle _style;
+		GraphColors _colorsStyle;
 	};
 
 	class GraphContext
@@ -71,7 +80,7 @@ namespace Phantom
 			inline ColorsStyle& GetColorsStyle() { return _currentGraph->_colorsStyle; };*/
 		private:
 			void DrawLinks();
-			void DrawGrid(const char* name);
+			void DrawGrid();
 			void DrawSlot(const ImVec2& center, Slot& slot);
 			void DrawNodeWindow(Node& node);
 
