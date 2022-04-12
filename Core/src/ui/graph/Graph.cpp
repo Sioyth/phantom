@@ -176,6 +176,15 @@ namespace Phantom
 		_currentGraph->_drawList->ChannelsMerge();
 	}
 
+	void GraphContext::CreateLink(Slot& start, Slot& end)
+	{
+		Link link = Link(start._node, end._node, &start, &end);
+		end._state = SlotState::Connected;
+		start._state = SlotState::Connected;
+
+		_currentGraph->_links.push_back(link);
+	}
+
 	void GraphContext::DrawLinks()
 	{
 		for (int i = 0; i < _currentGraph->_links.size(); i++)
@@ -184,8 +193,8 @@ namespace Phantom
 			GraphColors* colors = &_currentGraph->_colorsStyle;
 
 			Link* link = &_currentGraph->_links[i];
-			ImVec2 pos1 = link->_slotStart->_center;
-			ImVec2 pos2 = link->_slotEnd->_center;
+			ImVec2 pos1 = link->_startSlot->_center;
+			ImVec2 pos2 = link->_endSlot->_center;
 
 			_currentGraph->_drawList->AddLine(pos1, pos2, colors->_linkColor, style->_linkThickness);
 		}
@@ -205,12 +214,23 @@ namespace Phantom
 		bool isSlotSelected = ImGui::IsItemActive();
 		if (isSlotSelected && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 		{
-			_currentGraph->_currentSlot = &slot;
-			slot._state = SlotState::Connecting;
-			_currentGraph->_drawList->AddLine(center, ImGui::GetMousePos(), colors->_linkColor, style->_linkThickness);
-			//_currentGraph->_drawList->AddBezierCurve(center, center + ImVec2(+50, 0), ImGui::GetMousePos() + ImVec2(-50, 0), ImGui::GetMousePos(), colors->_linkColor, style->_linkThickness);
+			switch (slot._state)
+			{
+				case Phantom::Empty:
+					_currentGraph->_currentSlot = &slot;
+					slot._state = SlotState::Connecting;
+					break;
+				case Phantom::Connecting:
+					_currentGraph->_drawList->AddLine(center, ImGui::GetMousePos(), colors->_linkColor, style->_linkThickness);
+					//_currentGraph->_drawList->AddBezierCurve(center, center + ImVec2(+50, 0), ImGui::GetMousePos() + ImVec2(-50, 0), ImGui::GetMousePos(), colors->_linkColor, style->_linkThickness);
+					break;
+				case Phantom::Connected:
+					break;
+				default:
+					break;
+			}
 		}
-		else if (&slot == _currentGraph->_currentSlot)
+		else if (&slot == _currentGraph->_currentSlot && slot._state != SlotState::Connecting)
 		{
 			_currentGraph->_currentSlot = nullptr;
 			slot._state = SlotState::Empty;
@@ -220,18 +240,11 @@ namespace Phantom
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_RectOnly))
 		{
 			hovered = true;
-			if (_currentGraph->_currentSlot && ImGui::IsMouseReleased(0))
-			{
-				std::cout << "Here" << std::endl;
-				Link link;
-				link._slotStart = _currentGraph->_currentSlot;
-				link._slotEnd = &slot;
-				link._startNode = _currentGraph->_currentSlot->_node;
-				link._endNode = slot._node;
-
-				_currentGraph->_links.push_back(link);
-			}
-
+			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+				if (_currentGraph->_currentSlot && (_currentGraph->_currentSlot->_type != slot._type) && _currentGraph->_currentSlot->_state == SlotState::Connecting && slot._state != Connected && _currentGraph->_currentSlot->_node != slot._node)
+					CreateLink(*_currentGraph->_currentSlot, slot);
+				else if (_currentGraph->_currentSlot)
+					_currentGraph->_currentSlot->_state = SlotState::Empty;
 		}
 		else
 			hovered = false;

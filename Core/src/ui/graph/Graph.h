@@ -79,10 +79,12 @@ namespace Phantom
 			/*inline Style& GetStyle() { return _currentGraph->_style; };
 			inline ColorsStyle& GetColorsStyle() { return _currentGraph->_colorsStyle; };*/
 		private:
-			void DrawLinks();
 			void DrawGrid();
+			void DrawLinks();
 			void DrawSlot(const ImVec2& center, Slot& slot);
 			void DrawNodeWindow(Node& node);
+
+			void CreateLink(Slot& start, Slot& end);
 
 			unsigned int _guid;
 			Graph* _currentGraph;

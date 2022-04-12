@@ -31,8 +31,10 @@ namespace Phantom
 		int _data;
 		Node* _startNode;
 		Node* _endNode;
-		Slot* _slotStart;
-		Slot* _slotEnd;
+		Slot* _startSlot;
+		Slot* _endSlot; // Target?
+
+		Link(Node* startNode, Node* endNode, Slot* startSlot, Slot* endSlot) : _startNode(startNode), _endNode(endNode), _startSlot(startSlot), _endSlot(endSlot) {}
 	};
 
 	class Node
