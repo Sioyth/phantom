@@ -62,6 +62,7 @@ namespace Phantom
 		ImDrawList* _drawList;
 		std::list<Node> _nodes;
 		std::vector <Link> _links;
+		std::vector <Variable> _variables;
 
 		GraphStyle _style;
 		GraphColors _colorsStyle;
@@ -81,8 +82,9 @@ namespace Phantom
 		private:
 			void DrawGrid();
 			void DrawLinks();
-			void DrawSlot(const ImVec2& center, Slot& slot);
 			void DrawNodeWindow(Node& node);
+			void DrawVariables(Variable& var);
+			void DrawSlot(const ImVec2& center, Slot& slot);
 
 			void CreateLink(Slot& start, Slot& end);
 

@@ -13,9 +13,9 @@ namespace Phantom
 
 	struct Slot
 	{
+		int _data;
 		const char* _name;
 		unsigned int _id;
-		unsigned int _data;
 		Node* _node;
 
 		ImVec2 _center;
@@ -35,6 +35,21 @@ namespace Phantom
 		Slot* _endSlot; // Target?
 
 		Link(Node* startNode, Node* endNode, Slot* startSlot, Slot* endSlot) : _startNode(startNode), _endNode(endNode), _startSlot(startSlot), _endSlot(endSlot) {}
+	};
+
+	class Variable
+	{
+		public:
+			Variable() { _outSlot._type = SlotType::Output; };
+			inline const char* Name() { return _name; };
+			inline const unsigned int Id() { return _id; };
+		private:
+			Slot _outSlot;
+			const char* _name;
+			unsigned int _id;
+			ImVec2 _position;
+
+			friend class GraphContext;
 	};
 
 	class Node
