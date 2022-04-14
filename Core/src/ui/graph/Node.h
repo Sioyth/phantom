@@ -13,10 +13,11 @@ namespace Phantom
 
 	struct Slot
 	{
-		int _data;
+		int _data = 0;
 		const char* _name;
 		unsigned int _id;
 		Node* _node;
+		Slot* _linkedSlot;
 
 		ImVec2 _center;
 		SlotType _type;
@@ -37,33 +38,23 @@ namespace Phantom
 		Link(Node* startNode, Node* endNode, Slot* startSlot, Slot* endSlot) : _startNode(startNode), _endNode(endNode), _startSlot(startSlot), _endSlot(endSlot) {}
 	};
 
-	class Variable
-	{
-		public:
-			Variable() { _outSlot._type = SlotType::Output; };
-			inline const char* Name() { return _name; };
-			inline const unsigned int Id() { return _id; };
-		private:
-			Slot _outSlot;
-			const char* _name;
-			unsigned int _id;
-			ImVec2 _position;
-
-			friend class GraphContext;
-	};
+	enum NodeType { Core = 0, Variable, Custom};
 
 	class Node
 	{
 		public:
+			Node() = default;
 			Node(unsigned int id, ImVec2 pos);
 			void AddSlot(const char* name, SlotType type);
-			//virtual void Resolve() = 0;
+			virtual void Resolve();
 		protected:
-			const char* _name = "test";
+			NodeType _type;
+			float _width;
+			ImVec2 _position;
 			unsigned int _id;
 			unsigned int _guid = 0;
-			ImVec2 _position;
-			float _width;
+			bool _resolved = false;
+			const char* _name = "test";
 
 			std::vector<Slot> _inputSlots;
 			std::vector<Slot> _outputSlots;

@@ -3,33 +3,9 @@
 
 namespace Phantom
 {
-	// VERY TEMP;
-	static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y); }
-	static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y); }
-
 	GraphContext::GraphContext()
 	{
-		_graphs["ShaderGraph"]._nodes.push_back(Node(0, ImVec2(0, 0)));
-		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.front().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.front().AddSlot("Out", SlotType::Output);
-		_graphs["ShaderGraph"]._nodes.front().AddSlot("Out", SlotType::Output);
-
-		_graphs["ShaderGraph"]._nodes.push_back(Node(1, ImVec2(100, 0)));
-		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.back().AddSlot("UV", SlotType::Input);
-		_graphs["ShaderGraph"]._nodes.back().AddSlot("Out", SlotType::Output);
-		_graphs["ShaderGraph"]._nodes.back().AddSlot("Out", SlotType::Output);
-
-		_graphs["ShaderGraph"]._nodes.push_back(Node(2, ImVec2(150, 50)));
-
-		Variable var;
-		var._position = ImVec2(100, 100);
-		var._name = "Var 1 teste";
-		var._id = 100;
-		_graphs["ShaderGraph"]._variables.push_back(var);
+		
 	}
 
 	void GraphContext::BeginGraph(const char* name, GraphFlags flags)
@@ -45,28 +21,11 @@ namespace Phantom
 		if (!flags & NoGrid)
 			DrawGrid();
 
-		for (std::list<Node>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
-			DrawNodeWindow(*node);
+		for (std::list<Node*>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
+			DrawNodeWindow(**node);
 
-		for (int i = 0; i < _currentGraph->_variables.size(); i++)
-			DrawVariables(_currentGraph->_variables[i]);
-
-		DrawLinks();
-
-		bool contextMenuOpen = false;
-		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseClicked(1))
-			contextMenuOpen = true;
-
-		if (contextMenuOpen)
-			ImGui::OpenPopup("Menu");
-
-		if (ImGui::BeginPopup("Menu"))
-		{
-			ImVec2 scene_pos = ImGui::GetMousePosOnOpeningCurrentPopup() - _graphs[name]._offset;
-			if (ImGui::MenuItem("Create node"))
-				CreateNode(name, scene_pos);
-			ImGui::EndPopup();
-		}
+		for (std::list<Link>::iterator link = _currentGraph->_links.begin(); link != _currentGraph->_links.end(); link++)
+			DrawLinks(*link);
 
 		// Mouse Drag
 		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Middle, 0.0f))
@@ -79,10 +38,21 @@ namespace Phantom
 		ImGui::PopStyleVar();
 	}
 
-	void GraphContext::CreateNode(const char* name, const ImVec2& pos)
+	void GraphContext::DeleteNode(Node* node)
 	{
-		_guid++;
-		_graphs[name]._nodes.push_back(Node(_guid, pos));
+		_currentGraph->_nodes.remove(node);
+	}
+
+	void GraphContext::CreateNode(Node* node, const ImVec2& pos)
+	{
+		node->_id = _guid++;
+		node->_position = pos;
+		_currentGraph->_nodes.push_back(node);
+	}
+
+	void GraphContext::CreateVariable(const ImVec2& pos)
+	{
+		_currentGraph->_nodes.emplace_back(new NodeVariable(_guid++, pos));	
 	}
 
 	void GraphContext::DrawGrid()
@@ -122,6 +92,8 @@ namespace Phantom
 		ImGui::BeginGroup();
 		ImGui::Text(node._name);
 		ImGui::SetCursorScreenPos(contentPosition);
+		if (node._type == NodeType::Variable)
+			DrawVariables(node);
 
 		int size = node._inputSlots.size() >= node._outputSlots.size() ? node._inputSlots.size() : node._outputSlots.size();
 		for (int i = 0; i < size; i++)
@@ -187,99 +159,45 @@ namespace Phantom
 		_currentGraph->_drawList->ChannelsMerge();
 	}
 
+	void GraphContext::Resolve()
+	{
+		for (std::list<Node*>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
+			(*node)->Resolve();
+	}
+
 	void GraphContext::CreateLink(Slot& start, Slot& end)
 	{
 		Link link = Link(start._node, end._node, &start, &end);
 		end._state = SlotState::Connected;
 		start._state = SlotState::Connected;
+		end._linkedSlot = &start;
+		start._linkedSlot = &end;
 
+		Resolve();
 		_currentGraph->_links.push_back(link);
 	}
 
-	void GraphContext::DrawLinks()
+	void GraphContext::DrawLinks(Link& link)
 	{
-		for (int i = 0; i < _currentGraph->_links.size(); i++)
-		{
-			GraphStyle* style = &_currentGraph->_style;
-			GraphColors* colors = &_currentGraph->_colorsStyle;
-
-			Link* link = &_currentGraph->_links[i];
-			ImVec2 pos1 = link->_startSlot->_center;
-			ImVec2 pos2 = link->_endSlot->_center;
-
-			_currentGraph->_drawList->AddLine(pos1, pos2, colors->_linkColor, style->_linkThickness);
-		}
-	}
-
-	void GraphContext::DrawVariables(Variable& var)
-	{
-		ImGui::PushID(var._id);
-		_currentGraph->_drawList->ChannelsSplit(3);
-
 		GraphStyle* style = &_currentGraph->_style;
 		GraphColors* colors = &_currentGraph->_colorsStyle;
 
-		ImVec2 nodeWindowTopLeftCorner = var._position + _currentGraph->_offset;
-		ImVec2 headerTitleSize = ImGui::CalcTextSize(var._name);
-		ImVec2 contentPosition = ImVec2(nodeWindowTopLeftCorner + style->windowPadding);
-		contentPosition.y += headerTitleSize.y + style->headerPadding.x;
+		ImVec2 pos1 = link._startSlot->_center;
+		ImVec2 pos2 = link._endSlot->_center;
+
+		_currentGraph->_drawList->AddLine(pos1, pos2, colors->_linkColor, style->_linkThickness);
+	}
+
+	void GraphContext::DrawVariables(Node& var)
+	{
+		GraphStyle* style = &_currentGraph->_style;
+		GraphColors* colors = &_currentGraph->_colorsStyle;
 
 		// Node Content
 		ImGui::PushItemWidth(_currentGraph->_style.windowMinSize.x - style->windowPadding.x - style->windowPadding.x - style->slotOffset);
 
-		_currentGraph->_drawList->ChannelsSetCurrent(2);
-		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner + style->windowPadding);
-		ImGui::BeginGroup();
-		ImGui::Text(var._name);
-		ImGui::SetCursorScreenPos(contentPosition);
-		ImGui::InputInt("", &var._outSlot._data, 0);
-
-		ImVec2 offset(style->windowMinSize.x - style->windowPadding.x - style->windowPadding.x - style->slotOffset, 0.0f);
-		//ImGui::SameLine();
-		ImGui::SetCursorScreenPos(ImGui::GetCursorScreenPos() + offset);
-		ImVec2 center = ImVec2(nodeWindowTopLeftCorner.x + style->windowMinSize.x - style->slotOffset, ImGui::GetCursorScreenPos().y - ImGui::GetStyle().ItemSpacing.y);
-		DrawSlot(center, var._outSlot);
-
-		ImGui::EndGroup();
-		ImGui::PopItemWidth();
-
-		ImVec2 windowSize = ImGui::GetItemRectSize() + style->windowPadding + style->windowPadding;
-		windowSize.x = windowSize.x < style->windowMinSize.x ? style->windowMinSize.x : windowSize.x;
-		windowSize.y = windowSize.y < style->windowMinSize.y ? style->windowMinSize.y : windowSize.y;
-		ImVec2 headerSize = ImVec2(windowSize.x, headerTitleSize.y + style->windowPadding.y + style->headerPadding.y);
-		ImVec2 nodeBoxBottomRightCorner = nodeWindowTopLeftCorner + windowSize;
-
-		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner);
-		ImGui::InvisibleButton("variable", windowSize);
-
-		/*if (ImGui::IsItemHovered())
-			_currentGraph->_nodeHovered = &node;
-		else if (&node == _currentGraph->_nodeHovered)
-			_currentGraph->_nodeHovered = nullptr;*/
-
-		bool isNodeSelected = ImGui::IsItemActive();
-		if (isNodeSelected && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
-			var._position = var._position + ImGui::GetIO().MouseDelta;
-
-		// Node Box Header
-		_currentGraph->_drawList->ChannelsSetCurrent(1);
-		ImU32 headerBgColor =  colors->_headerBackground;;
-		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeWindowTopLeftCorner + headerSize, headerBgColor, style->windowCornerRadius, ImDrawFlags_RoundCornersTop);
-		_currentGraph->_drawList->AddLine(ImVec2(nodeWindowTopLeftCorner.x, nodeWindowTopLeftCorner.y + headerSize.y), nodeWindowTopLeftCorner + headerSize, colors->_headerSeparator);
-
-		// Node Box Background
-		_currentGraph->_drawList->ChannelsSetCurrent(0);
-		ImU32 nodeBgBackground = colors->_background;
-		_currentGraph->_drawList->AddRectFilled(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, nodeBgBackground, style->windowCornerRadius);
-
-		//Outline
-		_currentGraph->_drawList->ChannelsSetCurrent(1);
-		ImU32 outlineColor = colors->_outline;
-		_currentGraph->_drawList->AddRect(nodeWindowTopLeftCorner, nodeBoxBottomRightCorner, outlineColor, style->windowCornerRadius, 0, style->_outlinethickness);
-
-		ImGui::PopID();
-		_currentGraph->_drawList->ChannelsMerge();
-
+		ImGui::InputInt("", &var._outputSlots[0]._data, 0);
+		ImGui::SameLine();
 	}
 
 	void GraphContext::DrawSlot(const ImVec2& center, Slot& slot)
@@ -315,7 +233,8 @@ namespace Phantom
 		else if (&slot == _currentGraph->_currentSlot && slot._state != SlotState::Connecting)
 		{
 			_currentGraph->_currentSlot = nullptr;
-			slot._state = SlotState::Empty;
+			if(slot._state != SlotState::Connected) 
+				slot._state = SlotState::Empty;
 		}
 
 		bool hovered = false;

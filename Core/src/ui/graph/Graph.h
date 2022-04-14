@@ -4,9 +4,13 @@
 #include <vector>
 #include <map>
 #include "Node.h"
+#include "NodeVariable.h"
 
 namespace Phantom
 {
+	// VERY TEMP;
+	static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y); }
+	static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y); }
 
 	enum GraphFlags { None = 0, NoGrid};
 
@@ -60,9 +64,8 @@ namespace Phantom
 		Node* _nodeHovered;
 		Slot* _currentSlot;
 		ImDrawList* _drawList;
-		std::list<Node> _nodes;
-		std::vector <Link> _links;
-		std::vector <Variable> _variables;
+		std::list<Node*> _nodes;
+		std::list <Link> _links;
 
 		GraphStyle _style;
 		GraphColors _colorsStyle;
@@ -74,18 +77,25 @@ namespace Phantom
 			GraphContext();
 
 			void EndGraph();
-			void CreateNode(const char* name, const ImVec2& pos);
+			void DeleteNode(Node* node);
+			void CreateNode(Node* node, const ImVec2& pos);
+			void CreateVariable(const ImVec2& pos);
 			void BeginGraph(const char* name, GraphFlags flags = None);
+
+			inline const ImVec2& GetGraphPosition() { return ImGui::GetMousePosOnOpeningCurrentPopup() - _currentGraph->_offset; };
 
 			/*inline Style& GetStyle() { return _currentGraph->_style; };
 			inline ColorsStyle& GetColorsStyle() { return _currentGraph->_colorsStyle; };*/
+			inline Graph* GetGraph() { return _currentGraph; }
 		private:
+			// Move to Graph
 			void DrawGrid();
-			void DrawLinks();
+			void DrawLinks(Link& link);
 			void DrawNodeWindow(Node& node);
-			void DrawVariables(Variable& var);
+			void DrawVariables(Node& var);
 			void DrawSlot(const ImVec2& center, Slot& slot);
-
+			
+			void Resolve();
 			void CreateLink(Slot& start, Slot& end);
 
 			unsigned int _guid;

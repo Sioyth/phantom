@@ -25,6 +25,20 @@ namespace Phantom
 		_guid++;
 	}
 
+	void Node::Resolve()
+	{
+		for (int i = 0; i < _inputSlots.size(); i++)
+		{
+			if (_inputSlots[i]._state == SlotState::Connected && _inputSlots[i]._linkedSlot->_node->_resolved == false)
+			{
+				_inputSlots[i]._linkedSlot->_node->Resolve();
+				_inputSlots[i]._data = _inputSlots[i]._linkedSlot->_data;
+			}
+				else
+					continue;
+		}
+	}
+
 	float Node::CalcNodeWidth()
 	{
 		float inputWidth = 0;

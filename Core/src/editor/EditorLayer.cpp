@@ -29,7 +29,7 @@ namespace Phantom
 		UI::NewFrame();
 		SceneViewPort::Render();
 		SceneHierarchy::Render();
-		ShaderGraph::Render();
+		ShaderGraph::Draw();
 		UI::EndFrame();
 	}
 
