@@ -5,7 +5,7 @@ namespace Phantom
 {
 	GraphContext::GraphContext()
 	{
-		
+
 	}
 
 	void GraphContext::BeginGraph(const char* name, GraphFlags flags)
@@ -41,18 +41,19 @@ namespace Phantom
 	void GraphContext::DeleteNode(Node* node)
 	{
 		_currentGraph->_nodes.remove(node);
+		delete node;
 	}
 
 	void GraphContext::CreateNode(Node* node, const ImVec2& pos)
 	{
 		node->_id = _guid++;
 		node->_position = pos;
-		_currentGraph->_nodes.push_back(node);
+		_currentGraph->_nodes.push_back(std::move(node));
 	}
 
 	void GraphContext::CreateVariable(const ImVec2& pos)
 	{
-		_currentGraph->_nodes.emplace_back(new NodeVariable(_guid++, pos));	
+		_currentGraph->_nodes.push_back(new NodeVariable(_guid++, pos));
 	}
 
 	void GraphContext::DrawGrid()
@@ -128,14 +129,15 @@ namespace Phantom
 		ImVec2 nodeBoxBottomRightCorner = nodeWindowTopLeftCorner + windowSize;
 
 		ImGui::SetCursorScreenPos(nodeWindowTopLeftCorner);
-		ImGui::InvisibleButton("node", windowSize);
+		ImGui::InvisibleButton("node", windowSize, ImGuiButtonFlags_AllowItemOverlap);
+		ImGui::SetItemAllowOverlap();
 
-		if (ImGui::IsItemHovered())
+		if (ImGui::IsItemHovered() && (!_currentGraph->_nodeHovered || _currentGraph->_nodeHovered->_id < node._id))
 			_currentGraph->_nodeHovered = &node;
-		else if(&node == _currentGraph->_nodeHovered)
+		else if (!ImGui::IsItemHovered() && &node == _currentGraph->_nodeHovered)
 			_currentGraph->_nodeHovered = nullptr;
 
-		bool isNodeSelected = ImGui::IsItemActive();
+		bool isNodeSelected = ImGui::IsItemActive() && &node == _currentGraph->_nodeHovered;
 		if (isNodeSelected && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 			node._position = node._position + ImGui::GetIO().MouseDelta;
 
@@ -181,11 +183,7 @@ namespace Phantom
 	{
 		GraphStyle* style = &_currentGraph->_style;
 		GraphColors* colors = &_currentGraph->_colorsStyle;
-
-		ImVec2 pos1 = link._startSlot->_center;
-		ImVec2 pos2 = link._endSlot->_center;
-
-		_currentGraph->_drawList->AddLine(pos1, pos2, colors->_linkColor, style->_linkThickness);
+		_currentGraph->_drawList->AddLine(link._startSlot->_center, link._endSlot->_center, colors->_linkColor, style->_linkThickness);
 	}
 
 	void GraphContext::DrawVariables(Node& var)
