@@ -10,6 +10,7 @@ namespace Phantom
 			Plane();
 			break;
 		case Phantom::Cube:
+			Cube();
 			break;
 		case Phantom::Sphere:
 			break;
@@ -93,6 +94,22 @@ namespace Phantom
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 
 		glBindVertexArray(0);
+	}
+	void Mesh::Cube()
+	{
+		std::vector<glm::vec3> vertices = {
+										glm::vec3(-1.0f, 0.0f,  1.0f),
+										glm::vec3(1.0f, 0.0f,  1.0f),
+										glm::vec3(1.0f, 0.0f, -1.0f),
+										glm::vec3(-1.0f, 0.0f, -1.0f) };
+
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			Vertex vertex;
+			vertex.position = vertices[i];
+			vertex.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			_vertices.push_back(vertex);
+		}
 	}
 	void Mesh::Plane()
 	{

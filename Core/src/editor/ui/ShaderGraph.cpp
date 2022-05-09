@@ -30,6 +30,13 @@ namespace Phantom
 	void ShaderGraph::Draw()
 	{
 		_graphContext.BeginGraph("ShaderGraph");
+		static bool firstPass = false;
+		if (!firstPass) 
+		{
+			firstPass = true;
+			_graphContext.CreateNode(new OutputNode(), ImVec2(0,0));
+		}
+
 		ContextMenu();
 		_graphContext.EndGraph();
 	}

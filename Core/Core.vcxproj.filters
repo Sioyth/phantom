@@ -35,6 +35,7 @@
     <ClCompile Include="src\ui\graph\Node.cpp" />
     <ClCompile Include="src\ui\graph\Graph.cpp" />
     <ClCompile Include="src\ui\graph\NodeVariable.cpp" />
+    <ClCompile Include="src\shader\graph\OutputNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\default.vert" />
@@ -77,5 +78,6 @@
     <ClInclude Include="src\ui\graph\Node.h" />
     <ClInclude Include="src\ui\graph\Graph.h" />
     <ClInclude Include="src\ui\graph\NodeVariable.h" />
+    <ClInclude Include="src\shader\graph\OutputNode.h" />
   </ItemGroup>
 </Project>

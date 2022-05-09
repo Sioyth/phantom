@@ -38,6 +38,7 @@ namespace Phantom
 	protected:
 
 		void Setup();
+		void Cube();
 		void Plane();
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned int> _indices;

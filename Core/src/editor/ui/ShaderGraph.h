@@ -6,6 +6,7 @@
 #include <vector>
 #include <imgui/imgui_internal.h> 
 #include "../../ui/graph/Graph.h"
+#include "../../shader/graph/OutputNode.h"	
 
 namespace Phantom 
 {

@@ -17,16 +17,18 @@ namespace Phantom
 		Shader(const char* vertexPath, const char* fragPath);
 
 		void Use();
-		void Delete(); // Redundant?
-
+		
 		void SendUniformData(const char* name, float f);
 		void SendUniformData(const char* name, glm::vec3 v);
 		void SendUniformData(const char* name, glm::vec4 v);
 		void SendUniformData(const char* name, glm::mat4 m);
 		void SendUniformData(const char* name, float x, float y, float z, float w = 1.0f);
 
-		static void LoadDefaultShaders();
+		const char* Load(const char* shaderPath);
+		void LoadShaders(const char* vertexPath, const char* fragPath);
+		void CompileShaders(const char* vertexCode, const char* fragCode);
 		static Shader& CurrentShader();
+		static void LoadDefaultShaders();
 		inline static void UseDefault() { _defaultShader->Use(); };
 		inline static Shader& GetDefault() { return *_defaultShader; };
 		inline static const unsigned int& GetDefaultID() { return _defaultShader->_id; }

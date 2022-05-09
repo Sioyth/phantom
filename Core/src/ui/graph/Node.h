@@ -48,13 +48,14 @@ namespace Phantom
 			void AddSlot(const char* name, SlotType type);
 			virtual void Resolve();
 		protected:
-			NodeType _type;
 			float _width;
+			bool _constant;
+			NodeType _type;
 			ImVec2 _position;
 			unsigned int _id;
 			unsigned int _guid = 0;
 			bool _resolved = false;
-			const char* _name = "test";
+			const char* _name = "Node";
 
 			std::vector<Slot> _inputSlots;
 			std::vector<Slot> _outputSlots;
