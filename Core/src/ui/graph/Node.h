@@ -2,18 +2,19 @@
 #define NODE_H
 #include <vector>
 #include <imgui/imgui_internal.h>
+#include <glm/glm.hpp>
 
 namespace Phantom
 {
-
 	class Node;
+	class GraphContext;
 
 	enum SlotState{ Empty = 0, Connecting, Connected };
 	enum SlotType{Input = 0, Output};
 
 	struct Slot
 	{
-		int _data = 0;
+		glm::vec3 _data;
 		const char* _name;
 		unsigned int _id;
 		Node* _node;
@@ -29,7 +30,7 @@ namespace Phantom
 
 	struct Link
 	{
-		int _data;
+		glm::vec3 _data;
 		Node* _startNode;
 		Node* _endNode;
 		Slot* _startSlot;
@@ -47,6 +48,8 @@ namespace Phantom
 			Node(unsigned int id, ImVec2 pos);
 			void AddSlot(const char* name, SlotType type);
 			virtual void Resolve();
+
+			inline const char* Name() { return _name; };
 		protected:
 			float _width;
 			bool _constant;

@@ -5,11 +5,15 @@ namespace Phantom
 {
 	Shader* Shader::_defaultShader = nullptr;
 	Shader* Shader::_currentShader = nullptr;
+	Shader* Shader::_shaderGraphShader = nullptr;
 
 	Shader::Shader(const char* vertexPath, const char* fragPath)
 	{
-		LoadShaders(vertexPath, fragPath);
-		
+		//LoadShaders(vertexPath, fragPath);
+		std::string vertexCode = Load(vertexPath);
+		std::string fragCode = Load(fragPath);
+
+		CompileShaders(vertexCode.c_str(), fragCode.c_str());
 	}
 
 	void Shader::Use()
@@ -52,7 +56,7 @@ namespace Phantom
 	{
 		_defaultShader = new Shader("src/shader/default.vert", "src/shader/default.frag");
 	}
-	const char* Shader::Load(const char* shaderPath)
+	std::string Shader::Load(const char* shaderPath)
 	{
 		//Get the source code from the file
 		std::string shaderCodeString;
@@ -72,16 +76,16 @@ namespace Phantom
 				return nullptr; //if cannot find file, all of the time
 			}
 
-			std::stringstream vertexShaderStream, fragmentShaderStream;
+			std::stringstream shaderStream;
 
 			// Read file buffer content into the streams
-			vertexShaderStream << shaderFile.rdbuf();
+			shaderStream << shaderFile.rdbuf();
 
 			// Close the file
 			shaderFile.close();
 
 			// Convert the stream into a string
-			shaderCodeString = vertexShaderStream.str();
+			shaderCodeString = shaderStream.str();
 
 		}
 		catch (std::ifstream::failure e)
@@ -90,7 +94,7 @@ namespace Phantom
 		}
 
 		// Convert the string to a char array
-		return shaderCodeString.c_str();
+		return shaderCodeString;
 	}
 	void Shader::LoadShaders(const char* vertexPath, const char* fragPath)
 	{

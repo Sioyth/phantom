@@ -25,6 +25,8 @@ namespace Phantom
 		Renderer::Instance()->Render(*SceneManager::CurrentScene(), _editorCamera, SceneViewPort::GetAspectRatio());
 		SceneViewPort::UnbindFrameBuffer();
 
+		SceneManager::CurrentScene()->Update(dt);
+
 		// ui
 		UI::NewFrame();
 		SceneViewPort::Render();

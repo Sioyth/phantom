@@ -3,9 +3,11 @@
 #include "../render/Renderer.h"
 #include "../components/Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 namespace Phantom
 {
+	Entity* plane2;
 	Scene::Scene(bool stock)
 	{
 		/*_activeCamera = CreateEntity("MainCamera");
@@ -18,11 +20,11 @@ namespace Phantom
 			return;
 
 	  Mesh planeMesh = Mesh(Primitive::Plane);
-	  Entity* plane = CreateEntity("Plane")->get();
-	  //plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
-	  plane->AddComponent<MeshRenderer>(planeMesh);
+	  //Entity* plane = CreateEntity("Plane")->get();
+	  ////plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
+	  //plane->AddComponent<MeshRenderer>(planeMesh);
   
-	  Entity* plane2 = CreateEntity()->get();
+	  plane2 = CreateEntity()->get();
 	  plane2->GetComponent<Transform>().Scale(glm::vec3(10.0f));
 	  plane2->AddComponent<MeshRenderer>(planeMesh);
 
@@ -39,7 +41,12 @@ namespace Phantom
 
 	void Scene::Update(const float& dt)
 	{
-		
+		static bool first = false;
+		if (Shader::_shaderGraphShader != nullptr && first == false)
+		{
+			first = true;
+			plane2->GetComponent<MeshRenderer>()._material.SetShader(Shader::_shaderGraphShader);
+		}
 	}
 
 	Entity* Scene::activeCamera()

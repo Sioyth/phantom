@@ -62,10 +62,12 @@ namespace Phantom
 		ImVec2 _offset;
 		ImVec2 _mouseDrag;
 		Node* _nodeHovered;
+		Node* _variableHovered;
 		Slot* _currentSlot;
 		ImDrawList* _drawList;
 		std::list<Node*> _nodes;
 		std::list <Link> _links;
+		std::list<NodeVariable*> _variables;
 
 		GraphStyle _style;
 		GraphColors _colorsStyle;
@@ -79,7 +81,8 @@ namespace Phantom
 			void EndGraph();
 			void DeleteNode(Node* node);
 			void CreateNode(Node* node, const ImVec2& pos);
-			void CreateVariable(const ImVec2& pos);
+			void CreateVariable(const char* name);
+			void CreateVariableOnGraph(NodeVariable* variable);
 			void BeginGraph(const char* name, GraphFlags flags = None);
 
 			inline const ImVec2& GetGraphPosition() { return ImGui::GetMousePosOnOpeningCurrentPopup() - _currentGraph->_offset; };

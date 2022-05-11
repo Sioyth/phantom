@@ -21,9 +21,9 @@ namespace Phantom
 			{
 				Node::Resolve();
 				_outputSlots[0]._data = _inputSlots[0]._data * _inputSlots[1]._data;
-				std::cout << "Input 1: " << _inputSlots[0]._data << std::endl;
+				/*std::cout << "Input 1: " << _inputSlots[0]._data << std::endl;
 				std::cout << "Input 2: " << _inputSlots[1]._data << std::endl;
-				std::cout << "Result " << _outputSlots[0]._data << std::endl;
+				std::cout << "Result " << _outputSlots[0]._data << std::endl;*/
 			}
 	};
 
@@ -67,7 +67,7 @@ namespace Phantom
 				if (ImGui::MenuItem("Create node"))
 					_graphContext.CreateNode(new MultiplyNode(), pos);
 				if (ImGui::MenuItem("Create variable"))
-					_graphContext.CreateVariable(pos);
+					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos));
 			}
 			ImGui::EndPopup();
 		}

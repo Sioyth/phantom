@@ -14,6 +14,7 @@ namespace Phantom
 			Material();
 			void Apply(); // USE instead?
 			Shader& GetShader();
+			inline void SetShader(Shader* shader) { _shader = shader; };
 
 		private:
 			Shader* _shader;

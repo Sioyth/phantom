@@ -7,7 +7,7 @@ namespace Phantom
 	class NodeVariable : public Node
 	{
 		public:
-			NodeVariable(unsigned int id, ImVec2 pos);
+			NodeVariable(const char* name, unsigned int id, ImVec2 pos);
 		private:
 			virtual void Resolve() { };
 	};
