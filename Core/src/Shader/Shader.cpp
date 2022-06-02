@@ -19,7 +19,6 @@ namespace Phantom
 	void Shader::Use()
 	{
 		glUseProgram(_id);
-		_currentShader = this;
 	}
 
 	unsigned int Shader::GetID()
@@ -32,9 +31,12 @@ namespace Phantom
 		glUniform1f(glGetUniformLocation(_id, name), f);
 	}
 
-	void Shader::SendUniformData(const char* name, glm::vec3 v)
+	void Shader::SendUniformData(const char* name, glm::vec3 v, bool debug)
 	{
 		glUniform3f(glGetUniformLocation(_id, name), v.x, v.y, v.z);
+		if (debug)
+			std::cout << glGetError() << ", " << _id << ", " << name << std::endl;
+			//std::cout << glGetUniformLocation(_id, name) << ", " << name << std::endl; // returns 0 (no error)
 	}
 
 	void Shader::SendUniformData(const char* name, glm::vec4 v)
@@ -197,8 +199,6 @@ namespace Phantom
 		// Delete shaders they are no longer needed as the program has the shader already and has linked them
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
-
-		_currentShader = this;
 	}
 	Shader& Shader::CurrentShader()
 	{

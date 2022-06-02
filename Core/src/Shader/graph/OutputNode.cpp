@@ -8,7 +8,7 @@ namespace Phantom
 	{
 		_constant = true;
 		_name = "Fragment";
-		AddSlot("Albedo", SlotType::Input);
+		AddSlot("Albedo", SlotType::Input, DataType::Vec3);
 	}
 
 	void OutputNode::Resolve()
@@ -52,17 +52,21 @@ namespace Phantom
 			"uniform Light _light;\n"
 			"uniform Material _material;\n"
 			"uniform vec3 cameraPos;\n"
+			"uniform vec4 _albedo;\n"
 			"void main()\n"
 			"{\n";
 
-
+		glm::vec3* albedo = CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress());
 		if (std::ifstream("shadergraph.frag"))
 		{
 			std::cout << "File Already Exits" << std::endl;
 			std::ofstream file;
 			file.open("shadergraph.frag");
 			file << fragmentShaderSource;
-			file << "fragColor = vec4(" << _inputSlots[0]._data.x << "," << _inputSlots[0]._data.y << "," << _inputSlots[0]._data.z << "," << "1.0f);\n";
+			//file << "vec3 Ra = _albedo * 0.5f;\n";
+			file << "fragColor = vec4(" << albedo->x << "," << albedo->y << "," << albedo->z << "," << "1.0f);\n";
+			//file << "vec3 Ra = _albedo;\n";
+			//file << "fragColor = _albedo;\n";
 			file << "}\n\0";
 			file.close();
 		}

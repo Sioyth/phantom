@@ -97,19 +97,104 @@ namespace Phantom
 	}
 	void Mesh::Cube()
 	{
-		std::vector<glm::vec3> vertices = {
-										glm::vec3(-1.0f, 0.0f,  1.0f),
-										glm::vec3(1.0f, 0.0f,  1.0f),
-										glm::vec3(1.0f, 0.0f, -1.0f),
-										glm::vec3(-1.0f, 0.0f, -1.0f) };
+		std::vector<glm::vec3> vertices{
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f, -0.5f),
+			glm::vec3(0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f, -0.5f),
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+			glm::vec3(-0.5f,  0.5f, -0.5f),
 
-		for (int i = 0; i < vertices.size(); i++)
-		{
-			Vertex vertex;
-			vertex.position = vertices[i];
-			vertex.normal = glm::vec3(0.0f, 1.0f, 0.0f);
-			_vertices.push_back(vertex);
-		}
+			glm::vec3(-0.5f, -0.5f,  0.5f),
+			glm::vec3(0.5f, -0.5f,  0.5f),
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(-0.5f,  0.5f,  0.5f),
+			glm::vec3(-0.5f, -0.5f,  0.5f),
+
+			glm::vec3(-0.5f,  0.5f,  0.5f),
+			glm::vec3(-0.5f,  0.5f, -0.5f),
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+			glm::vec3(-0.5f, -0.5f,  0.5f),
+			glm::vec3(-0.5f,  0.5f,  0.5f),
+
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f, -0.5f),
+			glm::vec3(0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(0.5f, -0.5f,  0.5f),
+
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f, -0.5f, -0.5f),
+			glm::vec3(0.5f, -0.5f,  0.5f),
+			glm::vec3(0.5f, -0.5f,  0.5f),
+			glm::vec3(-0.5f, -0.5f,  0.5f),
+			glm::vec3(-0.5f, -0.5f, -0.5f),
+
+			glm::vec3(-0.5f,  0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(0.5f,  0.5f, -0.5f),
+			glm::vec3(0.5f,  0.5f,  0.5f),
+			glm::vec3(-0.5f,  0.5f, -0.5f),
+			glm::vec3(-0.5f,  0.5f,  0.5f),
+		};
+		
+			std::vector <glm::vec3 > normals{
+			glm::vec3(0.0f,  0.0f, -1.0f),
+			glm::vec3(0.0f,  0.0f, -1.0f),
+			glm::vec3(0.0f,  0.0f, -1.0f),
+			glm::vec3(0.0f,  0.0f, -1.0f),
+			glm::vec3(0.0f,  0.0f, -1.0f),
+			glm::vec3(0.0f,  0.0f, -1.0f),
+
+			glm::vec3(0.0f,  0.0f,  1.0f),
+			glm::vec3(0.0f,  0.0f,  1.0f),
+			glm::vec3(0.0f,  0.0f,  1.0f),
+			glm::vec3(0.0f,  0.0f,  1.0f),
+			glm::vec3(0.0f,  0.0f,  1.0f),
+			glm::vec3(0.0f,  0.0f,  1.0f),
+
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+			glm::vec3(-1.0f,  0.0f,  0.0f),
+
+			glm::vec3(1.0f,  0.0f,  0.0f),
+			glm::vec3(1.0f,  0.0f,  0.0f),
+			glm::vec3(1.0f,  0.0f,  0.0f),
+			glm::vec3(1.0f,  0.0f,  0.0f),
+			glm::vec3(1.0f,  0.0f,  0.0f),
+			glm::vec3(1.0f,  0.0f,  0.0f),
+
+			glm::vec3(0.0f, -1.0f,  0.0f),
+			glm::vec3(0.0f, -1.0f,  0.0f),
+			glm::vec3(0.0f, -1.0f,  0.0f),
+			glm::vec3(0.0f, -1.0f,  0.0f),
+			glm::vec3(0.0f, -1.0f,  0.0f),
+			glm::vec3(0.0f, -1.0f,  0.0f),
+
+			glm::vec3(0.0f,  1.0f,  0.0f),
+			glm::vec3(0.0f,  1.0f,  0.0f),
+			glm::vec3(0.0f,  1.0f,  0.0f),
+			glm::vec3(0.0f,  1.0f,  0.0f),
+			glm::vec3(0.0f,  1.0f,  0.0f),
+			glm::vec3(0.0f,  1.0f,  0.0f),
+		};
+
+			for (int i = 0; i < vertices.size(); i++)
+			{
+				Vertex vertex;
+				vertex.position = vertices[i];
+				vertex.normal = normals[i];
+				_vertices.push_back(vertex);
+			}
+
+			Setup();
+
 	}
 	void Mesh::Plane()
 	{

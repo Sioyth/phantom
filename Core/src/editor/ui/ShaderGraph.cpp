@@ -1,6 +1,7 @@
 #include "ShaderGraph.h"
 #include <imgui/imgui.h>
 #include <iostream>
+#include "../../util/Time.h"
 
 namespace Phantom
 {
@@ -20,10 +21,17 @@ namespace Phantom
 			void Resolve()
 			{
 				Node::Resolve();
-				_outputSlots[0]._data = _inputSlots[0]._data * _inputSlots[1]._data;
-				/*std::cout << "Input 1: " << _inputSlots[0]._data << std::endl;
-				std::cout << "Input 2: " << _inputSlots[1]._data << std::endl;
-				std::cout << "Result " << _outputSlots[0]._data << std::endl;*/
+
+				/*auto first = _inputSlots[0]._data.GetDataAddress();
+				auto second = _inputSlots[1]._data.GetDataAddress();*/
+
+				
+				
+				//auto result = (*first)* (*second);
+
+				std::cout << "Input 1: " << CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress())->x << std::endl;
+				/*std::cout << "Input 2: " << _inputSlots[1]._data.GetDataAddress() << std::endl;
+				std::cout << "Result " << _outputSlots[0]._data.GetDataAddress() << std::endl;*/
 			}
 	};
 
@@ -31,10 +39,11 @@ namespace Phantom
 	{
 		_graphContext.BeginGraph("ShaderGraph");
 		static bool firstPass = false;
-		if (!firstPass) 
+		if (!firstPass)
 		{
 			firstPass = true;
-			_graphContext.CreateNode(new OutputNode(), ImVec2(0,0));
+			_graphContext.CreateNode(new OutputNode(), ImVec2(250, 250));
+			_graphContext.CreateVariable("Time", &Time::DeltaTimeVal(), true, DataType::Float);
 		}
 
 		ContextMenu();
@@ -67,7 +76,7 @@ namespace Phantom
 				if (ImGui::MenuItem("Create node"))
 					_graphContext.CreateNode(new MultiplyNode(), pos);
 				if (ImGui::MenuItem("Create variable"))
-					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos));
+					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos, DataType::Vec3));
 			}
 			ImGui::EndPopup();
 		}

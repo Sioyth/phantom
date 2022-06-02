@@ -25,9 +25,10 @@ namespace Phantom
 
     void Renderer::DrawLight(Transform& transform, Light& light)
     {
-        Shader::CurrentShader().SendUniformData("_light._color", light._color);
-        Shader::CurrentShader().SendUniformData("_light._position", transform.position());
-        Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f); // hardcoded for now
+        //Shader::CurrentShader().Use();
+        //Shader::CurrentShader().SendUniformData("_light._color", light._color);
+        //Shader::CurrentShader().SendUniformData("_light._position", transform.position());
+        //Shader::CurrentShader().SendUniformData("_light._ambientColor", glm::vec3(1.0f) * 0.2f); // hardcoded for now
     }
 
 	void Renderer::DrawMesh(Transform& model, MeshRenderer& meshRenderer, Scene& Scene, EditorCamera& camera, const float& aspectRatio)
@@ -37,12 +38,15 @@ namespace Phantom
         //Scene._editorCamera.SetAspect(_colorFrameBuffer.Witdh() / _colorFrameBuffer.Height());
         camera.SetAspectRatio(aspectRatio);
         glm::mat4 mvp = camera.Proj() * camera.View() * model.matrix();
+
+        meshRenderer._material.GetShader().Use();
         meshRenderer._material.GetShader().SendUniformData("mvp", mvp); // change it to just mv.
         meshRenderer._material.GetShader().SendUniformData("model", model.matrix()); 
-        meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.position());
+        //meshRenderer._material.GetShader().SendUniformData("cameraPos", camera.position());
 
         meshRenderer._material.Apply();
         meshRenderer._model.Render(meshRenderer._material.GetShader());
+        glUseProgram(0);
 	}
 
     Renderer* Renderer::Instance()
@@ -53,7 +57,7 @@ namespace Phantom
     }
     void Renderer::Render(Scene& scene, EditorCamera& camera, const float& aspectRatio)
     {
-        Clear(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        Clear(glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
         const auto& lights = scene._registry.view<Light, Transform>();
         for (auto entity : lights)
         {

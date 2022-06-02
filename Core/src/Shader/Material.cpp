@@ -19,11 +19,11 @@ namespace Phantom
 
 	void Material::Apply()
 	{
-		_shader->Use();
 		_shader->SendUniformData("_material._color", _color);
 		_shader->SendUniformData("_material._ambientReflectance", _ambientReflectance);
 		_shader->SendUniformData("_material._diffuseReflectance", _diffuseReflectance);
 		_shader->SendUniformData("_material._specularReflectance", _specularReflectance);
 		_shader->SendUniformData("_material._specularExponent", _specularExponent);
+		//_shader->SendUniformData("_albedo", _color, true);
 	}
 }

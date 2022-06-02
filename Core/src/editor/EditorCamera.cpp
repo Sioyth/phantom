@@ -32,7 +32,6 @@ const glm::mat4& Phantom::EditorCamera::View()
 
 void Phantom::EditorCamera::Update(const float& dt)
 {
-
 	if (!Input::Instance()->GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT, KeyState::PRESS))
 		return;
 

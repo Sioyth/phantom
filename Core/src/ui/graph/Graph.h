@@ -51,6 +51,7 @@ namespace Phantom
 		ImColor _linkColor = ImColor(200, 80, 60, 255);
 
 		ImColor _slot = IM_COL32(255, 80, 60, 255);
+		ImColor _slotVec3 = IM_COL32(0, 255, 255, 255);
 		ImColor _slotHovered = IM_COL32(255, 255, 60, 255);
 		ImColor _slotFilled;
 
@@ -62,7 +63,7 @@ namespace Phantom
 		ImVec2 _offset;
 		ImVec2 _mouseDrag;
 		Node* _nodeHovered;
-		Node* _variableHovered;
+		NodeVariable* _variableHovered;
 		Slot* _currentSlot;
 		ImDrawList* _drawList;
 		std::list<Node*> _nodes;
@@ -81,8 +82,9 @@ namespace Phantom
 			void EndGraph();
 			void DeleteNode(Node* node);
 			void CreateNode(Node* node, const ImVec2& pos);
-			void CreateVariable(const char* name);
 			void CreateVariableOnGraph(NodeVariable* variable);
+			void CreateVariable(const char* name, DataType dataType = DataType::All);
+			void CreateVariable(const char* name, void* data, bool constant, DataType dataType);
 			void BeginGraph(const char* name, GraphFlags flags = None);
 
 			inline const ImVec2& GetGraphPosition() { return ImGui::GetMousePosOnOpeningCurrentPopup() - _currentGraph->_offset; };
@@ -91,7 +93,7 @@ namespace Phantom
 			inline ColorsStyle& GetColorsStyle() { return _currentGraph->_colorsStyle; };*/
 			inline Graph* GetGraph() { return _currentGraph; }
 		private:
-			// Move to Graph
+			// Move to Graph?
 			void DrawGrid();
 			void DrawLinks(Link& link);
 			void DrawNodeWindow(Node& node);

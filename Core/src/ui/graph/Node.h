@@ -3,18 +3,20 @@
 #include <vector>
 #include <imgui/imgui_internal.h>
 #include <glm/glm.hpp>
+#include "UniformValue.h"
 
 namespace Phantom
 {
 	class Node;
 	class GraphContext;
+	class Graph;
 
 	enum SlotState{ Empty = 0, Connecting, Connected };
 	enum SlotType{Input = 0, Output};
 
 	struct Slot
 	{
-		glm::vec3 _data;
+		UniformValue _data;
 		const char* _name;
 		unsigned int _id;
 		Node* _node;
@@ -25,12 +27,14 @@ namespace Phantom
 		SlotState _state = SlotState::Empty;
 
 		Slot() = default;
-		Slot(const char* name, unsigned int id, Node* node, SlotType type) : _name(name) , _id(id), _node(node), _type(type) {};
+		Slot(const char* name, unsigned int id, Node* node, SlotType type, DataType datatype) : _name(name) , _id(id), _node(node), _type(type) 
+		{
+			_data.SetDataType(datatype);
+		};
 	};
 
 	struct Link
 	{
-		glm::vec3 _data;
 		Node* _startNode;
 		Node* _endNode;
 		Slot* _startSlot;
@@ -46,13 +50,14 @@ namespace Phantom
 		public:
 			Node() = default;
 			Node(unsigned int id, ImVec2 pos);
-			void AddSlot(const char* name, SlotType type);
+			void AddSlot(const char* name, SlotType type, DataType dataType = DataType::All);
 			virtual void Resolve();
 
 			inline const char* Name() { return _name; };
 		protected:
 			float _width;
 			bool _constant;
+			Graph* _graph; // Change to a better name
 			NodeType _type;
 			ImVec2 _position;
 			unsigned int _id;
@@ -64,7 +69,6 @@ namespace Phantom
 			std::vector<Slot> _outputSlots;
 
 			float CalcNodeWidth();
-
 			friend class GraphContext;
 	};
 }

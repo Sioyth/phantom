@@ -20,9 +20,11 @@ namespace Phantom
 			return;
 
 	  Mesh planeMesh = Mesh(Primitive::Plane);
-	  //Entity* plane = CreateEntity("Plane")->get();
+	  Mesh cubeMesh = Mesh(Primitive::Cube);
+	  Entity* plane = CreateEntity("Plane")->get();
 	  ////plane.GetComponent<Transform>().Scale(glm::vec3(2.0f));
-	  //plane->AddComponent<MeshRenderer>(planeMesh);
+	  plane->AddComponent<MeshRenderer>(cubeMesh);
+	  plane->GetComponent<MeshRenderer>()._material.SetColor(glm::vec3(1.0f, 0.0f, 0.0f));
   
 	  plane2 = CreateEntity()->get();
 	  plane2->GetComponent<Transform>().Scale(glm::vec3(10.0f));

@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include <iostream>
+#include "../../shader/Shader.h"
 
 namespace Phantom
 {
@@ -19,44 +20,90 @@ namespace Phantom
 		_currentGraph->_offset = _currentGraph->_mouseDrag + ImGui::GetCursorScreenPos();
 
 		// Variables List
-		ImGui::BeginChild("node_list", ImVec2(100, 0));
+		ImGui::BeginChild("node_list", ImVec2(150, 0));
 		ImGui::Text("Variables");
+		ImGui::Separator();
 
-		if (ImGui::Button("+"))
+		static bool popup = false;
+		if (ImGui::Button("+", ImVec2(ImGui::GetWindowSize().x, 0.0f)))
 		{
-			CreateVariable("New Variable");
+			ImGui::OpenPopup("variables");
+		}
+		ImGui::Separator();
+		if (ImGui::BeginPopup("variables"))
+		{
+			if (ImGui::Selectable("Int"))
+				CreateVariable("Int", DataType::Int);
+			if (ImGui::Selectable("Float"))
+				CreateVariable("Float", DataType::Float);
+			if (ImGui::Selectable("Vec3"))
+				CreateVariable("Vec3", DataType::Vec3);
+			ImGui::EndPopup();
+		}
+		static NodeVariable* selectedVar = nullptr;
+		if (ImGui::BeginListBox("Variables", ImVec2(ImGui::GetWindowSize().x, ImGui::GetContentRegionAvail().y)))
+		{	
+			for (auto it = _currentGraph->_variables.begin(); it != _currentGraph->_variables.end(); it++)
+			{
+				static bool renaming = false;
+				NodeVariable* variable = (*it);
+				bool selected = variable == selectedVar ? true : false;
+				if (ImGui::Selectable(variable->_name, selected))
+					selectedVar = variable;
+				
+
+				ImGui::SameLine();
+				if (ImGui::Button("-"))
+				{
+					CreateVariableOnGraph(variable);
+				}
+				/*if (ImGui::IsItemHovered())
+				{
+					if (ImGui::IsKeyPressed(ImGuiKey_F2))
+					{
+						renaming != renaming;
+					}
+				}
+
+				if (renaming)
+				{
+					static char str0[128] = "t";
+					ImGui::InputText("Here", str0, IM_ARRAYSIZE(str0));
+					variable->_name = str0;
+				}*/
+				/*ImGui::PushID(variable->_id);
+				ImGui::Text(variable->_name);*/
+				/*if (ImGui::IsItemHovered())
+				{
+					if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && _currentGraph->_variableHovered == nullptr)
+					{
+						std::cout << "Hovered" << std::endl;
+						_currentGraph->_variableHovered = variable;
+						CreateVariableOnGraph(variable);
+					}
+					else if (_currentGraph->_variableHovered == variable)
+						_currentGraph->_variableHovered == nullptr;
+
+					if (ImGui::IsKeyPressed(ImGuiKey_F2))
+					{
+						renaming = true;
+					}
+
+					if (renaming)
+					{
+						static char str0[128] = "t";
+						ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
+						variable->_name = str0;
+					}*/
+
+			}
+			ImGui::EndListBox();
+
+				//ImGui::PopID();
 		}
 
-		//for (auto it = _currentGraph->_variables.begin(); it != _currentGraph->_variables.end(); it++)
-		//{
-		//	Node* variable = (*it);
-		//	ImGui::PushID(variable->_id);
-		//	ImGui::Text(variable->_name);
-		//	if (ImGui::IsItemHovered())
-		//	{
-		//		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && _currentGraph->_variableHovered == nullptr)
-		//		{
-		//			std::cout << "Hovered" << std::endl;
-		//			_currentGraph->_variableHovered = variable;
-		//			CreateVariableOnGraph(variable);
-		//		}
-		//		else if (_currentGraph->_variableHovered == variable)
-		//			_currentGraph->_variableHovered == nullptr;
-
-		//		/*if (ImGui::IsKeyPressed(ImGuiKey_F2))
-		//		{
-
-		//			static char str0[128] = "Hello, world!";
-		//			ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
-		//		}*/
-		//			
-		//	}
-
-		//	ImGui::PopID();
-		//}
-
-		ImGui::Separator();
 		ImGui::EndChild();
+		ImGui::SameLine();
 
 		if (!flags & NoGrid)
 			DrawGrid();
@@ -71,6 +118,12 @@ namespace Phantom
 		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Middle, 0.0f))
 			_graphs[name]._mouseDrag = _graphs[name]._mouseDrag + ImGui::GetIO().MouseDelta;
 
+		/*if (Shader::_shaderGraphShader)
+		{
+			Shader::_shaderGraphShader->Use();
+			Shader::_shaderGraphShader->SendUniformData("_material.color,", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), true);
+			glUseProgram(0);
+		}*/
 	}
 
 	void GraphContext::EndGraph()
@@ -89,19 +142,21 @@ namespace Phantom
 	{
 		node->_id = _guid++;
 		node->_position = pos;
+		node->_graph = _currentGraph;
 		_currentGraph->_nodes.push_back(std::move(node));
 	}
 
-	void GraphContext::CreateVariable(const char* name)
+	void GraphContext::CreateVariable(const char* name, DataType dataType)
 	{
-		//std::find(_variables.begin(), _variables.end(), name);
-		_currentGraph->_variables.push_back(new NodeVariable(name, _guid++, ImVec2(0, 0)));
-		//_currentGraph->_nodes.push_back(new NodeVariable(_guid++, pos));
+		_currentGraph->_variables.push_back(new NodeVariable(name, _guid++, ImVec2(0, 0), dataType));
+	}
+	void GraphContext::CreateVariable(const char* name, void* data, bool constant, DataType dataType)
+	{
+		_currentGraph->_variables.push_back(new NodeVariable(name, _guid++, ImVec2(0, 0), dataType));
 	}
 
 	void GraphContext::CreateVariableOnGraph(NodeVariable* variable)
 	{
-		std::cout << "Create Variable" << std::endl;
 		_currentGraph->_nodes.push_back(variable);
 	}
 
@@ -111,7 +166,7 @@ namespace Phantom
 		GraphColors* colors = &_currentGraph->_colorsStyle;
 		ImVec2 winSize = ImGui::GetWindowSize();
 		ImVec2 win_pos = ImGui::GetCursorScreenPos();
-
+		
 		// fmodf calculates the reminder of a division we use it to wrap the grid around so it's infinite. 
 		for (int x = fmodf(_currentGraph->_mouseDrag.x, style->gridSize); x < winSize.x; x += style->gridSize)
 			_currentGraph->_drawList->AddLine(ImVec2(x, 0.0f) + win_pos, ImVec2(x, winSize.y) + win_pos, colors->_grid);
@@ -211,14 +266,20 @@ namespace Phantom
 	}
 
 	void GraphContext::Resolve()
-	{/*
+	{
+		std::cout << "Resolve" << std::endl;
 		for (std::list<Node*>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
-			(*node)->Resolve();*/
-		_currentGraph->_nodes.front()->Resolve();
+			(*node)->Resolve();
+		//_currentGraph->_nodes.front()->Resolve();
 	}
 
 	void GraphContext::CreateLink(Slot& start, Slot& end)
 	{
+		// 
+		// Check if slot data type match
+		if (start._data.GetDataType() != end._data.GetDataType() && end._data.GetDataType() != DataType::All && start._data.GetDataType() != DataType::All)
+			return;
+
 		Link link = Link(start._node, end._node, &start, &end);
 		end._state = SlotState::Connected;
 		start._state = SlotState::Connected;
@@ -243,9 +304,36 @@ namespace Phantom
 
 		// Node Content
 		ImGui::PushItemWidth(_currentGraph->_style.windowMinSize.x - style->windowPadding.x - style->windowPadding.x - style->slotOffset);
-
-		if (ImGui::ColorEdit3("", (float*)&var._outputSlots[0]._data, 0))
-			Resolve();
+		NodeVariable* v = dynamic_cast<NodeVariable*>(&var);
+		
+		/*
+		switch (var._outputSlots[0]._data.GetDataType())
+		{
+		case Float:
+			ImGui::Text("Float");
+			if (v->GetConstant())
+				ImGui::Text("Const");
+			break;
+		case Int:
+			ImGui::Text("Int");
+			break;
+		case Vec3:	
+			if (ImGui::ColorEdit3("", (float*)var._outputSlots[0]._data.GetDataAddress(), 0))
+				Resolve();
+			break;
+		case All:
+			ImGui::Text("All");
+			break;
+		default:
+			ImGui::Text("Default");
+			break;
+		}*/
+		glm::vec3* x = CastTo<glm::vec3>(var._outputSlots[0]._data.GetDataAddress());
+		/*std::cout << var._outputSlots[0]._data.GetDataType() << std::endl;
+		std::cout << x->x << ", " << x->y << ", " << x->z << std::endl;;*/
+		if (ImGui::ColorEdit3("", (float*)x, 0))
+			std::cout << "Using" << std::endl;
+			
 		//ImGui::SliderFloat3("", &var._outputSlots[0]._data, 0);
 		ImGui::SameLine();
 	}
@@ -300,7 +388,12 @@ namespace Phantom
 		else
 			hovered = false;
 
-		ImU32 slotColor = hovered || isSlotSelected ? colors->_slotHovered : colors->_slot;
+		ImU32 slotColor = colors->_slot;
+		if (hovered || isSlotSelected)
+			slotColor = colors->_slotHovered;
+		else if (slot._data.GetDataType() == DataType::Vec3)
+			slotColor = colors->_slotVec3;
+
 		_currentGraph->_drawList->AddCircle(center, style->slotRadius, slotColor);
 		ImGui::PopID();
 	}

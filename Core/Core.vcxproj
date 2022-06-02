@@ -50,7 +50,7 @@
     <ClCompile Include="libs\glad.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
-    <ClCompile Include="src\shader\UniformValue.cpp" />
+    <ClCompile Include="src\ui\graph\UniformValue.cpp" />
     <ClCompile Include="src\util\Time.cpp" />
     <ClCompile Include="src\ui\UI.cpp" />
     <ClCompile Include="src\Window.cpp" />
@@ -93,7 +93,7 @@
     <ClInclude Include="src\shader\Material.h" />
     <ClInclude Include="src\scene\Entity.h" />
     <ClInclude Include="src\shader\Shader.h" />
-    <ClInclude Include="src\shader\UniformValue.h" />
+    <ClInclude Include="src\ui\graph\UniformValue.h" />
     <ClInclude Include="src\util\Time.h" />
     <ClInclude Include="src\ui\UI.h" />
     <ClInclude Include="src\Window.h" />

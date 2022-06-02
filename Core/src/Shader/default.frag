@@ -69,5 +69,5 @@ void main()
 	vec3 Rp = Ra + (Rd + Rs) * attenuation;
 
 	//fragColor = vec4(1.0);
-	fragColor = vec4(Rp, 1.0f);
+	fragColor = vec4(_material._color, 1.0f);
 }

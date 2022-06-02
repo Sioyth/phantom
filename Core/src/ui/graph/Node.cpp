@@ -8,15 +8,15 @@ namespace Phantom
 		_position = pos;
 	}
 
-	void Node::AddSlot(const char* name, SlotType type)
+	void Node::AddSlot(const char* name, SlotType type, DataType dataType)
 	{
 		switch (type)
 		{
 		case Input:
-			_inputSlots.push_back(Slot(name, _guid, this, Input));
+			_inputSlots.push_back(Slot(name, _guid, this, Input, dataType));
 			break;
 		case Output:
-			_outputSlots.push_back(Slot(name ,_guid, this, Output));
+			_outputSlots.push_back(Slot(name ,_guid, this, Output, dataType));
 			break;
 		default:
 			break;

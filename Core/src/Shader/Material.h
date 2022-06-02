@@ -3,7 +3,6 @@
 
 #include <map>
 #include "Shader.h"
-#include "UniformValue.h"
 
 namespace Phantom
 {
@@ -15,6 +14,7 @@ namespace Phantom
 			void Apply(); // USE instead?
 			Shader& GetShader();
 			inline void SetShader(Shader* shader) { _shader = shader; };
+			inline void SetColor(const glm::vec3& color) { _color = color; };
 
 		private:
 			Shader* _shader;
@@ -23,7 +23,6 @@ namespace Phantom
 			float _diffuseReflectance;
 			float _specularExponent;
 			float _specularReflectance;
-			std::map<std::string, UniformValue> _uniforms;
 	};
 
 }

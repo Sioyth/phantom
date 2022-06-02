@@ -19,7 +19,7 @@ namespace Phantom
 
 	void EditorLayer::Update(const float& dt)
 	{
-		//_editorCamera.Update(dt);
+		_editorCamera.Update(dt);
 
 		SceneViewPort::BindFrameBuffer();
 		Renderer::Instance()->Render(*SceneManager::CurrentScene(), _editorCamera, SceneViewPort::GetAspectRatio());
