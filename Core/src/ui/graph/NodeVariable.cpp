@@ -16,7 +16,12 @@ namespace Phantom
 		_position = pos;
 		_name = name;
 		_type = NodeType::Variable;
+		AddSlot("", SlotType::Output, dataType);
+
 		_outputSlots[0]._data.SetData(data);
 		_constant = constant;
+
+		if (constant)
+			std::cout << *(double*)data;
 	}
 }

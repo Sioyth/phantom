@@ -2,7 +2,7 @@
 #define UNIFORMVALUE_H
 #include <iostream>
 
-enum DataType {Float, Int, Vec3, All};
+enum DataType {Float, Int, Double, Vec3, All};
 
 class UniformValue
 {
@@ -11,7 +11,7 @@ class UniformValue
 		inline void* GetData() { return _data; }
 		inline void* GetDataAddress() { return &_data; };
 		inline DataType GetDataType() { return _dataType; };
-		inline void SetDataType(DataType dataType) { std::cout << "changed" << std::endl;_dataType = dataType; };
+		inline void SetDataType(DataType dataType) { _dataType = dataType; };
 	private:
 		void* _data;
 		DataType _dataType;

@@ -2,7 +2,7 @@
 #include <imgui/imgui.h>
 #include <iostream>
 #include "../../util/Time.h"
-
+static glm::vec3* vec = new glm::vec3(0.0f, 0.0f, 0.0f);
 namespace Phantom
 {
 	GraphContext ShaderGraph::_graphContext;
@@ -18,6 +18,8 @@ namespace Phantom
 				AddSlot("Out", SlotType::Output);
 			}
 
+			glm::vec3* result = new glm::vec3();
+
 			void Resolve()
 			{
 				Node::Resolve();
@@ -27,11 +29,24 @@ namespace Phantom
 
 				
 				
-				//auto result = (*first)* (*second);
-
+				
 				std::cout << "Input 1: " << CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress())->x << std::endl;
+				//std::cout << "Input 2: " << *(float*)_inputSlots[1]._data.GetData() << std::endl;
+				//std::cout << "Input 2: " << *CastTo<double>(_inputSlots[1]._data.GetData()) << std::endl;
+				std::cout << "Input 2: " << *CastTo<float>(_inputSlots[1]._data.GetDataAddress()) << std::endl;
 				/*std::cout << "Input 2: " << _inputSlots[1]._data.GetDataAddress() << std::endl;
 				std::cout << "Result " << _outputSlots[0]._data.GetDataAddress() << std::endl;*/
+
+				glm::vec3* p = CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress());
+				//*p = *p * (float) * (double*)_inputSlots[1]._data.GetData();
+				*result = *p * *CastTo<float>(_inputSlots[1]._data.GetDataAddress());
+
+				std::cout << result->x << ", " << result->y << ", " << result->z << std::endl;
+
+				_outputSlots[0]._data.SetData(result);
+				
+				auto re = CastTo<glm::vec3>(_outputSlots[0]._data.GetData());
+				std::cout << re->x << ", " << re->y << ", " << re->z << std::endl;
 			}
 	};
 
@@ -43,7 +58,7 @@ namespace Phantom
 		{
 			firstPass = true;
 			_graphContext.CreateNode(new OutputNode(), ImVec2(250, 250));
-			_graphContext.CreateVariable("Time", &Time::DeltaTimeVal(), true, DataType::Float);
+			_graphContext.CreateVariable("Time", &Time::DeltaTimeVal(), true, DataType::Double);
 		}
 
 		ContextMenu();
@@ -62,7 +77,7 @@ namespace Phantom
 			ImGui::OpenPopup("Menu");
 			nodeHovered = _graphContext.GetGraph()->_nodeHovered;
 		}
-
+		
 		if (ImGui::BeginPopup("Menu"))
 		{
 			if (nodeHovered)
@@ -76,9 +91,10 @@ namespace Phantom
 				if (ImGui::MenuItem("Create node"))
 					_graphContext.CreateNode(new MultiplyNode(), pos);
 				if (ImGui::MenuItem("Create variable"))
-					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos, DataType::Vec3));
+					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos, vec, false, DataType::Vec3));
 			}
 			ImGui::EndPopup();
 		}
 	}
 }
+

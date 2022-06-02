@@ -31,8 +31,8 @@ out vec4 fragColor;
 uniform Light _light;
 uniform Material _material;
 uniform vec3 cameraPos;
-uniform vec4 _albedo;
+uniform float _time;
 void main()
 {
-fragColor = vec4(5.39586e-15,4.59079e-41,2.8026e-45,1.0f);
+fragColor = vec4(3.11765 ,0.672434,0.672434,1.0f);
 }

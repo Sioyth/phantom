@@ -52,6 +52,7 @@ namespace Phantom
 			Node(unsigned int id, ImVec2 pos);
 			void AddSlot(const char* name, SlotType type, DataType dataType = DataType::All);
 			virtual void Resolve();
+			inline unsigned int GetID() { return _id; }
 
 			inline const char* Name() { return _name; };
 		protected:

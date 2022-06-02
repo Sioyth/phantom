@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include <iostream>
 #include "../../shader/Shader.h"
+#include "../../util/Time.h"
 
 namespace Phantom
 {
@@ -8,7 +9,7 @@ namespace Phantom
 	{
 
 	}
-
+	static float lastTime = 0;
 	void GraphContext::BeginGraph(const char* name, GraphFlags flags)
 	{
 		static bool open = true;
@@ -26,9 +27,8 @@ namespace Phantom
 
 		static bool popup = false;
 		if (ImGui::Button("+", ImVec2(ImGui::GetWindowSize().x, 0.0f)))
-		{
 			ImGui::OpenPopup("variables");
-		}
+
 		ImGui::Separator();
 		if (ImGui::BeginPopup("variables"))
 		{
@@ -50,13 +50,12 @@ namespace Phantom
 				bool selected = variable == selectedVar ? true : false;
 				if (ImGui::Selectable(variable->_name, selected))
 					selectedVar = variable;
-				
 
 				ImGui::SameLine();
-				if (ImGui::Button("-"))
-				{
+				ImGui::PushID(variable->GetID());
+				if (ImGui::Button("+"))
 					CreateVariableOnGraph(variable);
-				}
+				ImGui::PopID();
 				/*if (ImGui::IsItemHovered())
 				{
 					if (ImGui::IsKeyPressed(ImGuiKey_F2))
@@ -98,8 +97,6 @@ namespace Phantom
 
 			}
 			ImGui::EndListBox();
-
-				//ImGui::PopID();
 		}
 
 		ImGui::EndChild();
@@ -118,14 +115,16 @@ namespace Phantom
 		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Middle, 0.0f))
 			_graphs[name]._mouseDrag = _graphs[name]._mouseDrag + ImGui::GetIO().MouseDelta;
 
-		/*if (Shader::_shaderGraphShader)
-		{
-			Shader::_shaderGraphShader->Use();
-			Shader::_shaderGraphShader->SendUniformData("_material.color,", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), true);
-			glUseProgram(0);
-		}*/
+		//if (Shader::_shaderGraphShader)
+		//{
+		//	Shader::_shaderGraphShader->Use();
+		//	lastTime += Time::DeltaTime() * 0.1f;
+		//	std::cout << lastTime << std::endl;
+		//	//Shader::_shaderGraphShader->SendUniformData("_time,", lastTime);
+		//	glUseProgram(0);
+		//}
 	}
-
+	
 	void GraphContext::EndGraph()
 	{
 		ImGui::End();
@@ -152,7 +151,7 @@ namespace Phantom
 	}
 	void GraphContext::CreateVariable(const char* name, void* data, bool constant, DataType dataType)
 	{
-		_currentGraph->_variables.push_back(new NodeVariable(name, _guid++, ImVec2(0, 0), dataType));
+		_currentGraph->_variables.push_back(new NodeVariable(name, _guid++, ImVec2(0, 0), data, constant, dataType));
 	}
 
 	void GraphContext::CreateVariableOnGraph(NodeVariable* variable)
@@ -306,11 +305,12 @@ namespace Phantom
 		ImGui::PushItemWidth(_currentGraph->_style.windowMinSize.x - style->windowPadding.x - style->windowPadding.x - style->slotOffset);
 		NodeVariable* v = dynamic_cast<NodeVariable*>(&var);
 		
-		/*
+		void* voo = var._outputSlots[0]._data.GetDataAddress();
 		switch (var._outputSlots[0]._data.GetDataType())
 		{
 		case Float:
-			ImGui::Text("Float");
+			if (ImGui::InputFloat("", (float*)(var._outputSlots[0]._data.GetDataAddress())))
+				Resolve();
 			if (v->GetConstant())
 				ImGui::Text("Const");
 			break;
@@ -318,7 +318,7 @@ namespace Phantom
 			ImGui::Text("Int");
 			break;
 		case Vec3:	
-			if (ImGui::ColorEdit3("", (float*)var._outputSlots[0]._data.GetDataAddress(), 0))
+			if (ImGui::ColorEdit3("", (float*)(var._outputSlots[0]._data.GetDataAddress()), 0))
 				Resolve();
 			break;
 		case All:
@@ -327,12 +327,12 @@ namespace Phantom
 		default:
 			ImGui::Text("Default");
 			break;
-		}*/
-		glm::vec3* x = CastTo<glm::vec3>(var._outputSlots[0]._data.GetDataAddress());
-		/*std::cout << var._outputSlots[0]._data.GetDataType() << std::endl;
-		std::cout << x->x << ", " << x->y << ", " << x->z << std::endl;;*/
-		if (ImGui::ColorEdit3("", (float*)x, 0))
-			std::cout << "Using" << std::endl;
+		}
+		//glm::vec3* x = CastTo<glm::vec3>(var._outputSlots[0]._data.GetDataAddress());
+		///*std::cout << var._outputSlots[0]._data.GetDataType() << std::endl;
+		//std::cout << x->x << ", " << x->y << ", " << x->z << std::endl;;*/
+		//if (ImGui::ColorEdit3("", (float*)x, 0))
+		//	std::cout << "Using" << std::endl;
 			
 		//ImGui::SliderFloat3("", &var._outputSlots[0]._data, 0);
 		ImGui::SameLine();
