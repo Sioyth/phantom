@@ -267,17 +267,17 @@ namespace Phantom
 	void GraphContext::Resolve()
 	{
 		std::cout << "Resolve" << std::endl;
-		for (std::list<Node*>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
-			(*node)->Resolve();
-		//_currentGraph->_nodes.front()->Resolve();
+		/*for (std::list<Node*>::iterator node = _currentGraph->_nodes.begin(); node != _currentGraph->_nodes.end(); node++)
+			(*node)->Resolve();*/
+		_currentGraph->_nodes.front()->Resolve();
 	}
 
 	void GraphContext::CreateLink(Slot& start, Slot& end)
 	{
 		// 
 		// Check if slot data type match
-		if (start._data.GetDataType() != end._data.GetDataType() && end._data.GetDataType() != DataType::All && start._data.GetDataType() != DataType::All)
-			return;
+	/*	if (start._data.GetDataType() != end._data.GetDataType() && end._data.GetDataType() != DataType::All && start._data.GetDataType() != DataType::All)
+			return;*/
 
 		Link link = Link(start._node, end._node, &start, &end);
 		end._state = SlotState::Connected;
@@ -285,14 +285,17 @@ namespace Phantom
 		end._linkedSlot = &start;
 		start._linkedSlot = &end;
 
-		Resolve();
 		_currentGraph->_links.push_back(link);
+		Resolve();
 	}
 
 	void GraphContext::DrawLinks(Link& link)
 	{
 		GraphStyle* style = &_currentGraph->_style;
 		GraphColors* colors = &_currentGraph->_colorsStyle;
+		/*if (link._startNode == nullptr || link._endNode == nullptr)
+			_currentGraph->_links.remove(link);*/
+
 		_currentGraph->_drawList->AddLine(link._startSlot->_center, link._endSlot->_center, colors->_linkColor, style->_linkThickness);
 	}
 
@@ -305,11 +308,11 @@ namespace Phantom
 		ImGui::PushItemWidth(_currentGraph->_style.windowMinSize.x - style->windowPadding.x - style->windowPadding.x - style->slotOffset);
 		NodeVariable* v = dynamic_cast<NodeVariable*>(&var);
 		
-		void* voo = var._outputSlots[0]._data.GetDataAddress();
-		switch (var._outputSlots[0]._data.GetDataType())
+		void* voo = var._outputSlots[0]._data->GetDataAddress();
+		switch (var._outputSlots[0]._data->GetDataType())
 		{
 		case Float:
-			if (ImGui::InputFloat("", (float*)(var._outputSlots[0]._data.GetDataAddress())))
+			if (ImGui::InputFloat("", (float*)(var._outputSlots[0]._data->GetDataAddress())))
 				Resolve();
 			if (v->GetConstant())
 				ImGui::Text("Const");
@@ -318,7 +321,7 @@ namespace Phantom
 			ImGui::Text("Int");
 			break;
 		case Vec3:	
-			if (ImGui::ColorEdit3("", (float*)(var._outputSlots[0]._data.GetDataAddress()), 0))
+			if (ImGui::ColorEdit3("", (float*)(var._outputSlots[0]._data->GetDataAddress()), 0))
 				Resolve();
 			break;
 		case All:
@@ -326,6 +329,8 @@ namespace Phantom
 			break;
 		default:
 			ImGui::Text("Default");
+			if (ImGui::ColorEdit3("", (float*)(var._outputSlots[0]._data->GetDataAddress()), 0))
+				Resolve();
 			break;
 		}
 		//glm::vec3* x = CastTo<glm::vec3>(var._outputSlots[0]._data.GetDataAddress());
@@ -391,7 +396,7 @@ namespace Phantom
 		ImU32 slotColor = colors->_slot;
 		if (hovered || isSlotSelected)
 			slotColor = colors->_slotHovered;
-		else if (slot._data.GetDataType() == DataType::Vec3)
+		else if (slot._data->GetDataType() == DataType::Vec3)
 			slotColor = colors->_slotVec3;
 
 		_currentGraph->_drawList->AddCircle(center, style->slotRadius, slotColor);

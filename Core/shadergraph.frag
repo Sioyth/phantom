@@ -34,5 +34,5 @@ uniform vec3 cameraPos;
 uniform float _time;
 void main()
 {
-fragColor = vec4(3.11765 ,0.672434,0.672434,1.0f);
+fragColor = vec4(0.550018 ,0.377667,0.828431,1.0f);
 }

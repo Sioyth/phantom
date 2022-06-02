@@ -6,7 +6,7 @@ static glm::vec3* vec = new glm::vec3(0.0f, 0.0f, 0.0f);
 namespace Phantom
 {
 	GraphContext ShaderGraph::_graphContext;
-
+	std::shared_ptr<void> result;
 	class MultiplyNode : public Node
 	{
 		public:
@@ -18,34 +18,30 @@ namespace Phantom
 				AddSlot("Out", SlotType::Output);
 			}
 
-			glm::vec3* result = new glm::vec3();
-
 			void Resolve()
 			{
 				Node::Resolve();
 
 				/*auto first = _inputSlots[0]._data.GetDataAddress();
 				auto second = _inputSlots[1]._data.GetDataAddress();*/
-
-				
-				
-				
-				std::cout << "Input 1: " << CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress())->x << std::endl;
+			
+				std::cout << "Input 1: " << CastTo<glm::vec3>(_inputSlots[0]._data->GetDataAddress())->x << std::endl;
 				//std::cout << "Input 2: " << *(float*)_inputSlots[1]._data.GetData() << std::endl;
 				//std::cout << "Input 2: " << *CastTo<double>(_inputSlots[1]._data.GetData()) << std::endl;
-				std::cout << "Input 2: " << *CastTo<float>(_inputSlots[1]._data.GetDataAddress()) << std::endl;
+				std::cout << "Input 2: " << *CastTo<float>(_inputSlots[1]._data->GetDataAddress()) << std::endl;
 				/*std::cout << "Input 2: " << _inputSlots[1]._data.GetDataAddress() << std::endl;
 				std::cout << "Result " << _outputSlots[0]._data.GetDataAddress() << std::endl;*/
 
-				glm::vec3* p = CastTo<glm::vec3>(_inputSlots[0]._data.GetDataAddress());
-				//*p = *p * (float) * (double*)_inputSlots[1]._data.GetData();
-				*result = *p * *CastTo<float>(_inputSlots[1]._data.GetDataAddress());
+				//glm::vec3* p = CastTo<glm::vec3>(_inputSlots[0]._data->GetDataAddress());
+				////*p = *p * (float) * (double*)_inputSlots[1]._data.GetData();
+				//*p = *p * *CastTo<float>(_inputSlots[1]._data->GetDataAddress());
+				glm::vec3* p = new glm::vec3(0.5f);
+				result = std::shared_ptr<void>(p);
+				//std::cout << result->x << ", " << result->y << ", " << result->z << std::endl;
 
-				std::cout << result->x << ", " << result->y << ", " << result->z << std::endl;
-
-				_outputSlots[0]._data.SetData(result);
+				_outputSlots[0]._data->SetData(result);
 				
-				auto re = CastTo<glm::vec3>(_outputSlots[0]._data.GetData());
+				auto re = CastTo<glm::vec3>(_outputSlots[0]._data->GetDataAddress());
 				std::cout << re->x << ", " << re->y << ", " << re->z << std::endl;
 			}
 	};
@@ -88,10 +84,10 @@ namespace Phantom
 			else
 			{
 				ImVec2 pos = _graphContext.GetGraphPosition();
-				if (ImGui::MenuItem("Create node"))
+				if (ImGui::MenuItem("Create multiply node"))
 					_graphContext.CreateNode(new MultiplyNode(), pos);
-				if (ImGui::MenuItem("Create variable"))
-					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos, vec, false, DataType::Vec3));
+				/*if (ImGui::MenuItem("Create variable"))
+					_graphContext.CreateVariableOnGraph(new NodeVariable("test", 10, pos, vec, false, DataType::Vec3));*/
 			}
 			ImGui::EndPopup();
 		}

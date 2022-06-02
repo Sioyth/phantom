@@ -56,7 +56,9 @@ namespace Phantom
 			"void main()\n"
 			"{\n";
 
-		glm::vec3* albedo = CastTo<glm::vec3>(_inputSlots[0]._data.GetData());
+		glm::vec3* albedo = CastTo<glm::vec3>(_inputSlots[0]._data->GetDataAddress());
+
+		std::cout << "Albedo: " << albedo->x << " ," << albedo->y << "," << albedo->z << std::endl;
 		if (std::ifstream("shadergraph.frag"))
 		{
 			std::cout << "File Already Exits" << std::endl;

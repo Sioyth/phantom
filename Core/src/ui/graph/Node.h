@@ -16,7 +16,7 @@ namespace Phantom
 
 	struct Slot
 	{
-		UniformValue _data;
+		UniformValue* _data;
 		const char* _name;
 		unsigned int _id;
 		Node* _node;
@@ -29,7 +29,8 @@ namespace Phantom
 		Slot() = default;
 		Slot(const char* name, unsigned int id, Node* node, SlotType type, DataType datatype) : _name(name) , _id(id), _node(node), _type(type) 
 		{
-			_data.SetDataType(datatype);
+			_data = new UniformValue();
+			_data->SetDataType(datatype);
 		};
 	};
 
@@ -65,7 +66,6 @@ namespace Phantom
 			unsigned int _guid = 0;
 			bool _resolved = false;
 			const char* _name = "Node";
-
 			std::vector<Slot> _inputSlots;
 			std::vector<Slot> _outputSlots;
 

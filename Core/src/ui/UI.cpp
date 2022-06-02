@@ -34,8 +34,8 @@ namespace Phantom
 		ImGui::NewFrame();
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()); // If you take this out, the window isn't being cleared. possible bug?
 
-		static bool demo = true;
-		ImGui::ShowDemoWindow(&demo);
+		/*static bool demo = true;
+		ImGui::ShowDemoWindow(&demo);*/
 	}
 
 	void UI::EndFrame()

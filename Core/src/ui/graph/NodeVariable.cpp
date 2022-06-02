@@ -18,10 +18,7 @@ namespace Phantom
 		_type = NodeType::Variable;
 		AddSlot("", SlotType::Output, dataType);
 
-		_outputSlots[0]._data.SetData(data);
+		_outputSlots[0]._data->SetData(std::shared_ptr<void>(data));
 		_constant = constant;
-
-		if (constant)
-			std::cout << *(double*)data;
 	}
 }
